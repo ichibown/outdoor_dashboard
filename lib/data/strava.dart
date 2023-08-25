@@ -1,0 +1,106 @@
+import 'dart:convert';
+
+/// Strava API JSON Models
+class StravaActivity {
+  double? distance;
+  int? movingTime;
+  int? elapsedTime;
+  double? totalElevationGain;
+  String? sportType;
+  int? id;
+  String? startDate;
+  double? utcOffset;
+  List<double>? startLatlng;
+  List<double>? endLatlng;
+  double? averageSpeed;
+  double? maxSpeed;
+  double? elevHigh;
+  double? elevLow;
+
+  StravaActivity({
+    this.distance,
+    this.movingTime,
+    this.elapsedTime,
+    this.totalElevationGain,
+    this.sportType,
+    this.id,
+    this.startDate,
+    this.utcOffset,
+    this.startLatlng,
+    this.endLatlng,
+    this.averageSpeed,
+    this.maxSpeed,
+    this.elevHigh,
+    this.elevLow,
+  });
+
+  factory StravaActivity.fromMap(Map<String, dynamic> data) => StravaActivity(
+        distance: (data['distance'] as num?)?.toDouble(),
+        movingTime: data['moving_time'] as int?,
+        elapsedTime: data['elapsed_time'] as int?,
+        totalElevationGain: (data['total_elevation_gain'] as num?)?.toDouble(),
+        sportType: data['sport_type'] as String?,
+        id: data['id'] as int?,
+        startDate: data['start_date'] as String?,
+        utcOffset: data['utc_offset'] as double?,
+        startLatlng: (data['start_latlng'] as List<dynamic>?)
+            ?.map((e) => e as double)
+            .toList(),
+        endLatlng: (data['end_latlng'] as List<dynamic>?)
+            ?.map((e) => e as double)
+            .toList(),
+        averageSpeed: (data['average_speed'] as num?)?.toDouble(),
+        maxSpeed: (data['max_speed'] as num?)?.toDouble(),
+        elevHigh: data['elev_high'] as double?,
+        elevLow: (data['elev_low'] as num?)?.toDouble(),
+      );
+
+  Map<String, dynamic> toMap() => {
+        'distance': distance,
+        'moving_time': movingTime,
+        'elapsed_time': elapsedTime,
+        'total_elevation_gain': totalElevationGain,
+        'sport_type': sportType,
+        'id': id,
+        'start_date': startDate,
+        'utc_offset': utcOffset,
+        'start_latlng': startLatlng,
+        'end_latlng': endLatlng,
+        'average_speed': averageSpeed,
+        'max_speed': maxSpeed,
+        'elev_high': elevHigh,
+        'elev_low': elevLow,
+      };
+
+  factory StravaActivity.fromJson(String data) {
+    return StravaActivity.fromMap(json.decode(data) as Map<String, dynamic>);
+  }
+
+  String toJson() => json.encode(toMap());
+}
+
+class StravaStream {
+  String? seriesType;
+  List<dynamic>? data;
+
+  StravaStream({
+    this.seriesType,
+    this.data,
+  });
+
+  factory StravaStream.fromMap(Map<String, dynamic> data) => StravaStream(
+        seriesType: data['series_type'] as String?,
+        data: data['data'] as List<dynamic>?,
+      );
+
+  Map<String, dynamic> toMap() => {
+        'series_type': seriesType,
+        'data': data,
+      };
+
+  factory StravaStream.fromJson(String data) {
+    return StravaStream.fromMap(json.decode(data) as Map<String, dynamic>);
+  }
+
+  String toJson() => json.encode(toMap());
+}
