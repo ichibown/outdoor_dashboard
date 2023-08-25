@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
 /// Strava API JSON Models
@@ -80,27 +81,58 @@ class StravaActivity {
 }
 
 class StravaStream {
-  String? seriesType;
-  List<dynamic>? data;
+  List<List<double>>? latlng;
+  List<double>? altitude;
+  List<int>? time;
 
   StravaStream({
-    this.seriesType,
-    this.data,
+    this.latlng,
+    this.altitude,
+    this.time,
   });
 
-  factory StravaStream.fromMap(Map<String, dynamic> data) => StravaStream(
-        seriesType: data['series_type'] as String?,
-        data: data['data'] as List<dynamic>?,
-      );
+  factory StravaStream.fromMap(Map<String, dynamic> map) {
+    var latlng = map['latlng'];
+    var altitude = map['altitude'];
+    var time = map['time'];
 
-  Map<String, dynamic> toMap() => {
-        'series_type': seriesType,
-        'data': data,
-      };
+    var latlngSize = latlng?['original_size'];
+    var altitudeSize = altitude?['original_size'];
+    var timeSize = time?['original_size'];
 
-  factory StravaStream.fromJson(String data) {
-    return StravaStream.fromMap(json.decode(data) as Map<String, dynamic>);
+    var latlngData = latlng?['data'] as List<dynamic>?;
+    var altitudeData = altitude?['data'] as List<dynamic>?;
+    var timeData = time?['data'] as List<dynamic>?;
+
+    var result = StravaStream(
+      latlng: null,
+      altitude: null,
+      time: null,
+    );
+
+    if (latlngSize == null || timeSize == null || latlngSize != timeSize) {
+      return result;
+    }
+    if (latlngData == null ||
+        timeData == null ||
+        latlngData.length != latlngSize ||
+        latlngData.length != timeData.length) {
+      return result;
+    }
+    result.latlng = latlngData
+        .map((e) => (e as List<dynamic>).map((f) => f as double).toList())
+        .toList();
+    result.time = timeData.map((e) => e as int).toList();
+
+    if (altitudeSize != latlngSize ||
+        altitudeData == null ||
+        altitudeData.length != altitudeSize) {
+      return result;
+    }
+    result.altitude = altitudeData.map((e) => e as double).toList();
+    return result;
   }
 
-  String toJson() => json.encode(toMap());
+  factory StravaStream.fromJson(String source) =>
+      StravaStream.fromMap(json.decode(source) as Map<String, dynamic>);
 }

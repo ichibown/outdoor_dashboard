@@ -31,6 +31,9 @@ class OutdoorSummary {
 
   String toJson() => jsonEncode(toMap());
 
+  String toJsonWithIndent(String indent) =>
+      JsonEncoder.withIndent(indent).convert(toMap());
+
   factory OutdoorSummary.fromJson(String source) => OutdoorSummary.fromMap(
       jsonDecode(source)(source) as Map<String, dynamic>);
 }

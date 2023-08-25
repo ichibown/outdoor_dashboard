@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:ansicolor/ansicolor.dart';
+import 'package:gpx/gpx.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
 
@@ -20,24 +21,30 @@ import '../utils/const.dart';
 /// Strava sync:
 /// > dart run lib/scripts/sync_strava.dart sync <clientID> <clientSecret> <refreshToken>
 
+var _errorPen = AnsiPen()..red(bold: true);
+var _infoPen = AnsiPen()..green(bold: true);
+var _outdoorDataPath = path.join(
+    File(Platform.script.path).parent.parent.parent.path,
+    assetsFolder,
+    outdoorDataFolder);
+
 Future<void> main(List<String> args) async {
-  AnsiPen errorPen = AnsiPen()..red(bold: true);
   switch (args[0]) {
     case 'auth':
       if (args.length >= 3) {
         await _auth(args[1], args[2]).onError((error, stackTrace) =>
-            print(errorPen('ERROR: $error\n$stackTrace')));
+            print(_errorPen('ERROR: $error\n$stackTrace')));
       } else {
-        print(errorPen('ERROR: Missing ClientID or ClientSecret'));
+        print(_errorPen('ERROR: Missing ClientID or ClientSecret'));
         return;
       }
       break;
     case 'sync':
       if (args.length >= 4) {
         await _sync(args[1], args[2], args[3]).onError((error, stackTrace) =>
-            print(errorPen('ERROR: $error\n$stackTrace')));
+            print(_errorPen('ERROR: $error\n$stackTrace')));
       } else {
-        print(errorPen(
+        print(_errorPen(
             'ERROR: Missing ClientID or ClientSecret or RefreshToken'));
         return;
       }
@@ -49,11 +56,10 @@ Future<void> _auth(String clientId, String clientSecret) async {
   var url =
       'https://www.strava.com/oauth/authorize?client_id=${clientId}&response_type=code&redirect_uri=http://localhost/exchange_token&approval_prompt=force&scope=read_all,profile:read_all,activity:read_all,profile:write,activity:write';
   await Process.run('open', [url]);
-  AnsiPen greenPen = AnsiPen()..green();
-  print('${greenPen('Open browser to auth Strava:')} $url');
-  print(greenPen('> Click the [Authorize] button.'));
-  print(greenPen(
-      '> Then copy the redirected URL and ${greenPen('paste it below:')}'));
+  print(_infoPen('Open the URL below in browser to auth Strava:\n'));
+  print(url);
+  print(_infoPen(
+      'Click the [Authorize] button, copy the redirected URL and paste it below:'));
   var result = stdin.readLineSync();
   if (result == null || result.isEmpty) {
     throw Exception('Auth failed, invalid URL.');
@@ -63,11 +69,9 @@ Future<void> _auth(String clientId, String clientSecret) async {
     throw Exception('Auth failed, code not found.');
   }
   var refreshToken = await _getRefreshToken(clientId, clientSecret, code);
-  print('\n');
-  print('Auth finished, the refresh token is ${greenPen(refreshToken)}');
-  print('Run following command to start sync:\n> ');
-  print(greenPen(
-      'dart run lib/scripts/sync_strava.dart sync $clientId $clientSecret $refreshToken'));
+  print(_infoPen('Run the command below to start sync:'));
+  print(
+      'dart run lib/scripts/sync_strava.dart sync $clientId $clientSecret $refreshToken');
 }
 
 Future<void> _sync(
@@ -77,22 +81,21 @@ Future<void> _sync(
 }
 
 /// Sync strava activities to local summary file.
-/// - 1. fetch all StravaActivity.
-/// - 2. convert to local OutdoorSummary.
-/// - 3. fetch all activities' gpx and save to local.
-/// - 4. save OutdoorSummary to local.
-Future<void> _syncOutdoorSummary(String authToken) async {
+Future<OutdoorSummary> _syncOutdoorSummary(String authToken) async {
+  print(_infoPen('Fetching Strava activities...'));
   var stravaActivites = await _getAllActivities(authToken);
+  print('Got ${stravaActivites.length} activities.');
   var summary = _convertStravaActivities(stravaActivites);
+  print(_infoPen('Fetching Strava streams and rebuilding GPX files...'));
   summary = await _syncStravaGpx(summary, authToken);
 
-  var rootPath = File(Platform.script.path).parent.parent.parent.path;
-  var dstPath = '$assetsFolder/$outdoorDataFolder/$summaryFilePath';
-  var localActivitiesFile = File(path.join(rootPath, dstPath));
+  var localActivitiesFile = File(path.join(_outdoorDataPath, summaryFilePath));
   if (!localActivitiesFile.existsSync()) {
     localActivitiesFile.createSync(recursive: true);
   }
-  localActivitiesFile.writeAsStringSync(summary.toJson(), mode: FileMode.write);
+  localActivitiesFile.writeAsStringSync(summary.toJsonWithIndent('  '),
+      mode: FileMode.write);
+  return summary;
 }
 
 OutdoorSummary _convertStravaActivities(List<StravaActivity> activities) {
@@ -138,7 +141,48 @@ OutdoorSummary _convertStravaActivities(List<StravaActivity> activities) {
 
 Future<OutdoorSummary> _syncStravaGpx(
     OutdoorSummary summary, String authToken) async {
-  // TODO: sync all gpx
+  var activities = summary.activities;
+  if (activities == null) {
+    return summary;
+  }
+  gpxFileName(OutdoorActivity e) => '${e.source?.name}_${e.sourceId}.gpx';
+  var activitiesWithoutGpx = activities.where(
+    (e) => !File(path.join(_outdoorDataPath, gpxFolder, gpxFileName(e)))
+        .existsSync(),
+  );
+  print('${activitiesWithoutGpx.length} activities lost GPX file.');
+  for (var activity in activitiesWithoutGpx) {
+    var activityId = activity.sourceId;
+    if (activityId == null) {
+      continue;
+    }
+    var startTime = activity.startTime!;
+    var streams = await _getActivityStreams(activityId, authToken);
+    var gpx = Gpx();
+    var wpts = <Wpt>[];
+    for (var i = 0; i < streams.altitude!.length; i++) {
+      wpts.add(Wpt(
+        lat: streams.latlng?[i][0],
+        lon: streams.latlng?[i][1],
+        ele: streams.altitude?[i],
+        time: DateTime.fromMillisecondsSinceEpoch(
+            startTime + streams.time![i] * 1000),
+        // TODO: timezone?
+      ));
+    }
+    gpx.trks = [
+      Trk(name: 'outdoor_heatmap', trksegs: [Trkseg(trkpts: wpts)])
+    ];
+    var gpxContent = GpxWriter().asString(gpx, pretty: true);
+    var gpxFile =
+        File(path.join(_outdoorDataPath, gpxFolder, gpxFileName(activity)));
+    if (!gpxFile.existsSync()) {
+      gpxFile.createSync(recursive: true);
+    }
+    gpxFile.writeAsStringSync(gpxContent, mode: FileMode.write);
+    print('GPX file ${gpxFileName(activity)} generated.');
+    activity.gpxFileName = gpxFileName(activity);
+  }
   return summary;
 }
 
@@ -149,8 +193,8 @@ Future<List<StravaActivity>> _getAllActivities(String refreshToken) async {
   while (true) {
     var activites =
         await _getActivities(refreshToken, page: page, perPage: perPage);
-    result.addAll(activites);
     print('Got ${activites.length} activities on page $page');
+    result.addAll(activites);
     if (activites.length == perPage) {
       page++;
     } else {
@@ -215,11 +259,11 @@ Future<List<StravaActivity>> _getActivities(String authToken,
 }
 
 /// Strava API: api/v3/activities/{id}/streams
-Future<List<StravaStream>> _getActivityStreams(
+Future<StravaStream> _getActivityStreams(
     String activityId, String authToken) async {
   var resp = await http.get(
     Uri.parse(
-        'https://www.strava.com/api/v3/activities/$activityId/streams?keys=latlng,altitude,time'),
+        'https://www.strava.com/api/v3/activities/$activityId/streams?keys=latlng,altitude,time&key_by_type=true'),
     headers: {
       'Authorization': 'Bearer $authToken',
     },
@@ -227,7 +271,5 @@ Future<List<StravaStream>> _getActivityStreams(
   if (resp.statusCode != 200) {
     throw Exception('Get activity streams failed: ${resp.body}');
   }
-  return (jsonDecode(resp.body) as List<dynamic>)
-      .map((e) => StravaStream.fromMap(e))
-      .toList();
+  return StravaStream.fromJson(resp.body);
 }
