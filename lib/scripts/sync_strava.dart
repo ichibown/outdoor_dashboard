@@ -28,24 +28,50 @@ var _outdoorDataPath = path.join(
     assetsFolder,
     outdoorDataFolder);
 
+enum _StravaApiErrorCode {
+  /// API call rate limit. (200 / 15min && 2000 / 1day)
+  exceeded,
+}
+
+class _StravaApiException implements Exception {
+  String message;
+  _StravaApiErrorCode? code;
+
+  _StravaApiException({
+    required this.message,
+    this.code,
+  });
+
+  factory _StravaApiException.fromResponseBody(String api, String respBody) {
+    var respJson = jsonDecode(respBody);
+    var message = respJson['message'];
+    var code = (respJson['errors'] as List<dynamic>?)?[0]?['code'];
+    return _StravaApiException(
+      message: 'Request $api failed: $message',
+      code: _StravaApiErrorCode.values.byName(code),
+    );
+  }
+}
+
 Future<void> main(List<String> args) async {
   switch (args[0]) {
     case 'auth':
       if (args.length >= 3) {
-        await _auth(args[1], args[2]).onError((error, stackTrace) =>
-            print(_errorPen('ERROR: $error\n$stackTrace')));
+        await _auth(args[1], args[2]).onError(
+          (error, stackTrace) => print(_errorPen('$error\n$stackTrace')),
+        );
       } else {
-        print(_errorPen('ERROR: Missing ClientID or ClientSecret'));
+        print(_errorPen('Missing ClientID or ClientSecret'));
         return;
       }
       break;
     case 'sync':
       if (args.length >= 4) {
-        await _sync(args[1], args[2], args[3]).onError((error, stackTrace) =>
-            print(_errorPen('ERROR: $error\n$stackTrace')));
+        await _sync(args[1], args[2], args[3]).onError(
+          (error, stackTrace) => print(_errorPen('$error\n$stackTrace')),
+        );
       } else {
-        print(_errorPen(
-            'ERROR: Missing ClientID or ClientSecret or RefreshToken'));
+        print(_errorPen('Missing ClientID or ClientSecret or RefreshToken'));
         return;
       }
       break;
@@ -77,7 +103,19 @@ Future<void> _auth(String clientId, String clientSecret) async {
 Future<void> _sync(
     String clientId, String clientSecret, String refreshToken) async {
   var authToken = await _getAuthToken(clientId, clientSecret, refreshToken);
-  await _syncOutdoorSummary(authToken);
+  try {
+    await _syncOutdoorSummary(authToken);
+  } catch (e) {
+    if (e is _StravaApiException && e.code == _StravaApiErrorCode.exceeded) {
+      var duration = const Duration(minutes: 15);
+      print('API rate limit exceeded, wait for ${duration.inMinutes} minutes.');
+      sleep(duration);
+      // restart sync after sleep.
+      await _sync(clientId, clientSecret, refreshToken);
+    } else {
+      rethrow;
+    }
+  }
 }
 
 /// Sync strava activities to local summary file.
@@ -86,7 +124,7 @@ Future<OutdoorSummary> _syncOutdoorSummary(String authToken) async {
   var stravaActivites = await _getAllActivities(authToken);
   print('Got ${stravaActivites.length} activities.');
   var summary = _convertStravaActivities(stravaActivites);
-  print(_infoPen('Fetching Strava streams and rebuilding GPX files...'));
+  print(_infoPen('Fetching Strava streams and rebuild GPX files...'));
   summary = await _syncStravaGpx(summary, authToken);
 
   var localActivitiesFile = File(path.join(_outdoorDataPath, summaryFilePath));
@@ -95,6 +133,7 @@ Future<OutdoorSummary> _syncOutdoorSummary(String authToken) async {
   }
   localActivitiesFile.writeAsStringSync(summary.toJsonWithIndent('  '),
       mode: FileMode.write);
+  print(_infoPen('Sync finished, data saved to ${localActivitiesFile.path}.'));
   return summary;
 }
 
@@ -146,11 +185,16 @@ Future<OutdoorSummary> _syncStravaGpx(
     return summary;
   }
   gpxFileName(OutdoorActivity e) => '${e.source?.name}_${e.sourceId}.gpx';
-  var activitiesWithoutGpx = activities.where(
-    (e) => !File(path.join(_outdoorDataPath, gpxFolder, gpxFileName(e)))
-        .existsSync(),
-  );
-  print('${activitiesWithoutGpx.length} activities lost GPX file.');
+  var activitiesWithoutGpx = <OutdoorActivity>[];
+  for (var e in activities) {
+    if (!File(path.join(_outdoorDataPath, gpxFolder, gpxFileName(e)))
+        .existsSync()) {
+      activitiesWithoutGpx.add(e);
+    } else {
+      e.gpxFileName = gpxFileName(e);
+    }
+  }
+  print('${activitiesWithoutGpx.length} activities without GPX file.');
   for (var activity in activitiesWithoutGpx) {
     var activityId = activity.sourceId;
     if (activityId == null) {
@@ -204,7 +248,7 @@ Future<List<StravaActivity>> _getAllActivities(String refreshToken) async {
   return result;
 }
 
-/// Strava API oauth/token
+/// Strava API /oauth/token
 Future<String> _getRefreshToken(
     String clientId, String clientSecret, String code) async {
   var resp = await http.post(
@@ -217,12 +261,12 @@ Future<String> _getRefreshToken(
     },
   );
   if (resp.statusCode != 200) {
-    throw Exception('Get refresh token failed: ${resp.body}');
+    throw _StravaApiException.fromResponseBody('/oauth/token', resp.body);
   }
   return jsonDecode(resp.body)['refresh_token'];
 }
 
-/// Strava API oauth/token
+/// Strava API /oauth/token
 Future<String> _getAuthToken(
     String clientId, String clientSecret, String refreshToken) async {
   var resp = await http.post(
@@ -235,12 +279,12 @@ Future<String> _getAuthToken(
     },
   );
   if (resp.statusCode != 200) {
-    throw Exception('Get auth token failed: ${resp.body}');
+    throw _StravaApiException.fromResponseBody('/oauth/token', resp.body);
   }
   return jsonDecode(resp.body)['access_token'];
 }
 
-/// Strava API: api/v3/activities
+/// Strava API: /api/v3/activities
 Future<List<StravaActivity>> _getActivities(String authToken,
     {int page = 1, int perPage = 30}) async {
   var resp = await http.get(
@@ -251,14 +295,14 @@ Future<List<StravaActivity>> _getActivities(String authToken,
     },
   );
   if (resp.statusCode != 200) {
-    throw Exception('Get activities failed: ${resp.body}');
+    throw _StravaApiException.fromResponseBody('/api/v3/activities', resp.body);
   }
   return (jsonDecode(resp.body) as List<dynamic>)
       .map((e) => StravaActivity.fromMap(e))
       .toList();
 }
 
-/// Strava API: api/v3/activities/{id}/streams
+/// Strava API: /api/v3/activities/{id}/streams
 Future<StravaStream> _getActivityStreams(
     String activityId, String authToken) async {
   var resp = await http.get(
@@ -269,7 +313,8 @@ Future<StravaStream> _getActivityStreams(
     },
   );
   if (resp.statusCode != 200) {
-    throw Exception('Get activity streams failed: ${resp.body}');
+    throw _StravaApiException.fromResponseBody(
+        '/api/v3/activities/$activityId/streams', resp.body);
   }
   return StravaStream.fromJson(resp.body);
 }
