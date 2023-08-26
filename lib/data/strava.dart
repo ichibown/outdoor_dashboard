@@ -15,8 +15,8 @@ class StravaActivity {
   List<double>? endLatlng;
   double? averageSpeed;
   double? maxSpeed;
-  double? elevHigh;
-  double? elevLow;
+  double? maxHeartrate;
+  double? averageHeartrate;
 
   StravaActivity({
     this.distance,
@@ -31,8 +31,8 @@ class StravaActivity {
     this.endLatlng,
     this.averageSpeed,
     this.maxSpeed,
-    this.elevHigh,
-    this.elevLow,
+    this.averageHeartrate,
+    this.maxHeartrate,
   });
 
   factory StravaActivity.fromMap(Map<String, dynamic> data) => StravaActivity(
@@ -50,10 +50,10 @@ class StravaActivity {
         endLatlng: (data['end_latlng'] as List<dynamic>?)
             ?.map((e) => e as double)
             .toList(),
-        averageSpeed: (data['average_speed'] as num?)?.toDouble(),
-        maxSpeed: (data['max_speed'] as num?)?.toDouble(),
-        elevHigh: data['elev_high'] as double?,
-        elevLow: (data['elev_low'] as num?)?.toDouble(),
+        averageSpeed: data['average_speed'] as double?,
+        maxSpeed: data['max_speed'] as double?,
+        averageHeartrate: data['average_heartrate'] as double?,
+        maxHeartrate: data['max_heartrate'] as double?,
       );
 
   Map<String, dynamic> toMap() => {
@@ -69,8 +69,8 @@ class StravaActivity {
         'end_latlng': endLatlng,
         'average_speed': averageSpeed,
         'max_speed': maxSpeed,
-        'elev_high': elevHigh,
-        'elev_low': elevLow,
+        'average_heartrate': averageHeartrate,
+        'max_heartrate': maxHeartrate,
       };
 
   factory StravaActivity.fromJson(String data) {

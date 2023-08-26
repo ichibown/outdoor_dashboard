@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:collection/collection.dart';
 
 import 'package:ansicolor/ansicolor.dart';
 import 'package:gpx/gpx.dart';
@@ -167,6 +168,8 @@ OutdoorSummary _convertStravaActivities(List<StravaActivity> activities) {
       accElevation: activity.totalElevationGain,
       avgPace: avgPace,
       maxPace: maxPace,
+      avgHeartrate: activity.averageHeartrate,
+      maxHeartrate: activity.maxHeartrate,
       startLatlng: startLaglng,
       type: Type.running,
       source: Source.strava,
@@ -187,10 +190,30 @@ Future<OutdoorSummary> _syncStravaGpx(
   gpxFileName(OutdoorActivity e) => '${e.source?.name}_${e.sourceId}.gpx';
   var activitiesWithoutGpx = <OutdoorActivity>[];
   for (var e in activities) {
-    if (!File(path.join(_outdoorDataPath, gpxFolder, gpxFileName(e)))
-        .existsSync()) {
+    var file = File(path.join(_outdoorDataPath, gpxFolder, gpxFileName(e)));
+    if (!file.existsSync()) {
       activitiesWithoutGpx.add(e);
     } else {
+      // read elevations from GPX file.
+      var elevations = GpxReader()
+          .fromString(file.readAsStringSync())
+          .trks
+          .firstOrNull
+          ?.trksegs
+          .firstOrNull
+          ?.trkpts
+          .map((e) => e.ele);
+      if (elevations != null && elevations.isNotEmpty) {
+        var eleMax = 0.0;
+        var eleSum = 0.0;
+        for (var ele in elevations) {
+          ele = ele ?? 0;
+          eleSum += ele;
+          eleMax = ele > eleMax ? ele : eleMax;
+        }
+        e.avgElevation = eleSum / elevations.length;
+        e.maxElevation = eleMax;
+      }
       e.gpxFileName = gpxFileName(e);
     }
   }

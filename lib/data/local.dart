@@ -85,10 +85,10 @@ class OutdoorActivity {
   double? maxPace;
 
   /// Average heartrate.
-  int? avgHeartrate;
+  double? avgHeartrate;
 
   /// Max heartrate.
-  int? maxHeartrate;
+  double? maxHeartrate;
 
   /// Activity start geo location.
   List<double>? startLatlng;
@@ -170,9 +170,9 @@ class OutdoorActivity {
       avgPace: map['avgPace'] != null ? map['avgPace'] as double : null,
       maxPace: map['maxPace'] != null ? map['maxPace'] as double : null,
       avgHeartrate:
-          map['avgHeartrate'] != null ? map['avgHeartrate'] as int : null,
+          map['avgHeartrate'] != null ? map['avgHeartrate'] as double : null,
       maxHeartrate:
-          map['maxHeartrate'] != null ? map['maxHeartrate'] as int : null,
+          map['maxHeartrate'] != null ? map['maxHeartrate'] as double : null,
       startLatlng: map['startLatlng'] != null
           ? map['startLatlng'] as List<double>
           : null,
