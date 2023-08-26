@@ -56,7 +56,7 @@ Future<void> _auth(String clientId, String clientSecret) async {
   var url =
       'https://www.strava.com/oauth/authorize?client_id=${clientId}&response_type=code&redirect_uri=http://localhost/exchange_token&approval_prompt=force&scope=read_all,profile:read_all,activity:read_all,profile:write,activity:write';
   await Process.run('open', [url]);
-  print(_infoPen('Open the URL below in browser to auth Strava:\n'));
+  print(_infoPen('Open the URL below in browser to auth Strava:'));
   print(url);
   print(_infoPen(
       'Click the [Authorize] button, copy the redirected URL and paste it below:'));
