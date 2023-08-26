@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:collection/collection.dart';
 
 import 'package:ansicolor/ansicolor.dart';
 import 'package:gpx/gpx.dart';
@@ -188,69 +187,67 @@ Future<OutdoorSummary> _syncStravaGpx(
     return summary;
   }
   gpxFileName(OutdoorActivity e) => '${e.source?.name}_${e.sourceId}.gpx';
-  var activitiesWithoutGpx = <OutdoorActivity>[];
-  for (var e in activities) {
-    var file = File(path.join(_outdoorDataPath, gpxFolder, gpxFileName(e)));
-    if (!file.existsSync()) {
-      activitiesWithoutGpx.add(e);
-    } else {
-      // read elevations from GPX file.
-      var elevations = GpxReader()
-          .fromString(file.readAsStringSync())
-          .trks
-          .firstOrNull
-          ?.trksegs
-          .firstOrNull
-          ?.trkpts
-          .map((e) => e.ele);
-      if (elevations != null && elevations.isNotEmpty) {
-        var eleMax = 0.0;
-        var eleSum = 0.0;
-        for (var ele in elevations) {
-          ele = ele ?? 0;
-          eleSum += ele;
-          eleMax = ele > eleMax ? ele : eleMax;
-        }
-        e.avgElevation = eleSum / elevations.length;
-        e.maxElevation = eleMax;
-      }
-      e.gpxFileName = gpxFileName(e);
-    }
-  }
-  print('${activitiesWithoutGpx.length} activities without GPX file.');
-  for (var activity in activitiesWithoutGpx) {
+  for (var activity in activities) {
     var activityId = activity.sourceId;
     if (activityId == null) {
       continue;
     }
-    var startTime = activity.startTime!;
-    var streams = await _getActivityStreams(activityId, authToken);
-    var gpx = Gpx();
-    var wpts = <Wpt>[];
-    for (var i = 0; i < streams.altitude!.length; i++) {
-      wpts.add(Wpt(
-        lat: streams.latlng?[i][0],
-        lon: streams.latlng?[i][1],
-        ele: streams.altitude?[i],
-        time: DateTime.fromMillisecondsSinceEpoch(
-            startTime + streams.time![i] * 1000),
-        // TODO: timezone?
-      ));
-    }
-    gpx.trks = [
-      Trk(name: 'outdoor_heatmap', trksegs: [Trkseg(trkpts: wpts)])
-    ];
-    var gpxContent = GpxWriter().asString(gpx, pretty: true);
-    var gpxFile =
+    var file =
         File(path.join(_outdoorDataPath, gpxFolder, gpxFileName(activity)));
-    if (!gpxFile.existsSync()) {
-      gpxFile.createSync(recursive: true);
+    Gpx gpx;
+    if (!file.existsSync()) {
+      // fetch and rebuild gpx file to local.
+      var startTime = activity.startTime!;
+      var streams = await _getActivityStreams(activityId, authToken);
+      gpx = _convertStreamsToGpx(streams, startTime);
+      var gpxContent = GpxWriter().asString(gpx, pretty: true);
+      var gpxFile =
+          File(path.join(_outdoorDataPath, gpxFolder, gpxFileName(activity)));
+      if (!gpxFile.existsSync()) {
+        gpxFile.createSync(recursive: true);
+      }
+      gpxFile.writeAsStringSync(gpxContent, mode: FileMode.write);
+      print('GPX file ${gpxFileName(activity)} generated.');
+    } else {
+      // load local gpx file.
+      gpx = GpxReader().fromString(file.readAsStringSync());
     }
-    gpxFile.writeAsStringSync(gpxContent, mode: FileMode.write);
-    print('GPX file ${gpxFileName(activity)} generated.');
+    // append missing elevation fields.
+    var elevations =
+        gpx.trks.firstOrNull?.trksegs.firstOrNull?.trkpts.map((e) => e.ele);
+    if (elevations != null && elevations.isNotEmpty) {
+      var eleMax = 0.0;
+      var eleSum = 0.0;
+      for (var ele in elevations) {
+        ele = ele ?? 0;
+        eleSum += ele;
+        eleMax = ele > eleMax ? ele : eleMax;
+      }
+      activity.avgElevation = eleSum / elevations.length;
+      activity.maxElevation = eleMax;
+    }
     activity.gpxFileName = gpxFileName(activity);
   }
   return summary;
+}
+
+Gpx _convertStreamsToGpx(StravaStream streams, int startTime) {
+  var gpx = Gpx();
+  var wpts = <Wpt>[];
+  for (var i = 0; i < streams.altitude!.length; i++) {
+    wpts.add(Wpt(
+      lat: streams.latlng?[i][0],
+      lon: streams.latlng?[i][1],
+      ele: streams.altitude?[i],
+      time: DateTime.fromMillisecondsSinceEpoch(
+          startTime + streams.time![i] * 1000),
+      // TODO: timezone?
+    ));
+  }
+  gpx.trks = [
+    Trk(name: 'outdoor_heatmap', trksegs: [Trkseg(trkpts: wpts)])
+  ];
+  return gpx;
 }
 
 Future<List<StravaActivity>> _getAllActivities(String refreshToken) async {
