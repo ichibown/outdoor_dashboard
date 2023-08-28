@@ -9,6 +9,7 @@ import 'package:path/path.dart' as path;
 import '../data/local.dart';
 import '../data/strava.dart';
 import '../utils/const.dart';
+import '../utils/ext.dart';
 
 // ignore_for_file: avoid_print
 
@@ -48,7 +49,7 @@ class _StravaApiException implements Exception {
     var code = (respJson['errors'] as List<dynamic>?)?[0]?['code'];
     return _StravaApiException(
       message: 'Request $api failed: $message',
-      code: _StravaApiErrorCode.values.byName(code),
+      code: _StravaApiErrorCode.values.byNameWithCatch(code),
     );
   }
 }
@@ -170,7 +171,8 @@ OutdoorSummary _convertStravaActivities(List<StravaActivity> activities) {
       avgHeartrate: activity.averageHeartrate,
       maxHeartrate: activity.maxHeartrate,
       startLatlng: startLaglng,
-      type: Type.running,
+      type:
+          Type.values.byNameWithCatch(activity.sportType?.toLowerCase() ?? ''),
       source: Source.strava,
       sourceId: activity.id != null ? '${activity.id}' : null,
     );

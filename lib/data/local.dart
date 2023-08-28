@@ -19,12 +19,10 @@ class OutdoorSummary {
 
   factory OutdoorSummary.fromMap(Map<String, dynamic> map) {
     return OutdoorSummary(
-      activities: map['activites'] != null
-          ? List<OutdoorActivity>.from(
-              (map['activites'] as List<int>).map<OutdoorActivity?>(
-                (x) => OutdoorActivity.fromMap(x as Map<String, dynamic>),
-              ),
-            )
+      activities: map['activities'] != null
+          ? (map['activities'] as List<dynamic>)
+              .map((e) => OutdoorActivity.fromMap(e as Map<String, dynamic>))
+              .toList()
           : null,
     );
   }
@@ -34,8 +32,8 @@ class OutdoorSummary {
   String toJsonWithIndent(String indent) =>
       JsonEncoder.withIndent(indent).convert(toMap());
 
-  factory OutdoorSummary.fromJson(String source) => OutdoorSummary.fromMap(
-      jsonDecode(source)(source) as Map<String, dynamic>);
+  factory OutdoorSummary.fromJson(String source) =>
+      OutdoorSummary.fromMap(jsonDecode(source) as Map<String, dynamic>);
 }
 
 /// Activity source platform.
@@ -47,10 +45,7 @@ enum Source {
 
 /// Activity type.
 enum Type {
-  running,
-  hiking,
-  climbing,
-  cycling,
+  run,
 }
 
 class OutdoorActivity {

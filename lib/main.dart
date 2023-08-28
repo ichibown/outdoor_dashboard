@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:heatmap/data/outdoor_data_store.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 
 const _keyMapbox = "MAPBOX_ACCESS_TOKEN";
@@ -18,6 +19,7 @@ class HeatmapApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    OutdoorDataStore().loadData();
     return MaterialApp(
       title: 'Outdoor Heatmap (Working in Progress)',
       theme: ThemeData(
