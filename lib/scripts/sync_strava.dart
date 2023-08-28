@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:ansicolor/ansicolor.dart';
+import 'package:google_polyline_algorithm/google_polyline_algorithm.dart';
 import 'package:gpx/gpx.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
@@ -214,9 +215,10 @@ Future<OutdoorSummary> _syncStravaGpx(
       // load local gpx file.
       gpx = GpxReader().fromString(file.readAsStringSync());
     }
-    // append missing elevation fields.
-    var elevations =
-        gpx.trks.firstOrNull?.trksegs.firstOrNull?.trkpts.map((e) => e.ele);
+    activity.gpxFileName = gpxFileName(activity);
+    // append elevations.
+    var wpts = gpx.trks.firstOrNull?.trksegs.firstOrNull?.trkpts;
+    var elevations = wpts?.map((e) => e.ele);
     if (elevations != null && elevations.isNotEmpty) {
       var eleMax = 0.0;
       var eleSum = 0.0;
@@ -228,7 +230,24 @@ Future<OutdoorSummary> _syncStravaGpx(
       activity.avgElevation = eleSum / elevations.length;
       activity.maxElevation = eleMax;
     }
-    activity.gpxFileName = gpxFileName(activity);
+    // append sparsed and encoded polyline coords.
+    var coordsSkipCount = 1;
+    var wptLength = wpts?.length ?? 0;
+    if (wptLength > 1000) {
+      coordsSkipCount = 6;
+    } else if (wptLength > 500) {
+      coordsSkipCount = 3;
+    } else if (wptLength > 200) {
+      coordsSkipCount = 2;
+    }
+    var coords = wpts?.indexed
+        .where((e) => e.$1 % coordsSkipCount == 0)
+        .map((e) => [e.$2.lat ?? 0, e.$2.lon ?? 0])
+        .toList();
+    if (coords != null) {
+      activity.encodedPolyline =
+          base64.encode(gzip.encode(utf8.encode(encodePolyline(coords))));
+    }
   }
   return summary;
 }

@@ -103,6 +103,9 @@ class OutdoorActivity {
   /// GPX file name in gpx data folder.
   String? gpxFileName;
 
+  /// Sparsed coords, encoded by google polyline algorithm + gzip + base64.
+  String? encodedPolyline;
+
   OutdoorActivity({
     this.startTime,
     this.timeOffset,
@@ -122,6 +125,7 @@ class OutdoorActivity {
     this.source,
     this.sourceId,
     this.gpxFileName,
+    this.encodedPolyline,
   });
 
   Map<String, dynamic> toMap() {
@@ -144,6 +148,7 @@ class OutdoorActivity {
       'source': source?.name,
       'sourceId': sourceId,
       'gpxFileName': gpxFileName,
+      'encodedPolyline': encodedPolyline,
     };
   }
 
@@ -180,6 +185,9 @@ class OutdoorActivity {
       sourceId: map['sourceId'] != null ? map['sourceId'] as String : null,
       gpxFileName:
           map['gpxFileName'] != null ? map['sourceId'] as String : null,
+      encodedPolyline: map['encodedPolyline'] != null
+          ? map['encodedPolyline'] as String
+          : null,
     );
   }
 
