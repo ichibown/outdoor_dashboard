@@ -230,7 +230,7 @@ Future<OutdoorSummary> _syncStravaGpx(
       activity.avgElevation = eleSum / elevations.length;
       activity.maxElevation = eleMax;
     }
-    // append sparsed and encoded polyline coords.
+    // append sparsed coords
     var coordsSkipCount = 1;
     var wptLength = wpts?.length ?? 0;
     if (wptLength > 1000) {
@@ -240,14 +240,10 @@ Future<OutdoorSummary> _syncStravaGpx(
     } else if (wptLength > 200) {
       coordsSkipCount = 2;
     }
-    var coords = wpts?.indexed
+    activity.sparsedCoords = wpts?.indexed
         .where((e) => e.$1 % coordsSkipCount == 0)
         .map((e) => [e.$2.lat ?? 0, e.$2.lon ?? 0])
         .toList();
-    if (coords != null) {
-      activity.encodedPolyline =
-          base64.encode(gzip.encode(utf8.encode(encodePolyline(coords))));
-    }
   }
   return summary;
 }

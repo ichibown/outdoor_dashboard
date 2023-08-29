@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:heatmap/data/local.dart';
 import 'package:heatmap/utils/const.dart';
@@ -15,6 +16,7 @@ class OutdoorDataStore {
     String summaryJson = await rootBundle
         .loadString(path.join(outdoorDataFolder, summaryFilePath));
     var summary = OutdoorSummary.fromJson(summaryJson);
+    debugPrint('coords: ${summary.activities?.last.sparsedCoords}');
   }
 }
 

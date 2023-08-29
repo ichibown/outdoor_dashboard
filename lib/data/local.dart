@@ -1,7 +1,12 @@
 import 'dart:convert';
+import 'package:archive/archive.dart';
+import 'package:google_polyline_algorithm/google_polyline_algorithm.dart';
 
 /// Unified local JSON models.
 /// Used for local file storage and runtime rendering.
+
+var _gzipEncoder = GZipEncoder();
+var _gzipDecoder = GZipDecoder();
 
 class OutdoorSummary {
   /// All outdoor activities.
@@ -103,8 +108,9 @@ class OutdoorActivity {
   /// GPX file name in gpx data folder.
   String? gpxFileName;
 
-  /// Sparsed coords, encoded by google polyline algorithm + gzip + base64.
-  String? encodedPolyline;
+  /// Sparsed location coordinates from raw GPX.
+  /// Codec by google polyline algorithm + gzip + base64 when [toMap]/[fromMap]
+  List<List<num>>? sparsedCoords;
 
   OutdoorActivity({
     this.startTime,
@@ -125,7 +131,7 @@ class OutdoorActivity {
     this.source,
     this.sourceId,
     this.gpxFileName,
-    this.encodedPolyline,
+    this.sparsedCoords,
   });
 
   Map<String, dynamic> toMap() {
@@ -148,7 +154,10 @@ class OutdoorActivity {
       'source': source?.name,
       'sourceId': sourceId,
       'gpxFileName': gpxFileName,
-      'encodedPolyline': encodedPolyline,
+      // encode coords to JSON.
+      'sparsedCoords': base64.encode(_gzipEncoder
+              .encode(utf8.encode(encodePolyline(sparsedCoords ?? []))) ??
+          []),
     };
   }
 
@@ -174,10 +183,14 @@ class OutdoorActivity {
       maxHeartrate:
           map['maxHeartrate'] != null ? map['maxHeartrate'] as double : null,
       startLatlng: map['startLatlng'] != null
-          ? map['startLatlng'] as List<double>
+          ? (map['startLatlng'] as List<dynamic>)
+              .map((e) => e as double)
+              .toList()
           : null,
       startPlaceName: map['startPlaceName'] != null
-          ? map['startPlaceName'] as List<String>
+          ? (map['startPlaceName'] as List<dynamic>)
+              .map((e) => e as String)
+              .toList()
           : null,
       type: map['type'] != null ? Type.values.byName(map['type']) : null,
       source:
@@ -185,8 +198,10 @@ class OutdoorActivity {
       sourceId: map['sourceId'] != null ? map['sourceId'] as String : null,
       gpxFileName:
           map['gpxFileName'] != null ? map['sourceId'] as String : null,
-      encodedPolyline: map['encodedPolyline'] != null
-          ? map['encodedPolyline'] as String
+      // decode coords from JSON.
+      sparsedCoords: map['sparsedCoords'] != null
+          ? decodePolyline(utf8.decode(_gzipDecoder.decodeBytes(
+              base64.decode(map['sparsedCoords'] as String).toList())))
           : null,
     );
   }

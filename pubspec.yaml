@@ -18,6 +18,7 @@ dependencies:
   ansicolor: ^2.0.1
   path: ^1.8.3
   google_polyline_algorithm: ^3.1.0
+  archive: ^3.3.7
 
 dev_dependencies:
   flutter_test:
