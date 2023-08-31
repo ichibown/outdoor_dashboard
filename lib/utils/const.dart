@@ -1,6 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:mapbox_gl/mapbox_gl.dart';
-
 const assetsFolder = 'assets';
 const outdoorDataFolder = 'outdoor_data';
 const summaryFilePath = 'summary.json';
@@ -17,11 +14,11 @@ class AppTheme {
 }
 
 const darkTheme = AppTheme(
-  mapStyle: MapboxStyles.DARK,
+  mapStyle: "mapbox://styles/mapbox/dark-v10",
   mapPolylineColorHex: '#24C789',
 );
 
 const lightTheme = AppTheme(
-  mapStyle: MapboxStyles.LIGHT,
+  mapStyle: "mapbox://styles/mapbox/light-v10",
   mapPolylineColorHex: '#24C789',
 );
