@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:ansicolor/ansicolor.dart';
-import 'package:google_polyline_algorithm/google_polyline_algorithm.dart';
 import 'package:gpx/gpx.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;

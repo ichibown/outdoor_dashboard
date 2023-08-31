@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:heatmap/data/outdoor_data_store.dart';
-import 'package:mapbox_gl/mapbox_gl.dart';
+import 'package:heatmap/model/outdoor_data_store.dart';
+import 'package:heatmap/ui/main_page.dart';
+import 'package:provider/provider.dart';
 
 const _keyMapbox = "MAPBOX_ACCESS_TOKEN";
 var _mapboxToken = "";
@@ -19,26 +20,16 @@ class HeatmapApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    OutdoorDataStore().loadData();
-    return MaterialApp(
-      title: 'Outdoor Heatmap (Working in Progress)',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return ChangeNotifierProvider(
+      create: (context) => OutdoorDataModel(),
+      child: MaterialApp(
+        title: 'Outdoor Heatmap (Working in Progress)',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: const MainPage(),
       ),
-      home: const MyHomePage(),
     );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MapboxMap(
-        accessToken: getMapboxToken(),
-        initialCameraPosition: const CameraPosition(
-            target: LatLng(39.913604, 116.411735), zoom: 11));
   }
 }
