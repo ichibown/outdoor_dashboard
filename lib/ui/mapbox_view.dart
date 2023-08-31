@@ -22,7 +22,7 @@ class _MapboxViewState extends State<MapboxView> {
     return MapboxMap(
       accessToken: getMapboxToken(),
       onMapCreated: _onMapCreated,
-      styleString: MapboxStyles.DARK,
+      styleString: _model.theme.mapStyle,
       onStyleLoadedCallback: _onMapStyleLoaded,
       initialCameraPosition: const CameraPosition(target: _centerPos, zoom: 11),
     );

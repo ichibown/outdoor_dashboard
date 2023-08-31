@@ -1,12 +1,8 @@
 import 'dart:convert';
-import 'package:archive/archive.dart';
 import 'package:google_polyline_algorithm/google_polyline_algorithm.dart';
 
 /// Unified local JSON models.
 /// Used for local file storage and runtime rendering.
-
-var _gzipEncoder = GZipEncoder();
-var _gzipDecoder = GZipDecoder();
 
 class OutdoorSummary {
   /// All outdoor activities.
@@ -109,7 +105,7 @@ class OutdoorActivity {
   String? gpxFileName;
 
   /// Sparsed location coordinates from raw GPX.
-  /// Codec by google polyline algorithm + gzip + base64 when [toMap]/[fromMap]
+  /// Codec by google polyline algorithm when [toMap]/[fromMap].
   List<List<num>>? sparsedCoords;
 
   OutdoorActivity({
@@ -154,10 +150,8 @@ class OutdoorActivity {
       'source': source?.name,
       'sourceId': sourceId,
       'gpxFileName': gpxFileName,
-      // encode coords to JSON.
-      'sparsedCoords': base64.encode(_gzipEncoder
-              .encode(utf8.encode(encodePolyline(sparsedCoords ?? []))) ??
-          []),
+      // encode coords to String.
+      'sparsedCoords': encodePolyline(sparsedCoords ?? []),
     };
   }
 
@@ -200,8 +194,7 @@ class OutdoorActivity {
           map['gpxFileName'] != null ? map['sourceId'] as String : null,
       // decode coords from JSON.
       sparsedCoords: map['sparsedCoords'] != null
-          ? decodePolyline(utf8.decode(_gzipDecoder.decodeBytes(
-              base64.decode(map['sparsedCoords'] as String).toList())))
+          ? decodePolyline(map['sparsedCoords'] as String)
           : null,
     );
   }
