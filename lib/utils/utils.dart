@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:gpx/gpx.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
@@ -9,6 +11,11 @@ Future<String> loadTextAsset(String path) async {
 Future<Gpx> loadGpxAsset(String path) async {
   var content = await loadTextAsset(path);
   return GpxReader().fromString(content);
+}
+
+Timer periodicImmediately(Duration duration, Function() action) {
+  action.call();
+  return Timer.periodic(duration, (timer) => action.call());
 }
 
 LatLngBounds getRouteBounds(List<LatLng> route) {

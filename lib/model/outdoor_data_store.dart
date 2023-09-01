@@ -99,7 +99,7 @@ class OutdoorDataModel extends ChangeNotifier {
 
   void randomRoute() {
     changeState(PolylineState.single);
-    _routeChangeTimer = Timer.periodic(const Duration(seconds: 8), (timer) {
+    _routeChangeTimer = periodicImmediately(const Duration(seconds: 8), () {
       var lineCoords = _allLines[Random().nextInt(_allLines.length)];
       _cameraBounds = getRouteBounds(lineCoords);
       notifyListeners();
