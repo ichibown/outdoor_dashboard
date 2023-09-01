@@ -40,8 +40,8 @@ class OutdoorDataModel extends ChangeNotifier {
   Timer? _lineAnimTimer;
 
   Future<void> loadData() async {
-    String summaryJson = await rootBundle
-        .loadString(path.join(outdoorDataFolder, summaryFilePath));
+    String summaryJson = await rootBundle.loadString(
+        path.join(assetsFolder, outdoorDataFolder, summaryFilePath));
     var summary = OutdoorSummary.fromJson(summaryJson);
     _initAllLines(summary);
   }
