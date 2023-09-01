@@ -65,6 +65,17 @@ class OutdoorDataModel extends ChangeNotifier {
     }
   }
 
+  void toggleState() {
+    if (_lineState == PolylineState.all) {
+      changeState(PolylineState.none);
+      randomRoute();
+    } else {
+      _cameraBounds = mapInitBounds;
+      changeState(PolylineState.none);
+      changeState(PolylineState.all);
+    }
+  }
+
   void _animteLine(List<LatLng> lineCoords) {
     _lineAnimTimer?.cancel();
     var len = lineCoords.length;

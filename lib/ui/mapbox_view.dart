@@ -25,7 +25,7 @@ class _MapboxViewState extends State<MapboxView> {
       accessToken: getMapboxToken(),
       onMapCreated: _onMapCreated,
       styleString: _model.theme.mapStyle,
-      dragEnabled: false,
+      tiltGesturesEnabled: false,
       onStyleLoadedCallback: _onMapStyleLoaded,
       initialCameraPosition: const CameraPosition(target: mapInitPos, zoom: 11),
     );
@@ -50,6 +50,8 @@ class _MapboxViewState extends State<MapboxView> {
         _mapController.clearLines();
         break;
       case PolylineState.all:
+        _currentLine = null;
+        _currentOption = null;
         _showAllLines();
         break;
       case PolylineState.single:

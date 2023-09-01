@@ -14,9 +14,7 @@ class MainPage extends StatelessWidget {
           height: double.infinity,
           child: MapboxView(),
         ),
-        Center(
-          child: MainView(),
-        )
+        MainView(),
       ],
     );
   }
