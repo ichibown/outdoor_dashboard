@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:heatmap/model/outdoor_data_store.dart';
-import 'package:heatmap/ui/main_page.dart';
 import 'package:provider/provider.dart';
+
+import '../model/app_state_model.dart';
+import '../ui/main_page.dart';
 
 const _keyMapbox = "MAPBOX_ACCESS_TOKEN";
 var _mapboxToken = "";
@@ -21,13 +22,10 @@ class HeatmapApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => OutdoorDataModel(),
+      create: (context) => AppStateModel(),
       child: MaterialApp(
         title: 'Outdoor Heatmap (Working in Progress)',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
+        theme: ThemeData(useMaterial3: true),
         home: const MainPage(),
       ),
     );

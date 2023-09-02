@@ -1,10 +1,12 @@
 import 'package:flutter/widgets.dart';
-import 'package:heatmap/model/outdoor_data_store.dart';
-import 'package:heatmap/utils/app_const.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:provider/provider.dart';
 
+import '../model/app_state_model.dart';
+import '../model/map_camera_model.dart';
+import '../model/map_lines_model.dart';
 import '../main.dart';
+import '../utils/app_const.dart';
 
 class MapboxView extends StatefulWidget {
   const MapboxView({super.key});
@@ -15,16 +17,17 @@ class MapboxView extends StatefulWidget {
 
 class _MapboxViewState extends State<MapboxView> {
   late MapboxMapController _mapController;
-  late OutdoorDataModel _model;
-  Line? _currentLine;
-  LineOptions? _currentOption;
+  MapLinesModel get _linesModel => context.read<MapLinesModel>();
+  MapCameraModel get _cameraModel => context.read<MapCameraModel>();
+  // animating line placeholder.
+  late Line _animatingLine;
 
   @override
   Widget build(BuildContext context) {
     return MapboxMap(
       accessToken: getMapboxToken(),
       onMapCreated: _onMapCreated,
-      styleString: _model.theme.mapStyle,
+      styleString: context.read<AppStateModel>().theme.mapStyle,
       tiltGesturesEnabled: false,
       onStyleLoadedCallback: _onMapStyleLoaded,
       initialCameraPosition: const CameraPosition(target: mapInitPos, zoom: 11),
@@ -34,81 +37,44 @@ class _MapboxViewState extends State<MapboxView> {
   @override
   void initState() {
     super.initState();
-    _model = context.read<OutdoorDataModel>();
-    _model.addListener(_onModelUpdated);
+    _linesModel.addListener(_onMapLinesUpdated);
+    _cameraModel.addListener(_onMapCameraUpdated);
   }
 
   @override
   void dispose() {
-    _model.removeListener(_onModelUpdated);
+    _linesModel.removeListener(_onMapLinesUpdated);
+    _cameraModel.removeListener(_onMapCameraUpdated);
     super.dispose();
-  }
-
-  void _onModelUpdated() {
-    switch (_model.lineState) {
-      case PolylineState.none:
-        _mapController.clearLines();
-        break;
-      case PolylineState.all:
-        _currentLine = null;
-        _currentOption = null;
-        _showAllLines();
-        break;
-      case PolylineState.single:
-        _showAnimatingLine();
-      default:
-        break;
-    }
-
-    var bounds = _model.cameraBounds;
-    _mapController.moveCamera(
-      CameraUpdate.newLatLngBounds(bounds,
-          left: 20, top: 20, right: 20, bottom: 20),
-    );
   }
 
   void _onMapCreated(MapboxMapController controller) {
     _mapController = controller;
   }
 
-  void _onMapStyleLoaded() {
-    _model.loadData().then((value) => _model.randomRoute());
+  void _onMapStyleLoaded() async {
+    _animatingLine = await _mapController.addLine(
+      const LineOptions(geometry: []),
+    );
+    _linesModel.showAllRoutes();
+    _cameraModel.moveToDefault();
   }
 
-  void _showAllLines() {
-    if (_model.allLines.isNotEmpty) {
-      _mapController.clearLines();
-      _mapController.addLines(_model.allLines
-          .map((e) => LineOptions(
-                geometry: e,
-                lineColor: _model.theme.mapPolylineColorHex,
-                lineWidth: 8.0,
-                lineOpacity: 0.3,
-                draggable: false,
-              ))
-          .toList());
-    }
-  }
-
-  void _showAnimatingLine() {
-    var line = _currentLine;
-    var option = _currentOption;
-    if (line == null || option == null) {
-      option = LineOptions(
-        geometry: [],
-        lineColor: _model.theme.mapPolylineColorHex,
-        lineWidth: 10.0,
-        lineOpacity: 0.6,
-        draggable: false,
-      );
-      _mapController.addLine(option).then((line) {
-        _currentLine = line;
-        _currentOption = option;
-      });
+  void _onMapLinesUpdated() {
+    var lineModel = context.read<MapLinesModel>();
+    var option = lineModel.currentLineOptions;
+    _mapController.removeLines(
+      _mapController.lines.where((l) => l != _animatingLine),
+    );
+    if (option != null) {
+      _mapController.updateLine(_animatingLine, option);
     } else {
-      option.geometry?.clear();
-      option.geometry?.addAll(_model.animatingLine);
-      _mapController.updateLine(line, option);
+      _mapController.addLines(lineModel.allLineOptions);
     }
+  }
+
+  void _onMapCameraUpdated() {
+    var cameraModel = context.read<MapCameraModel>();
+    _mapController.animateCamera(cameraModel.cameraUpdate);
   }
 }

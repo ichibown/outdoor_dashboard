@@ -4,6 +4,8 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:gpx/gpx.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 
+import '../data/local.dart';
+
 Future<String> loadTextAsset(String path) async {
   return await rootBundle.loadString(path);
 }
@@ -16,6 +18,13 @@ Future<Gpx> loadGpxAsset(String path) async {
 Timer periodicImmediately(Duration duration, Function() action) {
   action.call();
   return Timer.periodic(duration, (timer) => action.call());
+}
+
+List<LatLng> getActivityLatLngList(OutdoorActivity activity) {
+  return activity.sparsedCoords
+          ?.map((c) => LatLng(c[0] as double, c[1] as double))
+          .toList() ??
+      [];
 }
 
 LatLngBounds getRouteBounds(List<LatLng> route) {
