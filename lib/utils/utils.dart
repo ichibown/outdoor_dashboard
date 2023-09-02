@@ -15,9 +15,10 @@ Future<Gpx> loadGpxAsset(String path) async {
   return GpxReader().fromString(content);
 }
 
-Timer periodicImmediately(Duration duration, Function() action) {
-  action.call();
-  return Timer.periodic(duration, (timer) => action.call());
+Timer periodicImmediately(Duration duration, Function(Timer) action) {
+  var timer = Timer.periodic(duration, action);
+  action.call(timer);
+  return timer;
 }
 
 List<LatLng> getActivityLatLngList(OutdoorActivity activity) {
@@ -27,6 +28,7 @@ List<LatLng> getActivityLatLngList(OutdoorActivity activity) {
       [];
 }
 
+/// find bounds to cover route points.
 LatLngBounds getRouteBounds(List<LatLng> route) {
   if (route.isEmpty) {
     return LatLngBounds(
@@ -55,5 +57,21 @@ LatLngBounds getRouteBounds(List<LatLng> route) {
   return LatLngBounds(
     southwest: LatLng(minLat, minLng),
     northeast: LatLng(maxLat, maxLng),
+  );
+}
+
+/// find min bounds which containes [coverage] points.
+LatLngBounds getPointsBounds(List<LatLng> points, {double coverage = 0.9}) {
+  points.sort((a, b) => a.latitude.compareTo(b.latitude));
+  double lat1 = points[(points.length * (1 - coverage)).round()].latitude;
+  double lat2 = points[(points.length * coverage).round()].latitude;
+
+  points.sort((a, b) => a.longitude.compareTo(b.longitude));
+  double lng1 = points[(points.length * 0.1).round()].longitude;
+  double lng2 = points[(points.length * 0.9).round()].longitude;
+
+  return LatLngBounds(
+    southwest: LatLng(lat1, lng1),
+    northeast: LatLng(lat2, lng2),
   );
 }

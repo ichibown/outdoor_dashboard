@@ -30,7 +30,7 @@ class _MapboxViewState extends State<MapboxView> {
       styleString: context.read<AppStateModel>().theme.mapStyle,
       tiltGesturesEnabled: false,
       onStyleLoadedCallback: _onMapStyleLoaded,
-      initialCameraPosition: const CameraPosition(target: mapInitPos, zoom: 11),
+      initialCameraPosition: const CameraPosition(target: mapInitPos, zoom: 10),
     );
   }
 
@@ -61,20 +61,18 @@ class _MapboxViewState extends State<MapboxView> {
   }
 
   void _onMapLinesUpdated() {
-    var lineModel = context.read<MapLinesModel>();
-    var option = lineModel.currentLineOptions;
+    var option = _linesModel.currentLineOptions;
     _mapController.removeLines(
       _mapController.lines.where((l) => l != _animatingLine),
     );
     if (option != null) {
       _mapController.updateLine(_animatingLine, option);
     } else {
-      _mapController.addLines(lineModel.allLineOptions);
+      _mapController.addLines(_linesModel.allLineOptions);
     }
   }
 
   void _onMapCameraUpdated() {
-    var cameraModel = context.read<MapCameraModel>();
-    _mapController.animateCamera(cameraModel.cameraUpdate);
+    _mapController.animateCamera(_cameraModel.cameraUpdate);
   }
 }

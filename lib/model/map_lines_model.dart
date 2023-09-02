@@ -59,13 +59,12 @@ class MapLinesModel extends ChangeNotifier {
     var start = 0;
     var end = start + step;
     _lineAnimTimer =
-        periodicImmediately(Duration(milliseconds: intervalMs), () {
+        periodicImmediately(Duration(milliseconds: intervalMs), (timer) {
       if (end > len) {
-        _lineAnimTimer?.cancel();
+        timer.cancel();
         return;
       }
-      var tick = _lineAnimTimer?.tick ?? 0;
-      if (tick < delayMs / intervalMs) {
+      if (timer.tick < delayMs / intervalMs) {
         return;
       }
       _currentLineOptions?.geometry?.clear();

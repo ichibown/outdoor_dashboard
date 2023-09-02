@@ -19,7 +19,7 @@ class MainPage extends StatelessWidget {
       return MultiProvider(
         providers: [
           ListenableProvider(create: (_) => MapLinesModel(summary, theme)),
-          ListenableProvider(create: (_) => MapCameraModel()),
+          ListenableProvider(create: (_) => MapCameraModel(summary)),
         ],
         child: const Stack(children: [
           SizedBox(

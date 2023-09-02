@@ -47,10 +47,10 @@ class MainDataViewState extends State<MainDataView> {
       lineModel.showAllRoutes();
       cameraModel.moveToDefault();
     } else {
-      _timer = periodicImmediately(const Duration(seconds: 8), () {
+      _timer = periodicImmediately(const Duration(seconds: 6), (t) {
         var activity = activities[Random().nextInt(activities.length)];
         cameraModel.moveToRoute(activity);
-        lineModel.showRouteAnim(activity, durationMs: 4000, delayMs: 2000);
+        lineModel.showRouteAnim(activity, durationMs: 4000, delayMs: 1500);
       });
     }
     _all = !_all;
