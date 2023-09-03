@@ -7,9 +7,11 @@ import '../utils/app_const.dart';
 
 /// Model to handle map camera position.
 class MapCameraModel extends ChangeNotifier {
+  static const padding = 40.0;
+
   late LatLngBounds _allPointsBounds;
 
-  CameraUpdate _cameraUpdate = CameraUpdate.newLatLngBounds(mapInitBounds);
+  CameraUpdate _cameraUpdate = mapInitCamera;
   CameraUpdate get cameraUpdate => _cameraUpdate;
 
   MapCameraModel(OutdoorSummary summary) {
@@ -21,7 +23,8 @@ class MapCameraModel extends ChangeNotifier {
   }
 
   void moveToDefault() {
-    _cameraUpdate = CameraUpdate.newLatLngBounds(_allPointsBounds);
+    _cameraUpdate = CameraUpdate.newLatLngBounds(_allPointsBounds,
+        left: padding, top: padding, right: padding, bottom: padding);
     notifyListeners();
   }
 
@@ -29,7 +32,7 @@ class MapCameraModel extends ChangeNotifier {
     var latlngList = getActivityLatLngList(activity);
     var bounds = getRouteBounds(latlngList);
     _cameraUpdate = CameraUpdate.newLatLngBounds(bounds,
-        left: 40, top: 40, right: 40, bottom: 40);
+        left: padding, top: padding, right: padding, bottom: padding);
     notifyListeners();
   }
 }

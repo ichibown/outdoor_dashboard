@@ -46,6 +46,7 @@ class MapLinesModel extends ChangeNotifier {
     if (coords.isEmpty) {
       return;
     }
+    coords = getInterpolatedPoints(coords);
     _currentLineOptions = LineOptions(
       geometry: [],
       lineColor: _theme.mapPolylineColorHex,

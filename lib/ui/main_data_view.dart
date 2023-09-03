@@ -50,7 +50,7 @@ class MainDataViewState extends State<MainDataView> {
       _timer = periodicImmediately(const Duration(seconds: 6), (t) {
         var activity = activities[Random().nextInt(activities.length)];
         cameraModel.moveToRoute(activity);
-        lineModel.showRouteAnim(activity, durationMs: 4000, delayMs: 1500);
+        lineModel.showRouteAnim(activity, durationMs: 4500, delayMs: 1000);
       });
     }
     _all = !_all;
