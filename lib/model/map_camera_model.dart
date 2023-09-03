@@ -2,8 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 
 import '../data/local.dart';
-import '../utils/utils.dart';
 import '../utils/app_const.dart';
+import '../utils/utils.dart';
 
 /// Model to handle map camera position.
 class MapCameraModel extends ChangeNotifier {

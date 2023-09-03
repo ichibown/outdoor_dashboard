@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 
-import '../utils/utils.dart';
-import '../utils/app_const.dart';
 import '../data/local.dart';
+import '../utils/app_const.dart';
+import '../utils/utils.dart';
 
 /// Model to handle polylines on map.
 class MapLinesModel extends ChangeNotifier {

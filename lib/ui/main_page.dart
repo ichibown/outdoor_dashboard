@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../model/app_state_model.dart';
+import '../model/main_data_model.dart';
 import '../model/map_camera_model.dart';
 import '../model/map_lines_model.dart';
 import '../ui/main_data_view.dart';
@@ -20,6 +21,7 @@ class MainPage extends StatelessWidget {
         providers: [
           ListenableProvider(create: (_) => MapLinesModel(summary, theme)),
           ListenableProvider(create: (_) => MapCameraModel(summary)),
+          ListenableProvider(create: (_) => MainDataModel(summary)),
         ],
         child: const Stack(children: [
           SizedBox(

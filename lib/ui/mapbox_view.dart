@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import '../model/app_state_model.dart';
 import '../model/map_camera_model.dart';
 import '../model/map_lines_model.dart';
-import '../main.dart';
 import '../utils/app_const.dart';
 
 class MapboxView extends StatefulWidget {
@@ -25,7 +24,7 @@ class _MapboxViewState extends State<MapboxView> {
   @override
   Widget build(BuildContext context) {
     return MapboxMap(
-      accessToken: getMapboxToken(),
+      accessToken: context.read<AppStateModel>().config?.mapboxToken ?? '',
       onMapCreated: _onMapCreated,
       styleString: context.read<AppStateModel>().theme.mapStyle,
       tiltGesturesEnabled: false,
