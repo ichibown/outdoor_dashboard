@@ -75,20 +75,3 @@ LatLngBounds getPointsBounds(List<LatLng> points, {double coverage = 0.9}) {
     northeast: LatLng(lat2, lng2),
   );
 }
-
-/// interpolate more points to make anim smoother.
-List<LatLng> getInterpolatedPoints(List<LatLng> points, {int threshold = 150}) {
-  while (points.length > 2 && points.length < threshold) {
-    var result = <LatLng>[];
-    for (var i = 0; i < points.length - 2; i++) {
-      result.add(points[i]);
-      result.add(LatLng(
-        (points[i].latitude + points[i + 1].latitude) / 2,
-        (points[i].longitude + points[i + 1].longitude) / 2,
-      ));
-      result.add(points[i + 1]);
-    }
-    points = result;
-  }
-  return points;
-}

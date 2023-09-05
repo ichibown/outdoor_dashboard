@@ -40,18 +40,20 @@ class MapLinesModel extends ChangeNotifier {
   }
 
   void showRouteAnim(OutdoorActivity activity,
-      {int durationMs = 3000, int delayMs = 2000, int intervalMs = 30}) {
+      {int durationMs = 3000,
+      int delayMs = 2000,
+      int intervalMs = 16,
+      Function? onEnd}) {
     stopRouteAnim();
     var coords = getActivityLatLngList(activity);
     if (coords.isEmpty) {
       return;
     }
-    coords = getInterpolatedPoints(coords);
     _currentLineOptions = LineOptions(
       geometry: [],
       lineColor: _theme.mapPolylineColorHex,
       lineWidth: 10.0,
-      lineOpacity: 0.7,
+      lineOpacity: 0.5,
       draggable: false,
     );
     notifyListeners();
@@ -63,6 +65,7 @@ class MapLinesModel extends ChangeNotifier {
         periodicImmediately(Duration(milliseconds: intervalMs), (timer) {
       if (end > len) {
         timer.cancel();
+        onEnd?.call();
         return;
       }
       if (timer.tick < delayMs / intervalMs) {

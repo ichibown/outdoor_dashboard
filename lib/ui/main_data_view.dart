@@ -20,7 +20,6 @@ class MainDataView extends StatefulWidget {
 
 class MainDataViewState extends State<MainDataView> {
   bool _all = false;
-  Timer? _timer;
 
   @override
   Widget build(BuildContext context) {
@@ -42,16 +41,29 @@ class MainDataViewState extends State<MainDataView> {
     if (activities == null) {
       return;
     }
-    _timer?.cancel();
     if (_all) {
       lineModel.showAllRoutes();
       cameraModel.moveToDefault();
     } else {
-      _timer = periodicImmediately(const Duration(seconds: 6), (t) {
+      randomAnim() {
         var activity = activities[Random().nextInt(activities.length)];
+        var duration = (activity.elapsedTime ?? 0) / 500;
+        if (duration <= 1) {
+          randomAnim();
+          return;
+        }
         cameraModel.moveToRoute(activity);
-        lineModel.showRouteAnim(activity, durationMs: 4500, delayMs: 1000);
-      });
+        lineModel.showRouteAnim(
+          activity,
+          durationMs: duration.toInt() * 1000,
+          delayMs: 1000,
+          onEnd: () {
+            randomAnim();
+          },
+        );
+      }
+
+      randomAnim.call();
     }
     _all = !_all;
   }

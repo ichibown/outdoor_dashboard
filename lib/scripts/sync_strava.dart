@@ -176,7 +176,9 @@ OutdoorSummary _convertStravaActivities(List<StravaActivity> activities) {
       source: Source.strava,
       sourceId: activity.id != null ? '${activity.id}' : null,
     );
-    summary.activities?.add(outdoorActivity);
+    if (outdoorActivity.type == Type.run) {
+      summary.activities?.add(outdoorActivity);
+    }
   }
 
   return summary;
@@ -233,10 +235,10 @@ Future<OutdoorSummary> _syncStravaGpx(
     var coordsSkipCount = 1;
     var wptLength = wpts?.length ?? 0;
     if (wptLength > 1000) {
-      coordsSkipCount = 6;
-    } else if (wptLength > 500) {
+      coordsSkipCount = 5;
+    } else if (wptLength > 600) {
       coordsSkipCount = 3;
-    } else if (wptLength > 200) {
+    } else if (wptLength > 400) {
       coordsSkipCount = 2;
     }
     activity.sparsedCoords = wpts?.indexed
@@ -250,7 +252,7 @@ Future<OutdoorSummary> _syncStravaGpx(
 Gpx _convertStreamsToGpx(StravaStream streams, int startTime) {
   var gpx = Gpx();
   var wpts = <Wpt>[];
-  for (var i = 0; i < streams.altitude!.length; i++) {
+  for (var i = 0; i < (streams.time?.length ?? 0); i++) {
     wpts.add(Wpt(
       lat: streams.latlng?[i][0],
       lon: streams.latlng?[i][1],
