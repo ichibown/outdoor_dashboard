@@ -10,20 +10,15 @@ var mapInitCamera = CameraUpdate.newCameraPosition(
 
 class AppTheme {
   final String mapStyle;
-  final String mapPolylineColorHex;
+  final String mapLineColor;
 
   const AppTheme({
     required this.mapStyle,
-    required this.mapPolylineColorHex,
+    required this.mapLineColor,
   });
 }
 
-const darkTheme = AppTheme(
-  mapStyle: "mapbox://styles/mapbox/dark-v10",
-  mapPolylineColorHex: '#24C789',
-);
-
-const lightTheme = AppTheme(
-  mapStyle: "mapbox://styles/mapbox/light-v10",
-  mapPolylineColorHex: '#24C789',
+const defaultThtme = AppTheme(
+  mapStyle: 'mapbox://styles/mapbox/light-v10',
+  mapLineColor: '#24C789',
 );

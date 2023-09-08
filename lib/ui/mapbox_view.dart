@@ -18,15 +18,16 @@ class _MapboxViewState extends State<MapboxView> {
   late MapboxMapController _mapController;
   MapLinesModel get _linesModel => context.read<MapLinesModel>();
   MapCameraModel get _cameraModel => context.read<MapCameraModel>();
+  AppStateModel get _appModel => context.read<AppStateModel>();
   // animating line placeholder.
   late Line _animatingLine;
 
   @override
   Widget build(BuildContext context) {
     return MapboxMap(
-      accessToken: context.read<AppStateModel>().config?.mapboxToken ?? '',
+      accessToken: _appModel.config?.mapboxToken ?? '',
       onMapCreated: _onMapCreated,
-      styleString: context.read<AppStateModel>().theme.mapStyle,
+      styleString: _appModel.theme.mapStyle,
       tiltGesturesEnabled: false,
       onStyleLoadedCallback: _onMapStyleLoaded,
       initialCameraPosition: const CameraPosition(target: mapInitPos, zoom: 10),
@@ -38,13 +39,19 @@ class _MapboxViewState extends State<MapboxView> {
     super.initState();
     _linesModel.addListener(_onMapLinesUpdated);
     _cameraModel.addListener(_onMapCameraUpdated);
+    _appModel.addListener(_onAppStateUpdated);
   }
 
   @override
   void dispose() {
     _linesModel.removeListener(_onMapLinesUpdated);
     _cameraModel.removeListener(_onMapCameraUpdated);
+    _appModel.removeListener(_onAppStateUpdated);
     super.dispose();
+  }
+
+  void _onAppStateUpdated() {
+    _linesModel.changeTheme(_appModel.theme);
   }
 
   void _onMapCreated(MapboxMapController controller) {

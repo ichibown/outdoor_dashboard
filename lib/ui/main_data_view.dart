@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -7,7 +6,6 @@ import 'package:provider/provider.dart';
 import '../model/app_state_model.dart';
 import '../model/map_camera_model.dart';
 import '../model/map_lines_model.dart';
-import '../utils/utils.dart';
 
 class MainDataView extends StatefulWidget {
   const MainDataView({super.key});

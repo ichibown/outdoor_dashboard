@@ -9,8 +9,8 @@ import '../utils/utils.dart';
 
 /// Model to handle polylines on map.
 class MapLinesModel extends ChangeNotifier {
-  late AppTheme _theme;
   late OutdoorSummary _summary;
+  late AppTheme _theme;
 
   late List<LineOptions> _allLineOptions;
   List<LineOptions> get allLineOptions => _allLineOptions;
@@ -23,20 +23,30 @@ class MapLinesModel extends ChangeNotifier {
   MapLinesModel(OutdoorSummary summary, AppTheme theme) {
     _summary = summary;
     _theme = theme;
-    _initAllLines();
+    _initLines();
   }
 
-  void _initAllLines() {
+  void _initLines() {
     var options = _summary.activities
         ?.map((e) => LineOptions(
               geometry: getActivityLatLngList(e),
-              lineColor: _theme.mapPolylineColorHex,
+              lineColor: _theme.mapLineColor,
               lineWidth: 8.0,
               lineOpacity: 0.3,
               draggable: false,
             ))
         .toList();
     _allLineOptions = options ?? [];
+  }
+
+  void changeTheme(AppTheme theme) {
+    _theme = theme;
+    var newOptions = _allLineOptions
+        .map((e) => e.copyWith(LineOptions(lineColor: _theme.mapLineColor)))
+        .toList();
+    _allLineOptions.clear;
+    _allLineOptions.addAll(newOptions);
+    notifyListeners();
   }
 
   void showRouteAnim(OutdoorActivity activity,
@@ -51,7 +61,7 @@ class MapLinesModel extends ChangeNotifier {
     }
     _currentLineOptions = LineOptions(
       geometry: [],
-      lineColor: _theme.mapPolylineColorHex,
+      lineColor: _theme.mapLineColor,
       lineWidth: 10.0,
       lineOpacity: 0.5,
       draggable: false,

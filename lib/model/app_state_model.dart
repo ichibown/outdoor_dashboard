@@ -10,7 +10,7 @@ import '../utils/const.dart';
 
 /// Model to store app data and state.
 class AppStateModel extends ChangeNotifier {
-  AppTheme _theme = lightTheme;
+  AppTheme _theme = defaultThtme;
   AppTheme get theme => _theme;
 
   OutdoorSummary? _summary;
@@ -29,12 +29,21 @@ class AppStateModel extends ChangeNotifier {
     String configJson =
         await rootBundle.loadString(path.join(assetsFolder, configFilePath));
     _config = AppConfig.fromJson(configJson);
-
-    notifyListeners();
+    changeTheme(false);
   }
 
-  void changeTheme(AppTheme theme) {
-    _theme = theme;
+  void changeTheme(bool isDark) {
+    if (isDark) {
+      _theme = AppTheme(
+        mapStyle: _config?.mapStyleDark ?? '',
+        mapLineColor: _config?.mapLineColorDark ?? '',
+      );
+    } else {
+      _theme = AppTheme(
+        mapStyle: _config?.mapStyleLight ?? '',
+        mapLineColor: _config?.mapLineColorLight ?? '',
+      );
+    }
     notifyListeners();
   }
 }
