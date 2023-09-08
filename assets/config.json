@@ -1,0 +1,10 @@
+{
+  "avatar": "https://images.pexels.com/photos/3622695/pexels-photo-3622695.jpeg?auto=compress&w=600",
+  "title": "蔵原 走",
+  "subTitle": "走るの好きか！",
+  "mapboxToken": "",
+  "mapStyleLight": "mapbox://styles/mapbox/light-v10",
+  "mapStyleDark": "mapbox://styles/mapbox/dark-v10",
+  "mapLineColorLight": "#24C789",
+  "mapLineColorDark": "#24C789"
+}

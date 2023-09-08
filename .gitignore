@@ -45,4 +45,4 @@ app.*.map.json
 
 # Local data
 /assets/outdoor_data/
-/assets/config.json
+# /assets/config.json
