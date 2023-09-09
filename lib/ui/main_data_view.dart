@@ -21,12 +21,13 @@ class MainDataViewState extends State<MainDataView> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Colors.white,
-      child: IconButton(
-        iconSize: 44,
-        onPressed: () => _toggle(),
-        icon: const Icon(Icons.map_sharp),
+    return Center(
+      child: Card(
+        color: Theme.of(context).colorScheme.secondaryContainer,
+        child: Container(
+          width: 800,
+          height: 600,
+        ),
       ),
     );
   }

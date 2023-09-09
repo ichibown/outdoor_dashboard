@@ -5,14 +5,10 @@ import 'package:path/path.dart' as path;
 
 import '../data/config.dart';
 import '../data/local.dart';
-import '../utils/app_const.dart';
 import '../utils/const.dart';
 
 /// Model to store app data and state.
 class AppStateModel extends ChangeNotifier {
-  AppTheme _theme = defaultThtme;
-  AppTheme get theme => _theme;
-
   OutdoorSummary? _summary;
   OutdoorSummary? get summary => _summary;
 
@@ -29,21 +25,6 @@ class AppStateModel extends ChangeNotifier {
     String configJson =
         await rootBundle.loadString(path.join(assetsFolder, configFilePath));
     _config = AppConfig.fromJson(configJson);
-    changeTheme(false);
-  }
-
-  void changeTheme(bool isDark) {
-    if (isDark) {
-      _theme = AppTheme(
-        mapStyle: _config?.mapStyleDark ?? '',
-        mapLineColor: _config?.mapLineColorDark ?? '',
-      );
-    } else {
-      _theme = AppTheme(
-        mapStyle: _config?.mapStyleLight ?? '',
-        mapLineColor: _config?.mapLineColorLight ?? '',
-      );
-    }
     notifyListeners();
   }
 }

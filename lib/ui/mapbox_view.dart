@@ -1,4 +1,5 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:provider/provider.dart';
 
@@ -20,15 +21,23 @@ class _MapboxViewState extends State<MapboxView> {
   MapCameraModel get _cameraModel => context.read<MapCameraModel>();
   AppStateModel get _appModel => context.read<AppStateModel>();
   // animating line placeholder.
-  late Line _animatingLine;
+  Line? _animatingLine;
 
   @override
   Widget build(BuildContext context) {
+    var theme = context.watch<MapLinesModel>().theme;
     return MapboxMap(
       accessToken: _appModel.config?.mapboxToken ?? '',
       onMapCreated: _onMapCreated,
-      styleString: _appModel.theme.mapStyle,
+      styleString: theme.mapStyle,
       tiltGesturesEnabled: false,
+      rotateGesturesEnabled: false,
+      doubleClickZoomEnabled: false,
+      compassEnabled: false,
+      scrollGesturesEnabled: true,
+      myLocationEnabled: false,
+      zoomGesturesEnabled: true,
+      dragEnabled: false,
       onStyleLoadedCallback: _onMapStyleLoaded,
       initialCameraPosition: const CameraPosition(target: mapInitPos, zoom: 10),
     );
@@ -39,27 +48,30 @@ class _MapboxViewState extends State<MapboxView> {
     super.initState();
     _linesModel.addListener(_onMapLinesUpdated);
     _cameraModel.addListener(_onMapCameraUpdated);
-    _appModel.addListener(_onAppStateUpdated);
   }
 
   @override
   void dispose() {
     _linesModel.removeListener(_onMapLinesUpdated);
     _cameraModel.removeListener(_onMapCameraUpdated);
-    _appModel.removeListener(_onAppStateUpdated);
     super.dispose();
-  }
-
-  void _onAppStateUpdated() {
-    _linesModel.changeTheme(_appModel.theme);
   }
 
   void _onMapCreated(MapboxMapController controller) {
     _mapController = controller;
+
+    var dispatcher = SchedulerBinding.instance.platformDispatcher;
+    dispatcher.onPlatformBrightnessChanged = _onBrightnessChanged;
+  }
+
+  void _onBrightnessChanged() {
+    var brightness =
+        SchedulerBinding.instance.platformDispatcher.platformBrightness;
+    _linesModel.changeTheme(brightness == Brightness.dark);
   }
 
   void _onMapStyleLoaded() async {
-    _animatingLine = await _mapController.addLine(
+    _animatingLine ??= await _mapController.addLine(
       const LineOptions(geometry: []),
     );
     _linesModel.showAllRoutes();
@@ -72,7 +84,10 @@ class _MapboxViewState extends State<MapboxView> {
       _mapController.lines.where((l) => l != _animatingLine),
     );
     if (option != null) {
-      _mapController.updateLine(_animatingLine, option);
+      var line = _animatingLine;
+      if (line != null) {
+        _mapController.updateLine(line, option);
+      }
     } else {
       _mapController.addLines(_linesModel.allLineOptions);
     }

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:heatmap/data/config.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 
 import '../data/local.dart';
@@ -10,7 +11,10 @@ import '../utils/utils.dart';
 /// Model to handle polylines on map.
 class MapLinesModel extends ChangeNotifier {
   late OutdoorSummary _summary;
+  late AppConfig _config;
+
   late AppTheme _theme;
+  AppTheme get theme => _theme;
 
   late List<LineOptions> _allLineOptions;
   List<LineOptions> get allLineOptions => _allLineOptions;
@@ -20,9 +24,10 @@ class MapLinesModel extends ChangeNotifier {
 
   Timer? _lineAnimTimer;
 
-  MapLinesModel(OutdoorSummary summary, AppTheme theme) {
+  MapLinesModel(OutdoorSummary summary, AppConfig config, bool isDark) {
     _summary = summary;
-    _theme = theme;
+    _config = config;
+    _updateTheme(isDark);
     _initLines();
   }
 
@@ -39,8 +44,22 @@ class MapLinesModel extends ChangeNotifier {
     _allLineOptions = options ?? [];
   }
 
-  void changeTheme(AppTheme theme) {
-    _theme = theme;
+  void _updateTheme(bool isDark) {
+    if (isDark) {
+      _theme = AppTheme(
+        mapStyle: _config.mapStyleDark ?? '',
+        mapLineColor: _config.mapLineColorDark ?? '',
+      );
+    } else {
+      _theme = AppTheme(
+        mapStyle: _config.mapStyleLight ?? '',
+        mapLineColor: _config.mapLineColorLight ?? '',
+      );
+    }
+  }
+
+  void changeTheme(bool isDark) {
+    _updateTheme(isDark);
     var newOptions = _allLineOptions
         .map((e) => e.copyWith(LineOptions(lineColor: _theme.mapLineColor)))
         .toList();

@@ -18,7 +18,26 @@ class HeatmapApp extends StatelessWidget {
       create: (context) => AppStateModel(),
       child: MaterialApp(
         title: 'Outdoor Heatmap (Working in Progress)',
-        theme: ThemeData(useMaterial3: true),
+        theme: ThemeData(
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.indigo,
+            brightness: Brightness.light,
+          ),
+          textTheme: const TextTheme(
+            displayLarge: TextStyle(
+              fontSize: 72,
+              fontWeight: FontWeight.bold,
+            ),
+            // ···
+            titleLarge: TextStyle(
+              fontSize: 30,
+              fontStyle: FontStyle.italic,
+            ),
+            bodyMedium: TextStyle(),
+            displaySmall: TextStyle(),
+          ),
+        ),
         localizationsDelegates: const [S.delegate],
         supportedLocales: S.delegate.supportedLocales,
         home: const MainPage(),

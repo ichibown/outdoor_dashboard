@@ -15,13 +15,22 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var appStateModel = context.watch<AppStateModel>();
     var summary = appStateModel.summary;
-    var theme = appStateModel.theme;
-    if (summary != null && summary.activities?.isNotEmpty == true) {
+    var config = appStateModel.config;
+    var isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
+    if (summary != null &&
+        config != null &&
+        summary.activities?.isNotEmpty == true) {
       return MultiProvider(
         providers: [
-          ListenableProvider(create: (_) => MapLinesModel(summary, theme)),
-          ListenableProvider(create: (_) => MapCameraModel(summary)),
-          ListenableProvider(create: (_) => MainDataModel(summary)),
+          ListenableProvider(
+            create: (_) => MapLinesModel(summary, config, isDark),
+          ),
+          ListenableProvider(
+            create: (_) => MapCameraModel(summary),
+          ),
+          ListenableProvider(
+            create: (_) => MainDataModel(summary),
+          ),
         ],
         child: const Stack(children: [
           SizedBox(
