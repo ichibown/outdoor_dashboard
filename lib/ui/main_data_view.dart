@@ -1,69 +1,68 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:pointer_interceptor/pointer_interceptor.dart';
 import 'package:provider/provider.dart';
 
-import '../model/app_state_model.dart';
-import '../model/map_camera_model.dart';
-import '../model/map_lines_model.dart';
+import '../model/main_data_model.dart';
+import 'main_data_full_pane.dart';
+import 'main_data_mini_pane.dart';
 
-class MainDataView extends StatefulWidget {
+class MainDataView extends StatelessWidget {
   const MainDataView({super.key});
 
   @override
-  State<StatefulWidget> createState() {
-    return MainDataViewState();
-  }
-}
-
-class MainDataViewState extends State<MainDataView> {
-  bool _all = false;
-
-  @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Card(
-        color: Theme.of(context).colorScheme.secondaryContainer,
-        child: Container(
-          width: 800,
-          height: 600,
+    var expanded = context.watch<MainDataModel>().isExpanded;
+    return expanded
+        ? Align(
+            alignment: Alignment.center,
+            child: PointerInterceptor(
+              child: _buildFullView(context),
+            ))
+        : Align(
+            alignment: Alignment.bottomCenter,
+            child: _buildMiniView(context),
+          );
+  }
+
+  Widget _buildFullView(BuildContext context) {
+    return Card(
+      color: Theme.of(context).colorScheme.background,
+      elevation: 4,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            LeftPaneView(),
+            Container(
+              width: 200,
+              height: 200,
+              child: Text("TODO"),
+            )
+          ],
         ),
       ),
     );
   }
 
-  void _toggle() {
-    var appModel = context.read<AppStateModel>();
-    var lineModel = context.read<MapLinesModel>();
-    var cameraModel = context.read<MapCameraModel>();
-    var activities = appModel.summary?.activities;
-    if (activities == null) {
-      return;
-    }
-    if (_all) {
-      lineModel.showAllRoutes();
-      cameraModel.moveToDefault();
-    } else {
-      randomAnim() {
-        var activity = activities[Random().nextInt(activities.length)];
-        var duration = (activity.elapsedTime ?? 0) / 500;
-        if (duration <= 1) {
-          randomAnim();
-          return;
-        }
-        cameraModel.moveToRoute(activity);
-        lineModel.showRouteAnim(
-          activity,
-          durationMs: duration.toInt() * 1000,
-          delayMs: 1000,
-          onEnd: () {
-            randomAnim();
-          },
-        );
-      }
+  Widget _buildMiniView(BuildContext context) {
+    return Card(
+      color: Theme.of(context).colorScheme.background,
+      elevation: 4,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10.0),
+        child: const MiniActionButtonsView(),
+      ),
+    );
+  }
+}
 
-      randomAnim.call();
-    }
-    _all = !_all;
+class MainDataMinView extends StatelessWidget {
+  const MainDataMinView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
   }
 }

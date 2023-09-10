@@ -9,6 +9,7 @@ import '../utils/app_const.dart';
 import '../utils/utils.dart';
 
 /// Model to handle polylines on map.
+/// todo: refactor.
 class MapLinesModel extends ChangeNotifier {
   late OutdoorSummary _summary;
   late AppConfig _config;
@@ -21,6 +22,7 @@ class MapLinesModel extends ChangeNotifier {
 
   LineOptions? _currentLineOptions;
   LineOptions? get currentLineOptions => _currentLineOptions;
+  bool get isRouteAnimating => _currentLineOptions != null;
 
   Timer? _lineAnimTimer;
 

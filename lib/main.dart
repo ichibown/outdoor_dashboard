@@ -21,8 +21,10 @@ class HeatmapApp extends StatelessWidget {
         theme: ThemeData(
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.indigo,
+            // seedColor: const Color(0xFF24C789),
+            seedColor: const Color(0xFF584F60),
             brightness: Brightness.light,
+            // brightness: MediaQuery.of(context).platformBrightness,
           ),
           textTheme: const TextTheme(
             displayLarge: TextStyle(

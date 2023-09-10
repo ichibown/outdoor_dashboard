@@ -20,6 +20,7 @@ dependencies:
   google_polyline_algorithm: ^3.1.0
   provider: ^6.0.5
   intl: ^0.18.1
+  pointer_interceptor: ^0.9.3+6
 
 dev_dependencies:
   flutter_test:

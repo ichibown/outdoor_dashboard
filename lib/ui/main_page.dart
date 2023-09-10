@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pointer_interceptor/pointer_interceptor.dart';
 import 'package:provider/provider.dart';
 
 import '../model/app_state_model.dart';
@@ -23,23 +24,20 @@ class MainPage extends StatelessWidget {
       return MultiProvider(
         providers: [
           ListenableProvider(
-            create: (_) => MapLinesModel(summary, config, isDark),
-          ),
-          ListenableProvider(
-            create: (_) => MapCameraModel(summary),
-          ),
-          ListenableProvider(
-            create: (_) => MainDataModel(summary),
-          ),
+              create: (_) => MapLinesModel(summary, config, isDark)),
+          ListenableProvider(create: (_) => MapCameraModel(summary)),
+          ListenableProvider(create: (_) => MainDataModel(summary)),
         ],
-        child: const Stack(children: [
-          SizedBox(
-            width: double.infinity,
-            height: double.infinity,
-            child: MapboxView(),
-          ),
-          MainDataView(),
-        ]),
+        child: const Stack(
+          children: [
+            SizedBox(
+              width: double.infinity,
+              height: double.infinity,
+              child: MapboxView(),
+            ),
+            MainDataView(),
+          ],
+        ),
       );
     } else {
       // loading data.
