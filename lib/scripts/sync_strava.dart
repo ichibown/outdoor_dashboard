@@ -263,7 +263,7 @@ Gpx _convertStreamsToGpx(StravaStream streams, int startTime) {
     ));
   }
   gpx.trks = [
-    Trk(name: 'outdoor_heatmap', trksegs: [Trkseg(trkpts: wpts)])
+    Trk(name: 'outdoor_dashboard', trksegs: [Trkseg(trkpts: wpts)])
   ];
   return gpx;
 }

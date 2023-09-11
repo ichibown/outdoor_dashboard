@@ -6,18 +6,18 @@ import '../ui/main_page.dart';
 import 'generated/l10n.dart';
 
 void main() {
-  runApp(const HeatmapApp());
+  runApp(const DashboardApp());
 }
 
-class HeatmapApp extends StatelessWidget {
-  const HeatmapApp({super.key});
+class DashboardApp extends StatelessWidget {
+  const DashboardApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => AppStateModel(),
       child: MaterialApp(
-        title: 'Outdoor Heatmap (Working in Progress)',
+        title: 'Outdoor Dashboard (Working in Progress)',
         theme: ThemeData(
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(

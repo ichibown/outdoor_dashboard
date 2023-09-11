@@ -1,5 +1,5 @@
-name: heatmap
-description: Outdoor activities heatmap.
+name: outdoor_dashboard
+description: Outdoor activities dashboard.
 publish_to: 'none'
 
 version: 1.0.0+1

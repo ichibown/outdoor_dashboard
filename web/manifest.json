@@ -1,6 +1,6 @@
 {
-    "name": "heatmap",
-    "short_name": "heatmap",
+    "name": "outdoor_dashboard",
+    "short_name": "outdoor_dashboard",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

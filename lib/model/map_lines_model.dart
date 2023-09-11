@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:heatmap/data/config.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 
+import '../data/config.dart';
 import '../data/local.dart';
 import '../utils/app_const.dart';
 import '../utils/utils.dart';

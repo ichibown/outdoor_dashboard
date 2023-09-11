@@ -1,2 +1,2 @@
-# outdoor_heatmap
-A personal dashboard showing your outdoor activities heatmap on world map.
+# outdoor_dashboard
+A personal dashboard showing your outdoor activities on world map.
