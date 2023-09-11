@@ -18,7 +18,7 @@ class AppTheme {
   });
 }
 
-const defaultThtme = AppTheme(
+const defaultTheme = AppTheme(
   mapStyle: 'mapbox://styles/mapbox/light-v10',
   mapLineColor: '#24C789',
 );

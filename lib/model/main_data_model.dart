@@ -53,7 +53,10 @@ class MainDataModel extends ChangeNotifier {
     if (!_yearSelectData.yearlyCounts.containsKey(year)) {
       return;
     }
-    _yearSelectData.selectedYear = year;
+    _yearSelectData = YearSelectData(
+      yearlyCounts: _yearSelectData.yearlyCounts,
+      selectedYear: year,
+    );
     notifyListeners();
   }
 }

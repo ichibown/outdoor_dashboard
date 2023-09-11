@@ -86,7 +86,9 @@ class YearlyCountView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var yearSelectData = context.watch<MainDataModel>().yearSelectData;
+    var yearSelectData = context.select<MainDataModel, YearSelectData>(
+      (value) => value.yearSelectData,
+    );
     var items = yearSelectData.yearlyCounts.entries
         .map((e) => GestureDetector(
               onTap: () => context.read<MainDataModel>().selectYear(e.key),

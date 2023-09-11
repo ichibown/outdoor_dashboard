@@ -11,7 +11,8 @@ class MainDataView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var expanded = context.watch<MainDataModel>().isExpanded;
+    var expanded =
+        context.select<MainDataModel, bool>((value) => value.isExpanded);
     return expanded
         ? Align(
             alignment: Alignment.center,

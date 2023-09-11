@@ -1,26 +1,37 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../data/local.dart';
 import '../model/app_state_model.dart';
 import '../model/main_data_model.dart';
-import '../model/map_camera_model.dart';
-import '../model/map_lines_model.dart';
+import '../model/map_data_model.dart';
+import '../utils/utils.dart';
 
-class MiniActionButtonsView extends StatelessWidget {
+class MiniActionButtonsView extends StatefulWidget {
   const MiniActionButtonsView({super.key});
 
   @override
+  State<StatefulWidget> createState() {
+    return MiniActionButtonsViewState();
+  }
+}
+
+class MiniActionButtonsViewState extends State<MiniActionButtonsView> {
+  Timer? _randomRouteTimer;
+
+  @override
   Widget build(BuildContext context) {
-    var isRouteAnimating = context.watch<MapLinesModel>().isRouteAnimating;
+    var activities = context.read<AppStateModel>().summary?.activities;
+    var routeIcon = _randomRouteTimer != null
+        ? Icons.stop_outlined
+        : Icons.shuffle_outlined;
     var actions = <IconData, Function>{
-      Icons.dashboard_outlined: () {
-        context.read<MainDataModel>().toggleExpanded();
-      },
-      isRouteAnimating ? Icons.stop_outlined : Icons.shuffle_outlined: () {
-        _toggleMapRouteAnim(context);
-      },
+      Icons.dashboard_outlined: () =>
+          context.read<MainDataModel>().toggleExpanded(),
+      routeIcon: () => _toggleRoute(activities),
     };
     return Container(
       height: 60,
@@ -42,37 +53,36 @@ class MiniActionButtonsView extends StatelessWidget {
     );
   }
 
-  void _toggleMapRouteAnim(BuildContext context) {
-    var appModel = context.read<AppStateModel>();
-    var lineModel = context.read<MapLinesModel>();
-    var cameraModel = context.read<MapCameraModel>();
-    var activities = appModel.summary?.activities;
-    if (activities == null) {
-      return;
-    }
-    if (lineModel.isRouteAnimating) {
-      lineModel.showAllRoutes();
-      cameraModel.moveToDefault();
-    } else {
-      randomAnim() {
-        var activity = activities[Random().nextInt(activities.length)];
-        var duration = (activity.elapsedTime ?? 0) / 500;
-        if (duration <= 1) {
-          randomAnim();
-          return;
-        }
-        cameraModel.moveToRoute(activity);
-        lineModel.showRouteAnim(
-          activity,
-          durationMs: duration.toInt() * 1000,
-          delayMs: 1000,
-          onEnd: () {
-            randomAnim();
-          },
-        );
+  void _toggleRoute(List<OutdoorActivity>? activities) {
+    setState(() {
+      if (_randomRouteTimer == null) {
+        _randomRouteTimer = _startRandomRouteTimer(activities);
+      } else {
+        context.read<MapDataModel>().showAllRoutes();
+        _randomRouteTimer?.cancel();
+        _randomRouteTimer = null;
       }
+    });
+  }
 
-      randomAnim.call();
+  Timer? _startRandomRouteTimer(List<OutdoorActivity>? activities) {
+    if (activities == null || activities.isEmpty) {
+      return null;
     }
+    // one more second before and after route anim.
+    var animMinSecond = 5;
+    var secondsPassed = 0;
+    var duration = 0;
+    return periodicImmediately(const Duration(seconds: 1), (timer) {
+      if (secondsPassed >= duration) {
+        OutdoorActivity activity =
+            activities[Random().nextInt(activities.length)];
+        duration = (activity.elapsedTime ?? 0) ~/ 500;
+        duration = duration <= animMinSecond ? animMinSecond : duration;
+        context.read<MapDataModel>().showSingleRoute(activity, duration * 1000);
+        secondsPassed = 0;
+      }
+      secondsPassed++;
+    });
   }
 }
