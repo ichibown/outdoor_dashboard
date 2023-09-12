@@ -21,8 +21,6 @@ class _BackgroundMapViewState extends State<BackgroundMapView> {
   static const _lineOpacity = 0.4;
 
   late MapboxMapController _mapController;
-  // animating line placeholder.
-  Line? _animatingLine;
   Timer? _animatingTimer;
 
   @override
@@ -62,30 +60,16 @@ class _BackgroundMapViewState extends State<BackgroundMapView> {
   }
 
   void _onMapStyleLoaded() {
-    if (_animatingLine == null) {
-      _mapController.addLine(const LineOptions(geometry: [])).then((value) {
-        _animatingLine = value;
-        context.read<MapDataModel>().showAllRoutes();
-      });
-    } else {
-      context.read<MapDataModel>().showAllRoutes();
-    }
+    context.read<MapDataModel>().showAllRoutes();
   }
 
   void _onMapUpdated() async {
-    var line = _animatingLine;
-    if (line == null) {
-      return;
-    }
     var mapState = context.read<MapDataModel>().mapState;
     _animatingTimer?.cancel();
-    _mapController.updateLine(line, const LineOptions(geometry: []));
-    _mapController.removeLines(
-      _mapController.lines.where((l) => l != _animatingLine),
-    );
+    _mapController.removeLines(_mapController.lines);
     _mapController.animateCamera(mapState.camera);
     if (mapState is SingleLineMap) {
-      _showLineAnim(line, mapState);
+      _showLineAnim(mapState);
     } else if (mapState is AllLinesMap) {
       _showAllLines(mapState);
     } else {
@@ -93,7 +77,7 @@ class _BackgroundMapViewState extends State<BackgroundMapView> {
     }
   }
 
-  void _showLineAnim(Line line, SingleLineMap mapState) {
+  void _showLineAnim(SingleLineMap mapState) async {
     var options = LineOptions(
       geometry: [],
       lineColor: _getLineColor(),
@@ -101,6 +85,7 @@ class _BackgroundMapViewState extends State<BackgroundMapView> {
       lineOpacity: _lineOpacity,
       draggable: false,
     );
+    var line = await _mapController.addLine(options);
     var intervalMs = 15;
     var coords = mapState.linePoints;
     var len = coords.length;
