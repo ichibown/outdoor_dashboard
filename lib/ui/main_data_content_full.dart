@@ -11,21 +11,13 @@ class LeftPaneView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Theme.of(context).colorScheme.secondaryContainer,
-      child: Column(
+      child: const Column(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          const UserInfoView(),
-          SizedBox(
-            width: 180,
-            height: 28,
-            child: Divider(
-              thickness: 0.15,
-              color: Theme.of(context).dividerColor,
-            ),
-          ),
-          const YearlyCountView(),
-          const ActionButtonsView(),
+          UserInfoView(),
+          YearlyCountView(),
+          ActionButtonsView(),
         ],
       ),
     );
@@ -68,9 +60,15 @@ class UserInfoView extends StatelessWidget {
             .labelLarge
             ?.copyWith(fontStyle: FontStyle.italic),
       ),
+      Divider(
+        height: 30,
+        thickness: 0.2,
+        indent: 12,
+        color: Theme.of(context).dividerColor,
+      ),
     ];
     return Container(
-      height: 180,
+      width: 220,
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -94,7 +92,7 @@ class YearlyCountView extends StatelessWidget {
               onTap: () => context.read<MainDataModel>().selectYear(e.key),
               child: Container(
                 height: 48,
-                width: 200,
+                width: 180,
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 decoration: BoxDecoration(
                   color: e.key == yearSelectData.selectedYear
@@ -108,7 +106,7 @@ class YearlyCountView extends StatelessWidget {
             ))
         .toList();
     return LimitedBox(
-      maxHeight: 360,
+      maxHeight: 500,
       child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -164,6 +162,7 @@ class ActionButtonsView extends StatelessWidget {
       },
     };
     return SizedBox(
+      width: 200,
       height: 80,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

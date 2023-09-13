@@ -3,8 +3,8 @@ import 'package:pointer_interceptor/pointer_interceptor.dart';
 import 'package:provider/provider.dart';
 
 import '../model/main_data_model.dart';
-import 'main_data_full_pane.dart';
-import 'main_data_mini_pane.dart';
+import 'main_data_content_full.dart';
+import 'main_data_content_mini.dart';
 
 class MainDataView extends StatelessWidget {
   const MainDataView({super.key});
@@ -35,7 +35,7 @@ class MainDataView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            LeftPaneView(),
+            const LeftPaneView(),
             Container(
               width: 200,
               height: 200,
@@ -56,14 +56,5 @@ class MainDataView extends StatelessWidget {
         child: const MiniActionButtonsView(),
       ),
     );
-  }
-}
-
-class MainDataMinView extends StatelessWidget {
-  const MainDataMinView({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
   }
 }
