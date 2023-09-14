@@ -20,7 +20,7 @@ class _BackgroundMapViewState extends State<BackgroundMapView> {
   static const _lineWidth = 7.0;
   static const _lineOpacity = 0.4;
 
-  late MapboxMapController _mapController;
+  MapboxMapController? _mapController;
   Timer? _animatingTimer;
 
   @override
@@ -66,8 +66,8 @@ class _BackgroundMapViewState extends State<BackgroundMapView> {
   void _onMapUpdated() async {
     var mapState = context.read<MapDataModel>().mapState;
     _animatingTimer?.cancel();
-    _mapController.removeLines(_mapController.lines);
-    _mapController.animateCamera(mapState.camera);
+    _mapController?.removeLines(_mapController?.lines ?? []);
+    _mapController?.animateCamera(mapState.camera);
     if (mapState is SingleLineMap) {
       _showLineAnim(mapState);
     } else if (mapState is AllLinesMap) {
@@ -85,7 +85,10 @@ class _BackgroundMapViewState extends State<BackgroundMapView> {
       lineOpacity: _lineOpacity,
       draggable: false,
     );
-    var line = await _mapController.addLine(options);
+    var line = await _mapController?.addLine(options);
+    if (line == null) {
+      return;
+    }
     var intervalMs = 15;
     var coords = mapState.linePoints;
     var len = coords.length;
@@ -101,13 +104,13 @@ class _BackgroundMapViewState extends State<BackgroundMapView> {
       options.geometry?.clear();
       options.geometry?.addAll(coords.sublist(0, end.floor()));
       end += step;
-      _mapController.updateLine(line, options);
+      _mapController?.updateLine(line, options);
     });
   }
 
   void _showAllLines(AllLinesMap mapState) {
     var color = _getLineColor();
-    _mapController.addLines(mapState.linePointsList
+    _mapController?.addLines(mapState.linePointsList
         .map(
           (e) => LineOptions(
             geometry: e,

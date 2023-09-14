@@ -3,6 +3,7 @@ import 'package:mapbox_gl/mapbox_gl.dart';
 
 import '../data/local.dart';
 import '../utils/app_const.dart';
+import '../utils/app_ext.dart';
 import '../utils/utils.dart';
 
 class MapDataModel extends ChangeNotifier {
@@ -19,7 +20,7 @@ class MapDataModel extends ChangeNotifier {
     _mapState = EmptyMap(mapInitCamera);
     _summary = summary;
     _allLines.addAll(
-      _summary.activities?.map((e) => getActivityLatLngList(e)).toList() ?? [],
+      _summary.activities?.map((e) => e.latLngList()).toList() ?? [],
     );
     var points = _allLines.expand((element) => element).toList();
     _allPointsBounds = getPointsBounds(points, coverage: 0.90);
@@ -31,11 +32,11 @@ class MapDataModel extends ChangeNotifier {
   }
 
   void showSingleRoute(OutdoorActivity activity, int durationMs) {
-    var coords = getActivityLatLngList(activity);
+    var coords = activity.latLngList();
     if (coords.isEmpty) {
       return;
     }
-    var latlngList = getActivityLatLngList(activity);
+    var latlngList = activity.latLngList();
     var bounds = getRouteBounds(latlngList);
     var camera = CameraUpdate.newLatLngBounds(bounds,
         left: _padding, top: _padding, right: _padding, bottom: _padding);

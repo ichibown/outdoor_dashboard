@@ -52,40 +52,40 @@ enum Type {
 
 class OutdoorActivity {
   /// Start time in UTC millis.
-  int? startTime;
+  int startTime;
 
   /// Activity timezone offset millis.
-  int? timeOffset;
+  int timeOffset;
 
   /// Moving time in seconds.
-  int? movingTime;
+  int movingTime;
 
   /// Elapsed time in seconds.
-  int? elapsedTime;
+  int elapsedTime;
 
   /// Total distance in meters.
-  double? totalDistance;
+  double totalDistance;
 
   /// Accumulated elevation in meters.
-  double? accElevation;
+  double accElevation;
 
   /// Average elevation in meters.
-  double? avgElevation;
+  double avgElevation;
 
   /// Highest elevation in meters.
-  double? maxElevation;
+  double maxElevation;
 
   /// Average pace in s/1km.
-  double? avgPace;
+  double avgPace;
 
   /// Max pace in s/1km.
-  double? maxPace;
+  double maxPace;
 
   /// Average heartrate.
-  double? avgHeartrate;
+  double avgHeartrate;
 
   /// Max heartrate.
-  double? maxHeartrate;
+  double maxHeartrate;
 
   /// Activity start geo location.
   List<double>? startLatlng;
@@ -110,18 +110,18 @@ class OutdoorActivity {
   List<List<num>>? sparsedCoords;
 
   OutdoorActivity({
-    this.startTime,
-    this.timeOffset,
-    this.movingTime,
-    this.elapsedTime,
-    this.totalDistance,
-    this.accElevation,
-    this.avgElevation,
-    this.maxElevation,
-    this.avgPace,
-    this.maxPace,
-    this.avgHeartrate,
-    this.maxHeartrate,
+    this.startTime = 0,
+    this.timeOffset = 0,
+    this.movingTime = 0,
+    this.elapsedTime = 0,
+    this.totalDistance = 0,
+    this.accElevation = 0,
+    this.avgElevation = 0,
+    this.maxElevation = 0,
+    this.avgPace = 0,
+    this.maxPace = 0,
+    this.avgHeartrate = 0,
+    this.maxHeartrate = 0,
     this.startLatlng,
     this.startPlaceName,
     this.type,
@@ -158,25 +158,18 @@ class OutdoorActivity {
 
   factory OutdoorActivity.fromMap(Map<String, dynamic> map) {
     return OutdoorActivity(
-      startTime: map['startTime'] != null ? map['startTime'] as int : null,
-      timeOffset: map['timeOffset'] != null ? map['timeOffset'] as int : null,
-      movingTime: map['movingTime'] != null ? map['movingTime'] as int : null,
-      elapsedTime:
-          map['elapsedTime'] != null ? map['elapsedTime'] as int : null,
-      totalDistance:
-          map['totalDistance'] != null ? map['totalDistance'] as double : null,
-      accElevation:
-          map['accElevation'] != null ? map['accElevation'] as double : null,
-      avgElevation:
-          map['avgElevation'] != null ? map['avgElevation'] as double : null,
-      maxElevation:
-          map['maxElevation'] != null ? map['maxElevation'] as double : null,
-      avgPace: map['avgPace'] != null ? map['avgPace'] as double : null,
-      maxPace: map['maxPace'] != null ? map['maxPace'] as double : null,
-      avgHeartrate:
-          map['avgHeartrate'] != null ? map['avgHeartrate'] as double : null,
-      maxHeartrate:
-          map['maxHeartrate'] != null ? map['maxHeartrate'] as double : null,
+      startTime: map['startTime'] as int,
+      timeOffset: map['timeOffset'] as int,
+      movingTime: map['movingTime'] as int,
+      elapsedTime: map['elapsedTime'] as int,
+      totalDistance: map['totalDistance'] as double,
+      accElevation: map['accElevation'] as double,
+      avgElevation: map['avgElevation'] as double,
+      maxElevation: map['maxElevation'] as double,
+      avgPace: map['avgPace'] as double,
+      maxPace: map['maxPace'] as double,
+      avgHeartrate: map['avgHeartrate'] as double,
+      maxHeartrate: map['maxHeartrate'] as double,
       startLatlng: map['startLatlng'] != null
           ? (map['startLatlng'] as List<dynamic>)
               .map((e) => e as double)

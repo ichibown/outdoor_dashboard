@@ -15,11 +15,11 @@ class MiniActionButtonsView extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return MiniActionButtonsViewState();
+    return _MiniActionButtonsViewState();
   }
 }
 
-class MiniActionButtonsViewState extends State<MiniActionButtonsView> {
+class _MiniActionButtonsViewState extends State<MiniActionButtonsView> {
   Timer? _randomRouteTimer;
 
   @override
@@ -53,14 +53,21 @@ class MiniActionButtonsViewState extends State<MiniActionButtonsView> {
     );
   }
 
+  @override
+  void dispose() {
+    _randomRouteTimer?.cancel();
+    _randomRouteTimer = null;
+    super.dispose();
+  }
+
   void _toggleRoute(List<OutdoorActivity>? activities) {
     setState(() {
       if (_randomRouteTimer == null) {
         _randomRouteTimer = _startRandomRouteTimer(activities);
       } else {
-        context.read<MapDataModel>().showAllRoutes();
         _randomRouteTimer?.cancel();
         _randomRouteTimer = null;
+        context.read<MapDataModel>().showAllRoutes();
       }
     });
   }
@@ -77,7 +84,7 @@ class MiniActionButtonsViewState extends State<MiniActionButtonsView> {
       if (secondsPassed >= duration) {
         OutdoorActivity activity =
             activities[Random().nextInt(activities.length)];
-        duration = (activity.elapsedTime ?? 0) ~/ 500;
+        duration = activity.elapsedTime ~/ 500;
         duration = duration <= animMinSecond ? animMinSecond : duration;
         context.read<MapDataModel>().showSingleRoute(activity, duration * 1000);
         secondsPassed = 0;

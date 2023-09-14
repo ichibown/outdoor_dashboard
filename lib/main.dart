@@ -20,6 +20,7 @@ class DashboardApp extends StatelessWidget {
         title: 'Outdoor Dashboard (Working in Progress)',
         theme: ThemeData(
           useMaterial3: true,
+          fontFamily: 'Arial',
           colorScheme: ColorScheme.fromSeed(
             // seedColor: const Color(0xFF24C789),
             seedColor: const Color(0xFF584F60),

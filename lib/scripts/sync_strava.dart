@@ -160,16 +160,16 @@ OutdoorSummary _convertStravaActivities(List<StravaActivity> activities) {
         : null;
 
     OutdoorActivity outdoorActivity = OutdoorActivity(
-      startTime: startTime,
-      timeOffset: activity.utcOffset?.toInt(),
-      movingTime: activity.movingTime,
-      elapsedTime: activity.elapsedTime,
-      totalDistance: activity.distance,
-      accElevation: activity.totalElevationGain,
-      avgPace: avgPace,
-      maxPace: maxPace,
-      avgHeartrate: activity.averageHeartrate,
-      maxHeartrate: activity.maxHeartrate,
+      startTime: startTime ?? 0,
+      timeOffset: activity.utcOffset?.toInt() ?? 0,
+      movingTime: activity.movingTime ?? 0,
+      elapsedTime: activity.elapsedTime ?? 0,
+      totalDistance: activity.distance ?? 0,
+      accElevation: activity.totalElevationGain ?? 0,
+      avgPace: avgPace ?? 0,
+      maxPace: maxPace ?? 0,
+      avgHeartrate: activity.averageHeartrate ?? 0,
+      maxHeartrate: activity.maxHeartrate ?? 0,
       startLatlng: startLaglng,
       type:
           Type.values.byNameWithCatch(activity.sportType?.toLowerCase() ?? ''),
@@ -201,7 +201,7 @@ Future<OutdoorSummary> _syncStravaGpx(
     Gpx gpx;
     if (!file.existsSync()) {
       // fetch and rebuild gpx file to local.
-      var startTime = activity.startTime!;
+      var startTime = activity.startTime;
       var streams = await _getActivityStreams(activityId, authToken);
       gpx = _convertStreamsToGpx(streams, startTime);
       var gpxContent = GpxWriter().asString(gpx, pretty: true);

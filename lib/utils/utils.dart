@@ -4,8 +4,6 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:gpx/gpx.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 
-import '../data/local.dart';
-
 Future<String> loadTextAsset(String path) async {
   return await rootBundle.loadString(path);
 }
@@ -19,13 +17,6 @@ Timer periodicImmediately(Duration duration, Function(Timer) action) {
   var timer = Timer.periodic(duration, action);
   action.call(timer);
   return timer;
-}
-
-List<LatLng> getActivityLatLngList(OutdoorActivity activity) {
-  return activity.sparsedCoords
-          ?.map((c) => LatLng(c[0] as double, c[1] as double))
-          .toList() ??
-      [];
 }
 
 /// find bounds to cover route points.

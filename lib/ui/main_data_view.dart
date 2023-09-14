@@ -3,6 +3,7 @@ import 'package:pointer_interceptor/pointer_interceptor.dart';
 import 'package:provider/provider.dart';
 
 import '../model/main_data_model.dart';
+import 'cards/summary_data_card_view.dart';
 import 'main_data_content_full.dart';
 import 'main_data_content_mini.dart';
 
@@ -32,14 +33,20 @@ class MainDataView extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10.0),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
             const LeftPaneView(),
             Container(
-              width: 200,
-              height: 200,
-              child: Text("TODO"),
+              height: LeftPaneView.height,
+              padding: const EdgeInsets.all(24),
+              child: const Wrap(
+                direction: Axis.vertical,
+                spacing: 24,
+                runSpacing: 24,
+                children: [
+                  SummaryDataCardView(),
+                ],
+              ),
             )
           ],
         ),

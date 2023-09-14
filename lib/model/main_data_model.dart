@@ -1,47 +1,24 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 import '../data/local.dart';
+import '../utils/app_ext.dart';
+import '../utils/ext.dart';
 
 class MainDataModel extends ChangeNotifier {
-  bool _isExpanded = false;
+  bool _isExpanded = true;
   bool get isExpanded => _isExpanded;
 
   late YearSelectData _yearSelectData;
   YearSelectData get yearSelectData => _yearSelectData;
 
-  final Map<int, Map<int, List<OutdoorActivity>?>> _activitiesByMonth = {};
+  final Map<int, SummaryCardData> _yearlySummaryCardData = {};
+  SummaryCardData? yearlySummaryCardData(int year) =>
+      _yearlySummaryCardData[year];
 
   MainDataModel(OutdoorSummary summary) {
     var activities = summary.activities;
-    activities?.forEach((activity) {
-      var date = DateTime.fromMillisecondsSinceEpoch(activity.startTime ?? 0,
-              isUtc: true)
-          .add(Duration(milliseconds: activity.timeOffset ?? 0));
-      var year = date.year;
-      var month = date.month;
-      if (_activitiesByMonth[year] == null) {
-        _activitiesByMonth[year] = {};
-      }
-      if (_activitiesByMonth[year]?[month] == null) {
-        _activitiesByMonth[year]?[month] = [];
-      }
-      _activitiesByMonth[year]?[month]?.add(activity);
-    });
-    var yearlyCount = {
-      YearSelectData.all: activities?.length ?? 0,
-    }..addAll(
-        _activitiesByMonth.map(
-          (key, value) => MapEntry(
-              key,
-              value.values
-                  .map((e) => e?.length ?? 0)
-                  .reduce((value, element) => value + element)),
-        ),
-      );
-    _yearSelectData = YearSelectData(
-      yearlyCounts: yearlyCount,
-      selectedYear: YearSelectData.all,
-    );
+    _updateDataModels(activities ?? []);
   }
 
   void toggleExpanded() {
@@ -50,14 +27,93 @@ class MainDataModel extends ChangeNotifier {
   }
 
   void selectYear(int year) {
-    if (!_yearSelectData.yearlyCounts.containsKey(year)) {
+    if (_yearSelectData.selectedYear == year) {
       return;
     }
-    _yearSelectData = YearSelectData(
-      yearlyCounts: _yearSelectData.yearlyCounts,
-      selectedYear: year,
-    );
+    _yearSelectData = _yearSelectData.copyWith(selectedYear: year);
     notifyListeners();
+  }
+
+  void _updateDataModels(List<OutdoorActivity> activities) async {
+    var activitiesByYear = activities.groupBy((e) =>
+        DateTime.fromMillisecondsSinceEpoch(e.startTime, isUtc: true)
+            .add(Duration(milliseconds: e.timeOffset))
+            .year);
+
+    _yearSelectData = YearSelectData(
+      yearlyCounts: activitiesByYear.map(
+        (key, value) => MapEntry(key, value.length),
+      ),
+      selectedYear: YearSelectData.all,
+    )..yearlyCounts[YearSelectData.all] = activities.length;
+
+    var summaryDataByYear = activitiesByYear.map(
+      (key, value) => MapEntry(key, _buildSummaryCardByYear(key, value)),
+    );
+    _yearlySummaryCardData.addAll(summaryDataByYear);
+    var summaryDataAll = _buildSummaryCardAll(summaryDataByYear);
+    _yearlySummaryCardData[YearSelectData.all] = summaryDataAll;
+  }
+
+  SummaryCardData _buildSummaryCardAll(
+      Map<int, SummaryCardData> yearySummaryData) {
+    var accDistance = <double>[];
+    var summaryList = yearySummaryData.entries.toList();
+    summaryList.sort((left, right) => left.key - right.key);
+    for (var i = summaryList.first.key; i <= summaryList.last.key; i++) {
+      var data = summaryList.firstWhereOrNull((e) => e.key == i);
+      if (data != null) {
+        accDistance.addAll(data.value.accDistance);
+      } else {
+        accDistance.addAll(List.filled(12, 0));
+      }
+    }
+    for (var i = 0; i < accDistance.length - 1; i++) {
+      accDistance[i + 1] += accDistance[i];
+    }
+    return SummaryCardData(
+      counts: yearySummaryData.values.sumBy((e) => e.counts).toInt(),
+      distance: yearySummaryData.values.sumBy((e) => e.distance).toDouble(),
+      duration: yearySummaryData.values.sumBy((e) => e.duration).toInt(),
+      avgPace: yearySummaryData.values.sumBy((e) => e.avgPace * e.counts) /
+          yearySummaryData.values.sumBy((e) => e.counts).toInt(),
+      accDistance: accDistance,
+      startDate: summaryList.first.value.startDate,
+      endDate: summaryList.last.value.endDate,
+      isBar: false,
+    );
+  }
+
+  SummaryCardData _buildSummaryCardByYear(
+      int year, List<OutdoorActivity> activities) {
+    activities.sort((left, right) =>
+        (left.startTime + left.timeOffset) -
+        (right.startTime + right.timeOffset));
+
+    var accDistance = activities
+        .groupBy((e) =>
+            DateTime.fromMillisecondsSinceEpoch(e.startTime, isUtc: true)
+                .add(Duration(milliseconds: e.timeOffset))
+                .month)
+        .map((k, v) =>
+            MapEntry(k, v.sumBy((e) => (e.totalDistance) / 1000).toDouble()))
+        .entries
+        .toList();
+    for (var i = 1; i <= 12; i++) {
+      if (!accDistance.any((e) => e.key == i)) {
+        accDistance.add(MapEntry(i, 0));
+      }
+    }
+    accDistance.sort((left, right) => left.key - right.key);
+    return SummaryCardData(
+        counts: activities.length,
+        distance: activities.sumBy((e) => e.totalDistance).toDouble(),
+        duration: activities.sumBy((e) => e.elapsedTime).toInt(),
+        avgPace: activities.sumBy((e) => e.avgPace) / activities.length,
+        accDistance: accDistance.map((e) => e.value).toList(),
+        startDate: activities.first.startDate(),
+        endDate: activities.last.startDate(),
+        isBar: true);
   }
 }
 
@@ -70,5 +126,39 @@ class YearSelectData {
   YearSelectData({
     required this.yearlyCounts,
     required this.selectedYear,
+  });
+
+  YearSelectData copyWith({
+    Map<int, int>? yearlyCounts,
+    int? selectedYear,
+  }) {
+    return YearSelectData(
+      yearlyCounts: yearlyCounts ?? this.yearlyCounts,
+      selectedYear: selectedYear ?? this.selectedYear,
+    );
+  }
+}
+
+class SummaryCardData {
+  int counts;
+  double distance;
+  int duration;
+  double avgPace;
+
+  List<double> accDistance;
+  DateTime startDate;
+  DateTime endDate;
+
+  bool isBar;
+
+  SummaryCardData({
+    required this.counts,
+    required this.distance,
+    required this.duration,
+    required this.avgPace,
+    required this.accDistance,
+    required this.startDate,
+    required this.endDate,
+    this.isBar = false,
   });
 }
