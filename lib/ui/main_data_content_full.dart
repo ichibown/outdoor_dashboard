@@ -128,8 +128,8 @@ class YearlyCountView extends StatelessWidget {
       BuildContext context, int year, int count, int selectedYear) {
     var textStyle = Theme.of(context).textTheme.titleMedium;
     var color = year == selectedYear
-        ? Theme.of(context).colorScheme.secondaryContainer
-        : textStyle?.color;
+        ? Theme.of(context).colorScheme.onPrimary
+        : Theme.of(context).colorScheme.onBackground;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [

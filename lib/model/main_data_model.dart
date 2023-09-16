@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../data/local.dart';
-import '../utils/app_ext.dart';
 import '../utils/ext.dart';
 
 class MainDataModel extends ChangeNotifier {
@@ -51,35 +51,36 @@ class MainDataModel extends ChangeNotifier {
       (key, value) => MapEntry(key, _buildSummaryCardByYear(key, value)),
     );
     _yearlySummaryCardData.addAll(summaryDataByYear);
-    var summaryDataAll = _buildSummaryCardAll(summaryDataByYear);
+    var summaryDataAll =
+        _buildSummaryCardAll(summaryDataByYear.values.toList());
     _yearlySummaryCardData[YearSelectData.all] = summaryDataAll;
   }
 
-  SummaryCardData _buildSummaryCardAll(
-      Map<int, SummaryCardData> yearySummaryData) {
+  SummaryCardData _buildSummaryCardAll(List<SummaryCardData> summaryList) {
     var accDistance = <double>[];
-    var summaryList = yearySummaryData.entries.toList();
-    summaryList.sort((left, right) => left.key - right.key);
-    for (var i = summaryList.first.key; i <= summaryList.last.key; i++) {
-      var data = summaryList.firstWhereOrNull((e) => e.key == i);
+    var dates = <DateTime>[];
+    summaryList.sort((left, right) => left.year - right.year);
+    for (var i = summaryList.first.year; i <= summaryList.last.year; i++) {
+      var data = summaryList.firstWhereOrNull((e) => e.year == i);
       if (data != null) {
-        accDistance.addAll(data.value.accDistance);
+        accDistance.addAll(data.values);
       } else {
         accDistance.addAll(List.filled(12, 0));
       }
+      dates.addAll(List.generate(12, (index) => DateTime(i, index + 1)));
     }
     for (var i = 0; i < accDistance.length - 1; i++) {
       accDistance[i + 1] += accDistance[i];
     }
     return SummaryCardData(
-      counts: yearySummaryData.values.sumBy((e) => e.counts).toInt(),
-      distance: yearySummaryData.values.sumBy((e) => e.distance).toDouble(),
-      duration: yearySummaryData.values.sumBy((e) => e.duration).toInt(),
-      avgPace: yearySummaryData.values.sumBy((e) => e.avgPace * e.counts) /
-          yearySummaryData.values.sumBy((e) => e.counts).toInt(),
-      accDistance: accDistance,
-      startDate: summaryList.first.value.startDate,
-      endDate: summaryList.last.value.endDate,
+      year: YearSelectData.all,
+      counts: summaryList.sumBy((e) => e.counts).toInt(),
+      distance: summaryList.sumBy((e) => e.distance).toDouble(),
+      duration: summaryList.sumBy((e) => e.duration).toInt(),
+      avgPace: summaryList.sumBy((e) => e.avgPace * e.counts) /
+          summaryList.sumBy((e) => e.counts).toInt(),
+      values: accDistance,
+      dates: dates,
       isBar: false,
     );
   }
@@ -106,14 +107,15 @@ class MainDataModel extends ChangeNotifier {
     }
     accDistance.sort((left, right) => left.key - right.key);
     return SummaryCardData(
-        counts: activities.length,
-        distance: activities.sumBy((e) => e.totalDistance).toDouble(),
-        duration: activities.sumBy((e) => e.elapsedTime).toInt(),
-        avgPace: activities.sumBy((e) => e.avgPace) / activities.length,
-        accDistance: accDistance.map((e) => e.value).toList(),
-        startDate: activities.first.startDate(),
-        endDate: activities.last.startDate(),
-        isBar: true);
+      year: year,
+      counts: activities.length,
+      distance: activities.sumBy((e) => e.totalDistance).toDouble(),
+      duration: activities.sumBy((e) => e.elapsedTime).toInt(),
+      avgPace: activities.sumBy((e) => e.avgPace) / activities.length,
+      values: accDistance.map((e) => e.value).toList(),
+      dates: List.generate(12, (index) => DateTime(year, index + 1)),
+      isBar: true,
+    );
   }
 }
 
@@ -140,25 +142,28 @@ class YearSelectData {
 }
 
 class SummaryCardData {
+  int year;
+
+  /// digit data.
   int counts;
   double distance;
   int duration;
   double avgPace;
 
-  List<double> accDistance;
-  DateTime startDate;
-  DateTime endDate;
+  /// chart data.
+  List<double> values;
+  List<DateTime> dates;
 
   bool isBar;
 
   SummaryCardData({
+    required this.year,
     required this.counts,
     required this.distance,
     required this.duration,
     required this.avgPace,
-    required this.accDistance,
-    required this.startDate,
-    required this.endDate,
+    required this.values,
+    required this.dates,
     this.isBar = false,
   });
 }
