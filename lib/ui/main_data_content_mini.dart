@@ -2,14 +2,13 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:outdoor_dashboard/utils/app_ext.dart';
 import 'package:provider/provider.dart';
 
 import '../data/local.dart';
-import '../generated/l10n.dart';
 import '../model/app_state_model.dart';
 import '../model/main_data_model.dart';
 import '../model/map_data_model.dart';
+import '../utils/app_ext.dart';
 import '../utils/utils.dart';
 
 class MiniActionButtonsView extends StatefulWidget {

@@ -1,11 +1,11 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:outdoor_dashboard/utils/app_ext.dart';
-import 'package:outdoor_dashboard/utils/const.dart';
 import 'package:provider/provider.dart';
 
 import '../../generated/l10n.dart';
 import '../../model/main_data_model.dart';
+import '../../utils/app_ext.dart';
+import '../../utils/const.dart';
 import '../../utils/ext.dart';
 
 class SummaryDataCardView extends StatefulWidget {

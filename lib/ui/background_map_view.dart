@@ -2,11 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
-import 'package:outdoor_dashboard/data/local.dart';
 import 'package:provider/provider.dart';
-import 'package:super_tooltip/super_tooltip.dart';
 
-import '../generated/l10n.dart';
+import '../data/local.dart';
 import '../model/app_state_model.dart';
 import '../model/map_data_model.dart';
 import '../utils/app_const.dart';

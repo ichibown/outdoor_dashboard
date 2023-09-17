@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:outdoor_dashboard/ui/cards/activities_list_card_view.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 import 'package:provider/provider.dart';
 
 import '../model/main_data_model.dart';
+import 'cards/activities_list_card_view.dart';
 import 'cards/summary_data_card_view.dart';
 import 'main_data_content_full.dart';
 import 'main_data_content_mini.dart';
