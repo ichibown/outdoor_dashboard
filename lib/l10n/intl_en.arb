@@ -1,3 +1,25 @@
 {
-    "yearAll": "All"
+    "yearAll": "All",
+    "summaryCardTitle": "Running Summary of {year}",
+    "@summaryCardTitle": {
+        "description": "year",
+        "placeholders": {
+            "year": {
+                "type": "num"
+            }
+        }
+    },
+    "summaryCardTitleAll": "Running Summary since {year}",
+    "@summaryCardTitleAll": {
+        "description": "year",
+        "placeholders": {
+            "year": {
+                "type": "num"
+            }
+        }
+    },
+    "summaryCardItemDistance": "DISTANCE",
+    "summaryCardItemCounts": "COUNTS",
+    "summaryCardItemDuration": "DURATION",
+    "summaryCardItemAvgPace": "AVG.PACE"
 }

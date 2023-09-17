@@ -1,7 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import 'intl/messages_all.dart';
 
 // **************************************************************************
@@ -56,6 +55,66 @@ class S {
     return Intl.message(
       'All',
       name: 'yearAll',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Running Summary of {year}`
+  String summaryCardTitle(num year) {
+    return Intl.message(
+      'Running Summary of $year',
+      name: 'summaryCardTitle',
+      desc: 'year',
+      args: [year],
+    );
+  }
+
+  /// `Running Summary since {year}`
+  String summaryCardTitleAll(num year) {
+    return Intl.message(
+      'Running Summary since $year',
+      name: 'summaryCardTitleAll',
+      desc: 'year',
+      args: [year],
+    );
+  }
+
+  /// `DISTANCE`
+  String get summaryCardItemDistance {
+    return Intl.message(
+      'DISTANCE',
+      name: 'summaryCardItemDistance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `COUNTS`
+  String get summaryCardItemCounts {
+    return Intl.message(
+      'COUNTS',
+      name: 'summaryCardItemCounts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `DURATION`
+  String get summaryCardItemDuration {
+    return Intl.message(
+      'DURATION',
+      name: 'summaryCardItemDuration',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `AVG.PACE`
+  String get summaryCardItemAvgPace {
+    return Intl.message(
+      'AVG.PACE',
+      name: 'summaryCardItemAvgPace',
       desc: '',
       args: [],
     );

@@ -20,8 +20,21 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
+  static String m0(year) => "Running Summary of ${year}";
+
+  static String m1(year) => "Running Summary since ${year}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "summaryCardItemAvgPace":
+            MessageLookupByLibrary.simpleMessage("AVG.PACE"),
+        "summaryCardItemCounts": MessageLookupByLibrary.simpleMessage("COUNTS"),
+        "summaryCardItemDistance":
+            MessageLookupByLibrary.simpleMessage("DISTANCE"),
+        "summaryCardItemDuration":
+            MessageLookupByLibrary.simpleMessage("DURATION"),
+        "summaryCardTitle": m0,
+        "summaryCardTitleAll": m1,
         "yearAll": MessageLookupByLibrary.simpleMessage("All")
       };
 }

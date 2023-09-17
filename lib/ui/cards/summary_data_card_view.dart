@@ -4,6 +4,7 @@ import 'package:outdoor_dashboard/utils/app_ext.dart';
 import 'package:outdoor_dashboard/utils/const.dart';
 import 'package:provider/provider.dart';
 
+import '../../generated/l10n.dart';
 import '../../model/main_data_model.dart';
 import '../../utils/ext.dart';
 
@@ -42,28 +43,90 @@ class _SummaryDataCardState extends State<SummaryDataCardView> {
     data = summary;
     return Container(
       padding: const EdgeInsets.all(12),
+      width: 320,
+      height: 270,
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.background,
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
         children: [
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              // todo: data text.
-            ],
+          Text(
+            data.title,
+            style: Theme.of(context)
+                .textTheme
+                .titleMedium
+                ?.copyWith(fontWeight: FontWeight.bold),
           ),
+          const SizedBox(height: 8),
+          _dataRow(),
+          const SizedBox(height: 24),
           SizedBox(
-            width: 320,
-            height: 160,
+            height: 150,
             child: data.isBar ? _barChart() : _lineChart(),
           )
         ],
       ),
+    );
+  }
+
+  Widget _dataRow() {
+    var titleStyle = Theme.of(context).textTheme.labelSmall;
+    titleStyle =
+        titleStyle?.copyWith(color: titleStyle.color?.withOpacity(0.5));
+    var dataStyle = Theme.of(context)
+        .textTheme
+        .bodyMedium
+        ?.copyWith(fontWeight: FontWeight.bold);
+    var distance = data.distance < 1000
+        ? '${data.distance.toInt()}km'
+        : '${data.distance.toInt() ~/ 1000}km';
+    var duration = data.duration < 3600
+        ? '${data.duration ~/ 60}min'
+        : '${data.duration ~/ 3600}:${data.duration % 3600 ~/ 60}:${data.duration % 60}';
+    var pace = '${data.avgPace.toInt() ~/ 60}\'${data.avgPace.toInt() % 60}"';
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(S.current.summaryCardItemDistance,
+                style: titleStyle, textAlign: TextAlign.center),
+            Text(distance, style: dataStyle, textAlign: TextAlign.center),
+          ],
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(S.current.summaryCardItemCounts,
+                style: titleStyle, textAlign: TextAlign.center),
+            Text(data.counts.toString(),
+                style: dataStyle, textAlign: TextAlign.center),
+          ],
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(S.current.summaryCardItemDuration,
+                style: titleStyle, textAlign: TextAlign.center),
+            Text(duration, style: dataStyle, textAlign: TextAlign.center),
+          ],
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(S.current.summaryCardItemAvgPace,
+                style: titleStyle, textAlign: TextAlign.center),
+            Text(pace, style: dataStyle, textAlign: TextAlign.center),
+          ],
+        ),
+      ],
     );
   }
 

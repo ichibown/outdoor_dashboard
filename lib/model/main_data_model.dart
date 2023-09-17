@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../data/local.dart';
+import '../generated/l10n.dart';
 import '../utils/ext.dart';
 
 class MainDataModel extends ChangeNotifier {
@@ -74,6 +75,7 @@ class MainDataModel extends ChangeNotifier {
     }
     return SummaryCardData(
       year: YearSelectData.all,
+      title: S.current.summaryCardTitleAll(summaryList.first.year),
       counts: summaryList.sumBy((e) => e.counts).toInt(),
       distance: summaryList.sumBy((e) => e.distance).toDouble(),
       duration: summaryList.sumBy((e) => e.duration).toInt(),
@@ -108,6 +110,7 @@ class MainDataModel extends ChangeNotifier {
     accDistance.sort((left, right) => left.key - right.key);
     return SummaryCardData(
       year: year,
+      title: S.current.summaryCardTitle(year),
       counts: activities.length,
       distance: activities.sumBy((e) => e.totalDistance).toDouble(),
       duration: activities.sumBy((e) => e.elapsedTime).toInt(),
@@ -144,6 +147,8 @@ class YearSelectData {
 class SummaryCardData {
   int year;
 
+  String title;
+
   /// digit data.
   int counts;
   double distance;
@@ -158,6 +163,7 @@ class SummaryCardData {
 
   SummaryCardData({
     required this.year,
+    required this.title,
     required this.counts,
     required this.distance,
     required this.duration,
