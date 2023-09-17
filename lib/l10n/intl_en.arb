@@ -1,25 +1,44 @@
 {
     "yearAll": "All",
-    "summaryCardTitle": "Running Summary of {year}",
+    "summaryCardTitle": "Summary of {year}",
     "@summaryCardTitle": {
-        "description": "year",
         "placeholders": {
             "year": {
                 "type": "num"
             }
         }
     },
-    "summaryCardTitleAll": "Running Summary since {year}",
+    "summaryCardTitleAll": "Summary since {year}",
     "@summaryCardTitleAll": {
-        "description": "year",
         "placeholders": {
             "year": {
                 "type": "num"
             }
         }
     },
+    "summaryCardTitleDefault": "Running Summary",
     "summaryCardItemDistance": "DISTANCE",
     "summaryCardItemCounts": "COUNTS",
     "summaryCardItemDuration": "DURATION",
-    "summaryCardItemAvgPace": "AVG.PACE"
+    "summaryCardItemAvgPace": "PACE",
+    "activitiesListCardTitle": "Running Activities",
+    "activitiesListItemTitle": "Outdoor Running {distance}km",
+    "@activitiesListItemTitle": {
+        "placeholders": {
+            "distance": {
+                "type": "String"
+            }
+        }
+    },
+    "activitiesListItemSubTitle": "Duration {time} / Pace {pace}",
+    "@activitiesListItemSubTitle": {
+        "placeholders": {
+            "time": {
+                "type": "String"
+            },
+            "pace": {
+                "type": "String"
+            }
+        }
+    }
 }

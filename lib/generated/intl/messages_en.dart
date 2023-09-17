@@ -20,21 +20,30 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static String m0(year) => "Running Summary of ${year}";
+  static String m0(time, pace) => "Duration ${time} / Pace ${pace}";
 
-  static String m1(year) => "Running Summary since ${year}";
+  static String m1(distance) => "Outdoor Running ${distance}km";
+
+  static String m2(year) => "Summary of ${year}";
+
+  static String m3(year) => "Summary since ${year}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "summaryCardItemAvgPace":
-            MessageLookupByLibrary.simpleMessage("AVG.PACE"),
+        "activitiesListCardTitle":
+            MessageLookupByLibrary.simpleMessage("Running Activities"),
+        "activitiesListItemSubTitle": m0,
+        "activitiesListItemTitle": m1,
+        "summaryCardItemAvgPace": MessageLookupByLibrary.simpleMessage("PACE"),
         "summaryCardItemCounts": MessageLookupByLibrary.simpleMessage("COUNTS"),
         "summaryCardItemDistance":
             MessageLookupByLibrary.simpleMessage("DISTANCE"),
         "summaryCardItemDuration":
             MessageLookupByLibrary.simpleMessage("DURATION"),
-        "summaryCardTitle": m0,
-        "summaryCardTitleAll": m1,
+        "summaryCardTitle": m2,
+        "summaryCardTitleAll": m3,
+        "summaryCardTitleDefault":
+            MessageLookupByLibrary.simpleMessage("Running Summary"),
         "yearAll": MessageLookupByLibrary.simpleMessage("All")
       };
 }

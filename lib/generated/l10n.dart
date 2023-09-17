@@ -60,23 +60,33 @@ class S {
     );
   }
 
-  /// `Running Summary of {year}`
+  /// `Summary of {year}`
   String summaryCardTitle(num year) {
     return Intl.message(
-      'Running Summary of $year',
+      'Summary of $year',
       name: 'summaryCardTitle',
-      desc: 'year',
+      desc: '',
       args: [year],
     );
   }
 
-  /// `Running Summary since {year}`
+  /// `Summary since {year}`
   String summaryCardTitleAll(num year) {
     return Intl.message(
-      'Running Summary since $year',
+      'Summary since $year',
       name: 'summaryCardTitleAll',
-      desc: 'year',
+      desc: '',
       args: [year],
+    );
+  }
+
+  /// `Running Summary`
+  String get summaryCardTitleDefault {
+    return Intl.message(
+      'Running Summary',
+      name: 'summaryCardTitleDefault',
+      desc: '',
+      args: [],
     );
   }
 
@@ -110,13 +120,43 @@ class S {
     );
   }
 
-  /// `AVG.PACE`
+  /// `PACE`
   String get summaryCardItemAvgPace {
     return Intl.message(
-      'AVG.PACE',
+      'PACE',
       name: 'summaryCardItemAvgPace',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `Running Activities`
+  String get activitiesListCardTitle {
+    return Intl.message(
+      'Running Activities',
+      name: 'activitiesListCardTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Outdoor Running {distance}km`
+  String activitiesListItemTitle(String distance) {
+    return Intl.message(
+      'Outdoor Running ${distance}km',
+      name: 'activitiesListItemTitle',
+      desc: '',
+      args: [distance],
+    );
+  }
+
+  /// `Duration {time} / Pace {pace}`
+  String activitiesListItemSubTitle(String time, String pace) {
+    return Intl.message(
+      'Duration $time / Pace $pace',
+      name: 'activitiesListItemSubTitle',
+      desc: '',
+      args: [time, pace],
     );
   }
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:outdoor_dashboard/utils/app_ext.dart';
 import 'package:provider/provider.dart';
 
 import '../data/local.dart';
@@ -24,6 +25,36 @@ class _MiniActionButtonsViewState extends State<MiniActionButtonsView> {
 
   @override
   Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        _buildActivityInfo(),
+        _buildIcons(),
+      ],
+    );
+  }
+
+  @override
+  void dispose() {
+    _randomRouteTimer?.cancel();
+    _randomRouteTimer = null;
+    super.dispose();
+  }
+
+  Widget _buildActivityInfo() {
+    var mapState = context.select<MapDataModel, MapState>((e) => e.mapState);
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.background,
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: Text(''),
+    );
+  }
+
+  Widget _buildIcons() {
     var activities = context.read<AppStateModel>().summary?.activities;
     var routeIcon = _randomRouteTimer != null
         ? Icons.stop_outlined
@@ -33,31 +64,20 @@ class _MiniActionButtonsViewState extends State<MiniActionButtonsView> {
           context.read<MainDataModel>().toggleExpanded(),
       routeIcon: () => _toggleRoute(activities),
     };
-    return Container(
-      height: 60,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        mainAxisSize: MainAxisSize.min,
-        children: actions.entries
-            .map(
-              (e) => IconButton(
-                icon: Icon(e.key),
-                onPressed: () => e.value.call(),
-                iconSize: 32,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-            )
-            .toList(),
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisSize: MainAxisSize.min,
+      children: actions.entries
+          .map(
+            (e) => IconButton(
+              icon: Icon(e.key),
+              onPressed: () => e.value.call(),
+              iconSize: 32,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          )
+          .toList(),
     );
-  }
-
-  @override
-  void dispose() {
-    _randomRouteTimer?.cancel();
-    _randomRouteTimer = null;
-    super.dispose();
   }
 
   void _toggleRoute(List<OutdoorActivity>? activities) {
@@ -77,16 +97,15 @@ class _MiniActionButtonsViewState extends State<MiniActionButtonsView> {
       return null;
     }
     // one more second before and after route anim.
-    var animMinSecond = 5;
     var secondsPassed = 0;
     var duration = 0;
     return periodicImmediately(const Duration(seconds: 1), (timer) {
       if (secondsPassed >= duration) {
         OutdoorActivity activity =
             activities[Random().nextInt(activities.length)];
-        duration = activity.elapsedTime ~/ 500;
-        duration = duration <= animMinSecond ? animMinSecond : duration;
-        context.read<MapDataModel>().showSingleRoute(activity, duration * 1000);
+        context
+            .read<MapDataModel>()
+            .showSingleRoute(activity, activity.animDurationSeconds() * 1000);
         secondsPassed = 0;
       }
       secondsPassed++;

@@ -165,10 +165,16 @@ class ActionButtonsView extends StatelessWidget {
         context.read<MainDataModel>().toggleExpanded();
       },
       Icons.language_outlined: () {
-        // todo
+        showDialog(
+            context: context,
+            builder: (_) =>
+                const AlertDialog(title: Text("Not Implemented Yet")));
       },
       Icons.dark_mode_outlined: () {
-        // todo
+        showDialog(
+            context: context,
+            builder: (_) =>
+                const AlertDialog(title: Text("Not Implemented Yet")));
       },
     };
     return SizedBox(

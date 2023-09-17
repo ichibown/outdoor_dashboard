@@ -17,8 +17,14 @@ class MainDataModel extends ChangeNotifier {
   SummaryCardData? yearlySummaryCardData(int year) =>
       _yearlySummaryCardData[year];
 
+  final Map<int, List<OutdoorActivity>> _activitiesByYear = {};
+  List<OutdoorActivity>? activitiesByYear(int year) => _activitiesByYear[year];
+
   MainDataModel(OutdoorSummary summary) {
     var activities = summary.activities;
+    activities?.sort((left, right) =>
+        (left.startTime + left.timeOffset) -
+        (right.startTime + right.timeOffset));
     _updateDataModels(activities ?? []);
   }
 
@@ -35,11 +41,14 @@ class MainDataModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void _updateDataModels(List<OutdoorActivity> activities) async {
+  void _updateDataModels(List<OutdoorActivity> activities) {
     var activitiesByYear = activities.groupBy((e) =>
         DateTime.fromMillisecondsSinceEpoch(e.startTime, isUtc: true)
             .add(Duration(milliseconds: e.timeOffset))
             .year);
+    _activitiesByYear[YearSelectData.all] = activities.reversed.toList();
+    _activitiesByYear.addAll(activitiesByYear
+        .map((key, value) => MapEntry(key, value.reversed.toList())));
 
     _yearSelectData = YearSelectData(
       yearlyCounts: activitiesByYear.map(
@@ -75,7 +84,7 @@ class MainDataModel extends ChangeNotifier {
     }
     return SummaryCardData(
       year: YearSelectData.all,
-      title: S.current.summaryCardTitleAll(summaryList.first.year),
+      title: S.current.summaryCardTitleDefault,
       counts: summaryList.sumBy((e) => e.counts).toInt(),
       distance: summaryList.sumBy((e) => e.distance).toDouble(),
       duration: summaryList.sumBy((e) => e.duration).toInt(),
@@ -89,10 +98,6 @@ class MainDataModel extends ChangeNotifier {
 
   SummaryCardData _buildSummaryCardByYear(
       int year, List<OutdoorActivity> activities) {
-    activities.sort((left, right) =>
-        (left.startTime + left.timeOffset) -
-        (right.startTime + right.timeOffset));
-
     var accDistance = activities
         .groupBy((e) =>
             DateTime.fromMillisecondsSinceEpoch(e.startTime, isUtc: true)
@@ -110,7 +115,7 @@ class MainDataModel extends ChangeNotifier {
     accDistance.sort((left, right) => left.key - right.key);
     return SummaryCardData(
       year: year,
-      title: S.current.summaryCardTitle(year),
+      title: S.current.summaryCardTitleDefault,
       counts: activities.length,
       distance: activities.sumBy((e) => e.totalDistance).toDouble(),
       duration: activities.sumBy((e) => e.elapsedTime).toInt(),

@@ -7,7 +7,7 @@ import '../utils/app_ext.dart';
 import '../utils/utils.dart';
 
 class MapDataModel extends ChangeNotifier {
-  static const _padding = 40.0;
+  static const _padding = 80.0;
 
   late MapState _mapState;
   MapState get mapState => _mapState;
@@ -40,7 +40,7 @@ class MapDataModel extends ChangeNotifier {
     var bounds = getRouteBounds(latlngList);
     var camera = CameraUpdate.newLatLngBounds(bounds,
         left: _padding, top: _padding, right: _padding, bottom: _padding);
-    _mapState = SingleLineMap(camera, durationMs, latlngList);
+    _mapState = SingleLineMap(camera, durationMs, latlngList, activity);
     notifyListeners();
   }
 
@@ -66,11 +66,13 @@ class EmptyMap extends MapState {
 class SingleLineMap extends MapState {
   final int durationMs;
   final List<LatLng> linePoints;
+  final OutdoorActivity activity;
 
   SingleLineMap(
     super.camera,
     this.durationMs,
     this.linePoints,
+    this.activity,
   );
 }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:outdoor_dashboard/ui/cards/activities_list_card_view.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 import 'package:provider/provider.dart';
 
@@ -45,6 +46,7 @@ class MainDataView extends StatelessWidget {
                 runSpacing: 24,
                 children: [
                   SummaryDataCardView(),
+                  ActivitiesListCardView(),
                 ],
               ),
             )

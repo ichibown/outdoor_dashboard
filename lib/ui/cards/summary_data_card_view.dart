@@ -76,7 +76,7 @@ class _SummaryDataCardState extends State<SummaryDataCardView> {
   Widget _dataRow() {
     var titleStyle = Theme.of(context).textTheme.labelSmall;
     titleStyle =
-        titleStyle?.copyWith(color: titleStyle.color?.withOpacity(0.5));
+        titleStyle?.copyWith(color: titleStyle.color?.withOpacity(0.7));
     var dataStyle = Theme.of(context)
         .textTheme
         .bodyMedium
@@ -84,10 +84,8 @@ class _SummaryDataCardState extends State<SummaryDataCardView> {
     var distance = data.distance < 1000
         ? '${data.distance.toInt()}km'
         : '${data.distance.toInt() ~/ 1000}km';
-    var duration = data.duration < 3600
-        ? '${data.duration ~/ 60}min'
-        : '${data.duration ~/ 3600}:${data.duration % 3600 ~/ 60}:${data.duration % 60}';
-    var pace = '${data.avgPace.toInt() ~/ 60}\'${data.avgPace.toInt() % 60}"';
+    var duration = data.duration.hms();
+    var pace = data.avgPace.toInt().pace();
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
