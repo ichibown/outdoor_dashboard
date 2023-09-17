@@ -6,6 +6,7 @@ import 'package:outdoor_dashboard/utils/app_ext.dart';
 import 'package:provider/provider.dart';
 
 import '../data/local.dart';
+import '../generated/l10n.dart';
 import '../model/app_state_model.dart';
 import '../model/main_data_model.dart';
 import '../model/map_data_model.dart';
@@ -25,13 +26,9 @@ class _MiniActionButtonsViewState extends State<MiniActionButtonsView> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        _buildActivityInfo(),
-        _buildIcons(),
-      ],
+    return Container(
+      padding: const EdgeInsets.all(12),
+      child: _buildIcons(),
     );
   }
 
@@ -40,18 +37,6 @@ class _MiniActionButtonsViewState extends State<MiniActionButtonsView> {
     _randomRouteTimer?.cancel();
     _randomRouteTimer = null;
     super.dispose();
-  }
-
-  Widget _buildActivityInfo() {
-    var mapState = context.select<MapDataModel, MapState>((e) => e.mapState);
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.background,
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      child: Text(''),
-    );
   }
 
   Widget _buildIcons() {
@@ -96,16 +81,14 @@ class _MiniActionButtonsViewState extends State<MiniActionButtonsView> {
     if (activities == null || activities.isEmpty) {
       return null;
     }
-    // one more second before and after route anim.
     var secondsPassed = 0;
     var duration = 0;
     return periodicImmediately(const Duration(seconds: 1), (timer) {
       if (secondsPassed >= duration) {
         OutdoorActivity activity =
             activities[Random().nextInt(activities.length)];
-        context
-            .read<MapDataModel>()
-            .showSingleRoute(activity, activity.animDurationSeconds() * 1000);
+        duration = activity.animDurationSeconds();
+        context.read<MapDataModel>().showSingleRoute(activity, duration * 1000);
         secondsPassed = 0;
       }
       secondsPassed++;

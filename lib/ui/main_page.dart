@@ -21,6 +21,7 @@ class MainPage extends StatelessWidget {
       return MultiProvider(
         providers: [
           ListenableProvider(create: (_) => MapDataModel(summary)),
+          ListenableProvider(create: (_) => MapMarkerModel()),
           ListenableProvider(create: (_) => MainDataModel(summary)),
         ],
         child: const Stack(

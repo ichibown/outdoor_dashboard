@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 
@@ -7,7 +9,7 @@ import '../utils/app_ext.dart';
 import '../utils/utils.dart';
 
 class MapDataModel extends ChangeNotifier {
-  static const _padding = 80.0;
+  static const _padding = 120.0;
 
   late MapState _mapState;
   MapState get mapState => _mapState;
@@ -40,7 +42,8 @@ class MapDataModel extends ChangeNotifier {
     var bounds = getRouteBounds(latlngList);
     var camera = CameraUpdate.newLatLngBounds(bounds,
         left: _padding, top: _padding, right: _padding, bottom: _padding);
-    _mapState = SingleLineMap(camera, durationMs, latlngList, activity);
+    _mapState = SingleLineMap(
+        camera, durationMs, latlngList, latlngList.first, activity);
     notifyListeners();
   }
 
@@ -50,6 +53,22 @@ class MapDataModel extends ChangeNotifier {
       _allLines,
     );
     notifyListeners();
+  }
+}
+
+class MapMarkerModel extends ChangeNotifier {
+  Point? _markerPoint;
+  Point? get markerPoint => _markerPoint;
+
+  OutdoorActivity? _activity;
+  OutdoorActivity? get activity => _activity;
+
+  void updateMarker(Point? point, OutdoorActivity? activity) {
+    if (_markerPoint != point) {
+      _markerPoint = point;
+      _activity = activity;
+      notifyListeners();
+    }
   }
 }
 
@@ -66,12 +85,14 @@ class EmptyMap extends MapState {
 class SingleLineMap extends MapState {
   final int durationMs;
   final List<LatLng> linePoints;
+  final LatLng startPos;
   final OutdoorActivity activity;
 
   SingleLineMap(
     super.camera,
     this.durationMs,
     this.linePoints,
+    this.startPos,
     this.activity,
   );
 }
@@ -83,4 +104,16 @@ class AllLinesMap extends MapState {
     super.camera,
     this.linePointsList,
   );
+}
+
+class MarkerState {
+  bool show;
+  double x;
+  double y;
+
+  MarkerState({
+    required this.show,
+    required this.x,
+    required this.y,
+  });
 }
