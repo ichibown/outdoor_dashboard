@@ -1,6 +1,7 @@
 import 'package:mapbox_gl/mapbox_gl.dart';
 
 import '../data/local.dart';
+import 'const.dart';
 
 extension ActivityExts on OutdoorActivity {
   List<LatLng> latLngList() =>

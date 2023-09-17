@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:ansicolor/ansicolor.dart';
 import 'package:gpx/gpx.dart';
 import 'package:http/http.dart' as http;
+import 'package:outdoor_dashboard/data/config.dart';
 import 'package:path/path.dart' as path;
 
 import '../data/local.dart';
@@ -24,10 +25,9 @@ import '../utils/ext.dart';
 
 var _errorPen = AnsiPen()..red(bold: true);
 var _infoPen = AnsiPen()..green(bold: true);
-var _outdoorDataPath = path.join(
-    File(Platform.script.path).parent.parent.parent.path,
-    assetsFolder,
-    outdoorDataFolder);
+var _assetsPath = path.join(
+    File(Platform.script.path).parent.parent.parent.path, assetsFolder);
+var _outdoorDataPath = path.join(_assetsPath, outdoorDataFolder);
 
 enum _StravaApiErrorCode {
   /// API call rate limit. (200 / 15min && 2000 / 1day)
@@ -121,10 +121,14 @@ Future<void> _sync(
 
 /// Sync strava activities to local summary file.
 Future<OutdoorSummary> _syncOutdoorSummary(String authToken) async {
+  var localConfigJson =
+      await File(path.join(_assetsPath, configFilePath)).readAsString();
+  bool privacyMode = AppConfig.fromJson(localConfigJson).privacyMode ?? false;
+
   print(_infoPen('Fetching Strava activities...'));
   var stravaActivites = await _getAllActivities(authToken);
   print('Got ${stravaActivites.length} activities.');
-  var summary = _convertStravaActivities(stravaActivites);
+  var summary = _convertStravaActivities(stravaActivites, privacyMode);
   print(_infoPen('Fetching Strava streams and rebuild GPX files...'));
   summary = await _syncStravaGpx(summary, authToken);
 
@@ -138,14 +142,22 @@ Future<OutdoorSummary> _syncOutdoorSummary(String authToken) async {
   return summary;
 }
 
-OutdoorSummary _convertStravaActivities(List<StravaActivity> activities) {
+OutdoorSummary _convertStravaActivities(
+    List<StravaActivity> activities, bool privacyMode) {
   OutdoorSummary summary = OutdoorSummary();
   summary.activities = [];
   for (var activity in activities) {
     var stravaStartDate = activity.startDate;
     var startTime = stravaStartDate == null
-        ? null
+        ? 0
         : DateTime.parse(stravaStartDate).toUtc().millisecondsSinceEpoch;
+    if (privacyMode) {
+      // hide day & time  in privacy mode.
+      startTime = DateTime.fromMillisecondsSinceEpoch(startTime, isUtc: true)
+          .copyWith(day: 1, hour: 1, minute: 1, second: 1)
+          .toUtc()
+          .millisecondsSinceEpoch;
+    }
     var stravaAvgSpeed = activity.averageSpeed;
     var avgPace = stravaAvgSpeed == null || stravaAvgSpeed == 0
         ? null
@@ -160,7 +172,7 @@ OutdoorSummary _convertStravaActivities(List<StravaActivity> activities) {
         : null;
 
     OutdoorActivity outdoorActivity = OutdoorActivity(
-      startTime: startTime ?? 0,
+      startTime: startTime,
       timeOffset: activity.utcOffset?.toInt() ?? 0,
       movingTime: activity.movingTime ?? 0,
       elapsedTime: activity.elapsedTime ?? 0,

@@ -6,5 +6,6 @@
   "mapStyleLight": "mapbox://styles/mapbox/light-v10",
   "mapStyleDark": "mapbox://styles/mapbox/dark-v10",
   "mapLineColorLight": "#24C789",
-  "mapLineColorDark": "#24C789"
+  "mapLineColorDark": "#24C789",
+  "privacyMode": true
 }

@@ -176,6 +176,8 @@ class _MapMarker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var mapMarker = context.watch<MapMarkerModel>();
+    var privacyMode =
+        context.read<AppStateModel>().config?.privacyMode ?? false;
     var point = mapMarker.markerPoint;
     var activity = mapMarker.activity;
     if (point == null || activity == null) {
@@ -195,13 +197,14 @@ class _MapMarker extends StatelessWidget {
           padding: const EdgeInsets.all(12),
           width: contentWidth,
           height: contentHeight,
-          child: _buildMarkerContent(context, activity),
+          child: _buildMarkerContent(context, activity, privacyMode),
         ),
       ),
     );
   }
 
-  Widget _buildMarkerContent(BuildContext context, OutdoorActivity activity) {
+  Widget _buildMarkerContent(
+      BuildContext context, OutdoorActivity activity, bool privacyMode) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -233,7 +236,9 @@ class _MapMarker extends StatelessWidget {
             Text(activity.pace(),
                 style: Theme.of(context).textTheme.labelSmall),
             Text(
-              activity.startDate().yyyyMMdd(),
+              privacyMode
+                  ? activity.startDate().yyyyMM()
+                  : activity.startDate().yyyyMMdd(),
               style: Theme.of(context).textTheme.labelSmall,
             ),
           ],

@@ -9,6 +9,7 @@ class AppConfig {
   String? mapStyleDark;
   String? mapLineColorLight;
   String? mapLineColorDark;
+  bool? privacyMode;
 
   AppConfig({
     this.avatar,
@@ -19,6 +20,7 @@ class AppConfig {
     this.mapStyleDark,
     this.mapLineColorLight,
     this.mapLineColorDark,
+    this.privacyMode,
   });
 
   factory AppConfig.fromMap(Map<String, dynamic> data) => AppConfig(
@@ -30,6 +32,7 @@ class AppConfig {
         mapStyleDark: data['mapStyleDark'] as String?,
         mapLineColorLight: data['mapLineColorLight'] as String?,
         mapLineColorDark: data['mapLineColorDark'] as String?,
+        privacyMode: data['privacyMode'] as bool?,
       );
 
   Map<String, dynamic> toMap() => {
@@ -41,6 +44,7 @@ class AppConfig {
         'mapStyleDark': mapStyleDark,
         'mapLineColorLight': mapLineColorLight,
         'mapLineColorDark': mapLineColorDark,
+        'privacyMode': privacyMode,
       };
 
   factory AppConfig.fromJson(String data) {

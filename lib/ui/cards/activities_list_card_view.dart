@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../data/local.dart';
 import '../../generated/l10n.dart';
+import '../../model/app_state_model.dart';
 import '../../model/main_data_model.dart';
 import '../../model/map_data_model.dart';
 import '../../utils/app_ext.dart';
@@ -16,6 +17,8 @@ class ActivitiesListCardView extends StatelessWidget {
         .select<MainDataModel, YearSelectData>((value) => value.yearSelectData)
         .selectedYear;
     var list = context.read<MainDataModel>().activitiesByYear(selectedYear);
+    var privacyMode =
+        context.read<AppStateModel>().config?.privacyMode ?? false;
     if (list == null) {
       return const Placeholder();
     }
@@ -45,7 +48,7 @@ class ActivitiesListCardView extends StatelessWidget {
             child: ListView.separated(
               itemCount: list.length,
               itemBuilder: (context, index) =>
-                  _buildListItem(context, list[index]),
+                  _buildListItem(context, list[index], privacyMode),
               separatorBuilder: (context, index) => Divider(
                 height: 1,
                 thickness: 0.1,
@@ -59,7 +62,8 @@ class ActivitiesListCardView extends StatelessWidget {
     );
   }
 
-  Widget _buildListItem(BuildContext context, OutdoorActivity activity) {
+  Widget _buildListItem(
+      BuildContext context, OutdoorActivity activity, bool privacyMode) {
     var title = S.current.activitiesListItemTitle(
         (activity.totalDistance / 1000).toStringAsFixed(1));
     var subTitle =
@@ -83,7 +87,9 @@ class ActivitiesListCardView extends StatelessWidget {
         style: Theme.of(context).textTheme.labelSmall,
       ),
       trailing: Text(
-        activity.startDate().yyyyMMdd(),
+        privacyMode
+            ? activity.startDate().yyyyMM()
+            : activity.startDate().yyyyMMdd(),
         style: Theme.of(context).textTheme.labelSmall,
       ),
       contentPadding: const EdgeInsets.symmetric(vertical: 4),
