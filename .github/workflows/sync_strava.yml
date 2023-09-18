@@ -1,0 +1,45 @@
+name: Sync Strava (data branch)
+
+on:
+  workflow_dispatch:
+  schedule:
+      - cron: '0 0 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: data
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.13.2'
+          channel: 'stable'
+          
+      - name: Install Packages
+        run: flutter pub get
+          
+      - name: Run Dart Scripts
+        env: 
+          EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+          EMAIL_RECIPIENT: ${{ secrets.EMAIL_RECIPIENT }}
+        run: dart run lib/scripts/sync_strava.dart sync ${{ vars.STRAVA_CLIENT_ID}} ${{ vars.STRAVA_CLIENT_SECRET }} ${{ vars.STRAVA_REFRESH_TOKEN }} 
+          
+      - name: Commit Changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          git commit -m "sync: update data" -a
+          
+      - name: Push Changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: data 
