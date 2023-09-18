@@ -102,9 +102,6 @@ class OutdoorActivity {
   /// Source platform activity id.
   String? sourceId;
 
-  /// GPX file name in gpx data folder.
-  String? gpxFileName;
-
   /// Sparsed location coordinates from raw GPX.
   /// Codec by google polyline algorithm when [toMap]/[fromMap].
   List<List<num>>? sparsedCoords;
@@ -127,7 +124,6 @@ class OutdoorActivity {
     this.type,
     this.source,
     this.sourceId,
-    this.gpxFileName,
     this.sparsedCoords,
   });
 
@@ -150,7 +146,6 @@ class OutdoorActivity {
       'type': type?.name,
       'source': source?.name,
       'sourceId': sourceId,
-      'gpxFileName': gpxFileName,
       // encode coords to String.
       'sparsedCoords': encodePolyline(sparsedCoords ?? []),
     };
@@ -184,8 +179,6 @@ class OutdoorActivity {
       source:
           map['source'] != null ? Source.values.byName(map['source']) : null,
       sourceId: map['sourceId'] != null ? map['sourceId'] as String : null,
-      gpxFileName:
-          map['gpxFileName'] != null ? map['sourceId'] as String : null,
       // decode coords from JSON.
       sparsedCoords: map['sparsedCoords'] != null
           ? decodePolyline(map['sparsedCoords'] as String)

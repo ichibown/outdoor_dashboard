@@ -14,7 +14,7 @@ import '../utils/ext.dart';
 
 // ignore_for_file: avoid_print
 
-/// Dart script to sync Strava activities and GPX data.
+/// Dart script to sync Strava activities (and GPX if need).
 /// Using Strava API [https://developers.strava.com/docs/reference/]
 ///
 /// Strava auth:
@@ -23,6 +23,7 @@ import '../utils/ext.dart';
 /// Strava sync:
 /// > dart run lib/scripts/sync_strava.dart sync <clientID> <clientSecret> <refreshToken>
 
+const saveGpxFile = false;
 var _errorPen = AnsiPen()..red(bold: true);
 var _infoPen = AnsiPen()..green(bold: true);
 var _assetsPath = path.join(
@@ -121,24 +122,34 @@ Future<void> _sync(
 
 /// Sync strava activities to local summary file.
 Future<OutdoorSummary> _syncOutdoorSummary(String authToken) async {
-  var localConfigJson =
-      await File(path.join(_assetsPath, configFilePath)).readAsString();
-  bool privacyMode = AppConfig.fromJson(localConfigJson).privacyMode ?? false;
+  bool privacyMode = false;
+  OutdoorSummary? oldSummary;
+  try {
+    privacyMode = AppConfig.fromJson(
+          await File(path.join(_assetsPath, configFilePath)).readAsString(),
+        ).privacyMode ??
+        false;
+    oldSummary = OutdoorSummary.fromJson(
+        await File(path.join(_outdoorDataPath, summaryFilePath))
+            .readAsString());
+  } catch (e) {
+    // ignore
+  }
 
   print(_infoPen('Fetching Strava activities...'));
   var stravaActivites = await _getAllActivities(authToken);
   print('Got ${stravaActivites.length} activities.');
   var summary = _convertStravaActivities(stravaActivites, privacyMode);
   print(_infoPen('Fetching Strava streams and rebuild GPX files...'));
-  summary = await _syncStravaGpx(summary, authToken);
+  summary = await _syncStravaGpx(summary, authToken, oldSummary);
 
-  var localActivitiesFile = File(path.join(_outdoorDataPath, summaryFilePath));
-  if (!localActivitiesFile.existsSync()) {
-    localActivitiesFile.createSync(recursive: true);
+  var summaryFileToSave = File(path.join(_outdoorDataPath, summaryFilePath));
+  if (!summaryFileToSave.existsSync()) {
+    summaryFileToSave.createSync(recursive: true);
   }
-  localActivitiesFile.writeAsStringSync(summary.toJsonWithIndent('  '),
+  summaryFileToSave.writeAsStringSync(summary.toJsonWithIndent('  '),
       mode: FileMode.write);
-  print(_infoPen('Sync finished, data saved to ${localActivitiesFile.path}.'));
+  print(_infoPen('Sync finished, data saved to ${summaryFileToSave.path}.'));
   return summary;
 }
 
@@ -196,20 +207,28 @@ OutdoorSummary _convertStravaActivities(
   return summary;
 }
 
-Future<OutdoorSummary> _syncStravaGpx(
-    OutdoorSummary summary, String authToken) async {
+Future<OutdoorSummary> _syncStravaGpx(OutdoorSummary summary, String authToken,
+    OutdoorSummary? oldSummary) async {
   var activities = summary.activities;
   if (activities == null) {
     return summary;
   }
-  gpxFileName(OutdoorActivity e) => '${e.source?.name}_${e.sourceId}.gpx';
   for (var activity in activities) {
     var activityId = activity.sourceId;
     if (activityId == null) {
       continue;
     }
-    var file =
-        File(path.join(_outdoorDataPath, gpxFolder, gpxFileName(activity)));
+    var oldActivity = oldSummary?.activities?.firstWhereOrNull(
+        (e) => e.source == activity.source && e.sourceId == activity.sourceId);
+    if (oldActivity?.sparsedCoords?.isNotEmpty == true) {
+      activity.avgElevation = oldActivity?.avgElevation ?? 0;
+      activity.maxElevation = oldActivity?.maxElevation ?? 0;
+      activity.sparsedCoords = oldActivity?.sparsedCoords;
+      continue;
+    }
+
+    var gpxFileName = '${activity.source?.name}_${activity.sourceId}.gpx';
+    var file = File(path.join(_outdoorDataPath, gpxFolder, gpxFileName));
     Gpx gpx;
     if (!file.existsSync()) {
       // fetch and rebuild gpx file to local.
@@ -217,18 +236,18 @@ Future<OutdoorSummary> _syncStravaGpx(
       var streams = await _getActivityStreams(activityId, authToken);
       gpx = _convertStreamsToGpx(streams, startTime);
       var gpxContent = GpxWriter().asString(gpx, pretty: true);
-      var gpxFile =
-          File(path.join(_outdoorDataPath, gpxFolder, gpxFileName(activity)));
-      if (!gpxFile.existsSync()) {
-        gpxFile.createSync(recursive: true);
+      if (saveGpxFile) {
+        var gpxFile = File(path.join(_outdoorDataPath, gpxFolder, gpxFileName));
+        if (!gpxFile.existsSync()) {
+          gpxFile.createSync(recursive: true);
+        }
+        gpxFile.writeAsStringSync(gpxContent, mode: FileMode.write);
+        print('GPX file $gpxFileName generated.');
       }
-      gpxFile.writeAsStringSync(gpxContent, mode: FileMode.write);
-      print('GPX file ${gpxFileName(activity)} generated.');
     } else {
       // load local gpx file.
       gpx = GpxReader().fromString(file.readAsStringSync());
     }
-    activity.gpxFileName = gpxFileName(activity);
     // append elevations.
     var wpts = gpx.trks.firstOrNull?.trksegs.firstOrNull?.trkpts;
     var elevations = wpts?.map((e) => e.ele);

@@ -44,5 +44,4 @@ app.*.map.json
 /android/app/release
 
 # Local data
-# /assets/outdoor_data/
-# /assets/config.json
+/assets/outdoor_data/gpx
