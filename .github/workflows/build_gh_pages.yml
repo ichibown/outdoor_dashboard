@@ -1,0 +1,42 @@
+name: Build Github Pages
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'data'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: data
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.13.2'
+          channel: 'stable'
+          
+      - name: Install Packages
+        run: flutter pub get
+          
+      - name: Flutter Build
+        run: |
+          flutter build web --release --base-href="/outdoor_dashboard/"
+          mkdir docs
+          cp -r build/web/* docs/
+          
+      - name: GitHub Pages
+        uses: crazy-max/ghaction-github-pages@v3
+        with:
+          target_branch: gh-pages
+          keep_history: false
+          build_dir: docs
+          jekyll: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
