@@ -3,7 +3,7 @@ name: Sync Strava (data branch)
 on:
   workflow_dispatch:
   schedule:
-      - cron: '0 0 * * *'
+      - cron: '0 */2 * * *'
 
 jobs:
   build:
@@ -36,7 +36,7 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add -A
-          git commit -m "sync: update data" -a
+          git commit -a -m "sync: update data" || echo "Nothing to commit, ignore error."
           
       - name: Push Changes
         uses: ad-m/github-push-action@master
