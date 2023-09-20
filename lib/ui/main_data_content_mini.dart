@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../data/local.dart';
+import '../generated/l10n.dart';
 import '../model/app_state_model.dart';
 import '../model/main_data_model.dart';
 import '../model/map_data_model.dart';
@@ -40,27 +41,29 @@ class _MiniActionButtonsViewState extends State<MiniActionButtonsView> {
 
   Widget _buildIcons() {
     var activities = context.read<AppStateModel>().summary?.activities;
-    var routeIcon = _randomRouteTimer != null
-        ? Icons.stop_outlined
-        : Icons.shuffle_outlined;
-    var actions = <IconData, Function>{
-      Icons.dashboard_outlined: () =>
-          context.read<MainDataModel>().toggleExpanded(),
-      routeIcon: () => _toggleRoute(activities),
-    };
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       mainAxisSize: MainAxisSize.min,
-      children: actions.entries
-          .map(
-            (e) => IconButton(
-              icon: Icon(e.key),
-              onPressed: () => e.value.call(),
-              iconSize: 32,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-          )
-          .toList(),
+      children: [
+        IconButton(
+          icon: const Icon(Icons.dashboard_outlined),
+          onPressed: () => context.read<MainDataModel>().toggleExpanded(),
+          iconSize: 32,
+          color: Theme.of(context).colorScheme.primary,
+          tooltip: S.current.buttonViewDashboard,
+        ),
+        IconButton(
+          icon: Icon(_randomRouteTimer != null
+              ? Icons.stop_outlined
+              : Icons.shuffle_outlined),
+          onPressed: () => _toggleRoute(activities),
+          iconSize: 32,
+          color: Theme.of(context).colorScheme.primary,
+          tooltip: _randomRouteTimer != null
+              ? S.current.buttonViewRoutes
+              : S.current.buttonStartRandom,
+        ),
+      ],
     );
   }
 

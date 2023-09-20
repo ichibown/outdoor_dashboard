@@ -1,5 +1,9 @@
 {
     "yearAll": "All",
+    "buttonViewMap": "View Map",
+    "buttonViewDashboard": "View Dashboard",
+    "buttonStartRandom": "View Route Randomly",
+    "buttonViewRoutes": "View All Routes",
     "summaryCardTitle": "Summary of {year}",
     "@summaryCardTitle": {
         "placeholders": {

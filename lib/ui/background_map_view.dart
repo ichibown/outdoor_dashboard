@@ -67,7 +67,7 @@ class _BackgroundMapViewState extends State<BackgroundMapView> {
   void _onMapCreated(MapboxMapController controller) {
     _mapController = controller;
     _mapController?.addListener(() {
-      if (_mapController?.isCameraMoving == false) {
+      if (_mapController?.isCameraMoving == true) {
         _updateMarker();
       }
     });
@@ -260,6 +260,11 @@ class _MarkerBackgroundPainter extends CustomPainter {
       ..color = color
       ..strokeWidth = 1
       ..style = PaintingStyle.fill;
+    final borderPaint = Paint()
+      ..color = borderColor
+      ..strokeWidth = 0.5
+      ..isAntiAlias = true
+      ..style = PaintingStyle.stroke;
     double triangleH = 20;
     double triangleW = 25.0;
     double width = size.width;
@@ -271,10 +276,16 @@ class _MarkerBackgroundPainter extends CustomPainter {
       ..lineTo(width / 2 + triangleW / 2, height)
       ..lineTo(width / 2 - triangleW / 2, height);
     canvas.drawPath(trianglePath, paint);
+    canvas.drawPath(trianglePath, borderPaint);
     final BorderRadius borderRadius = BorderRadius.circular(15);
     final Rect rect = Rect.fromLTRB(0, 0, width, height);
     final RRect outer = borderRadius.toRRect(rect);
     canvas.drawRRect(outer, paint);
+    canvas.drawRRect(outer, borderPaint);
+    borderPaint.color = color;
+    borderPaint.strokeWidth = 1;
+    canvas.drawLine(Offset(width / 2 + triangleW / 2, height),
+        Offset(width / 2 - triangleW / 2, height), borderPaint);
   }
 
   @override

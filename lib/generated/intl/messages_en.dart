@@ -34,6 +34,13 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Running Activities"),
         "activitiesListItemSubTitle": m0,
         "activitiesListItemTitle": m1,
+        "buttonStartRandom":
+            MessageLookupByLibrary.simpleMessage("View Route Randomly"),
+        "buttonViewDashboard":
+            MessageLookupByLibrary.simpleMessage("View Dashboard"),
+        "buttonViewMap": MessageLookupByLibrary.simpleMessage("View Map"),
+        "buttonViewRoutes":
+            MessageLookupByLibrary.simpleMessage("View All Routes"),
         "summaryCardItemAvgPace": MessageLookupByLibrary.simpleMessage("PACE"),
         "summaryCardItemCounts": MessageLookupByLibrary.simpleMessage("COUNTS"),
         "summaryCardItemDistance":

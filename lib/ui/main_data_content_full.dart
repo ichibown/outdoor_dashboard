@@ -160,38 +160,34 @@ class ActionButtonsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var actions = <IconData, Function>{
-      Icons.map_outlined: () {
-        context.read<MainDataModel>().toggleExpanded();
-      },
-      Icons.language_outlined: () {
-        showDialog(
-            context: context,
-            builder: (_) =>
-                const AlertDialog(title: Text("Not Implemented Yet")));
-      },
-      Icons.dark_mode_outlined: () {
-        showDialog(
-            context: context,
-            builder: (_) =>
-                const AlertDialog(title: Text("Not Implemented Yet")));
-      },
-    };
     return SizedBox(
       height: _height,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
-        children: actions.entries
-            .map(
-              (e) => IconButton(
-                icon: Icon(e.key),
-                onPressed: () => e.value.call(),
-                iconSize: 32,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-            )
-            .toList(),
+        children: [
+          IconButton(
+            icon: const Icon(Icons.map_outlined),
+            onPressed: () => context.read<MainDataModel>().toggleExpanded(),
+            iconSize: 32,
+            color: Theme.of(context).colorScheme.primary,
+            tooltip: S.current.buttonViewMap,
+          ),
+          IconButton(
+            icon: const Icon(Icons.language_outlined),
+            onPressed: () =>
+                const AlertDialog(title: Text("Not Implemented Yet")),
+            iconSize: 32,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+          IconButton(
+            icon: const Icon(Icons.dark_mode_outlined),
+            onPressed: () =>
+                const AlertDialog(title: Text("Not Implemented Yet")),
+            iconSize: 32,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+        ],
       ),
     );
   }

@@ -15,16 +15,30 @@ class MainDataView extends StatelessWidget {
   Widget build(BuildContext context) {
     var expanded =
         context.select<MainDataModel, bool>((value) => value.isExpanded);
-    return expanded
-        ? Align(
+    return Stack(
+      children: [
+        Align(
             alignment: Alignment.center,
             child: PointerInterceptor(
-              child: _buildFullView(context),
-            ))
-        : Align(
+              child: AnimatedScale(
+                scale: expanded ? 1 : 0,
+                alignment: Alignment.bottomCenter,
+                curve: Curves.ease,
+                duration: const Duration(milliseconds: 300),
+                child: _buildFullView(context),
+              ),
+            )),
+        Align(
             alignment: Alignment.bottomCenter,
-            child: _buildMiniView(context),
-          );
+            child: AnimatedScale(
+              scale: expanded ? 0 : 1,
+              alignment: Alignment.topCenter,
+              curve: Curves.ease,
+              duration: const Duration(milliseconds: 300),
+              child: _buildMiniView(context),
+            ))
+      ],
+    );
   }
 
   Widget _buildFullView(BuildContext context) {
@@ -60,8 +74,11 @@ class MainDataView extends StatelessWidget {
     return Card(
       color: Theme.of(context).colorScheme.background,
       elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(50.0),
+      ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(10.0),
+        borderRadius: BorderRadius.circular(50.0),
         child: const MiniActionButtonsView(),
       ),
     );

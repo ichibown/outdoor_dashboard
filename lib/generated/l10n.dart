@@ -60,6 +60,46 @@ class S {
     );
   }
 
+  /// `View Map`
+  String get buttonViewMap {
+    return Intl.message(
+      'View Map',
+      name: 'buttonViewMap',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View Dashboard`
+  String get buttonViewDashboard {
+    return Intl.message(
+      'View Dashboard',
+      name: 'buttonViewDashboard',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View Route Randomly`
+  String get buttonStartRandom {
+    return Intl.message(
+      'View Route Randomly',
+      name: 'buttonStartRandom',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View All Routes`
+  String get buttonViewRoutes {
+    return Intl.message(
+      'View All Routes',
+      name: 'buttonViewRoutes',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Summary of {year}`
   String summaryCardTitle(num year) {
     return Intl.message(
