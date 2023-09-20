@@ -17,26 +17,27 @@ class MainDataView extends StatelessWidget {
         context.select<MainDataModel, bool>((value) => value.isExpanded);
     return Stack(
       children: [
+        expanded ? PointerInterceptor(child: Container()) : Container(),
         Align(
-            alignment: Alignment.center,
-            child: PointerInterceptor(
-              child: AnimatedScale(
-                scale: expanded ? 1 : 0,
-                alignment: Alignment.bottomCenter,
-                curve: Curves.ease,
-                duration: const Duration(milliseconds: 300),
-                child: _buildFullView(context),
-              ),
-            )),
-        Align(
+          alignment: Alignment.center,
+          child: AnimatedScale(
+            scale: expanded ? 1 : 0,
             alignment: Alignment.bottomCenter,
-            child: AnimatedScale(
-              scale: expanded ? 0 : 1,
-              alignment: Alignment.topCenter,
-              curve: Curves.ease,
-              duration: const Duration(milliseconds: 300),
-              child: _buildMiniView(context),
-            ))
+            curve: Curves.ease,
+            duration: const Duration(milliseconds: 300),
+            child: _buildFullView(context),
+          ),
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: AnimatedScale(
+            scale: expanded ? 0 : 1,
+            alignment: Alignment.topCenter,
+            curve: Curves.ease,
+            duration: const Duration(milliseconds: 300),
+            child: _buildMiniView(context),
+          ),
+        ),
       ],
     );
   }

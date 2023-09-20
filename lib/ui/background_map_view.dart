@@ -85,6 +85,7 @@ class _BackgroundMapViewState extends State<BackgroundMapView> {
     var mapState = context.read<MapDataModel>().mapState;
     _animatingTimer?.cancel();
     _mapController?.removeLines(_mapController?.lines ?? []);
+    _mapController?.removeCircles(_mapController?.circles ?? []);
     _mapController?.animateCamera(mapState.camera);
     context.read<MapMarkerModel>().updateMarker(null, null);
     if (mapState is SingleLineMap) {
@@ -97,18 +98,24 @@ class _BackgroundMapViewState extends State<BackgroundMapView> {
   }
 
   void _showLineAnim(SingleLineMap mapState) async {
-    var options = LineOptions(
+    var color = _getLineColor();
+    var lineOptions = LineOptions(
       geometry: [],
       lineColor: _getLineColor(),
       lineWidth: _lineWidth,
       lineOpacity: _lineOpacity,
       draggable: false,
     );
-    var line = await _mapController?.addLine(options);
-    if (line == null) {
+    var line = await _mapController?.addLine(lineOptions);
+    var circle = await _mapController?.addCircle(CircleOptions(
+      circleRadius: 10,
+      circleColor: color,
+      geometry: mapState.linePoints.first,
+    ));
+    if (line == null || circle == null) {
       return;
     }
-    var intervalMs = 15;
+    var intervalMs = 10;
     var coords = mapState.linePoints;
     var len = coords.length;
     var step = len / (mapState.durationMs * 1.0 / intervalMs);
@@ -120,10 +127,12 @@ class _BackgroundMapViewState extends State<BackgroundMapView> {
         timer.cancel();
         return;
       }
-      options.geometry?.clear();
-      options.geometry?.addAll(coords.sublist(0, end.floor()));
+      lineOptions.geometry?.clear();
+      lineOptions.geometry?.addAll(coords.sublist(0, end.floor()));
       end += step;
-      _mapController?.updateLine(line, options);
+      _mapController?.updateLine(line, lineOptions);
+      _mapController?.updateCircle(
+          circle, CircleOptions(geometry: lineOptions.geometry?.lastOrNull));
     });
   }
 
