@@ -2,6 +2,29 @@
   "activities": [
     {
       "startTime": 1693530061000,
+      "timeOffset": 32400,
+      "movingTime": 1226,
+      "elapsedTime": 1229,
+      "totalDistance": 4014.3,
+      "accElevation": 49.2,
+      "avgElevation": 38.65695687550858,
+      "maxElevation": 45.0,
+      "avgPace": 305.43677458766035,
+      "maxPace": 212.85653469561512,
+      "avgHeartrate": 167.3,
+      "maxHeartrate": 181.0,
+      "startLatlng": [
+        35.01204782165587,
+        135.74930861592293
+      ],
+      "startPlaceName": null,
+      "type": "run",
+      "source": "strava",
+      "sourceId": "9933767546",
+      "sparsedCoords": "ihutEepp{XDa@@a@?]?g@Ck@?c@B]B]Dc@?i@Ai@QWa@Ca@@_@?_@@_@A]?_@@_@?]F]D]?[Aa@A_@A[A]?]C[?_@?]A]A]?[AUF?`@?b@A^Cb@Ab@?h@?j@?f@Ab@A^Af@?b@Cd@Ad@?b@?d@?`@Cj@Ab@Ab@Ab@?d@Cb@?`@?b@?d@Cd@A`@?d@Ab@B\\RXZD^?Z@\\@\\@`@@`@?`@?\\@\\B\\B^?ZBZ@Z@\\?\\@^@\\@V@^@\\AXANU@c@@a@@e@Be@Be@Bc@@c@@c@@_@Dg@Da@?_@Ac@@a@Bc@?a@Ac@Ag@B]Ba@Dg@?c@@c@@e@Ae@A_@?a@B_@@c@@a@@c@?a@?]SQ_@@a@B_@@_@@]?[@]A[A]@]B]A_@CY?_@?[A]?]?]A[A_@@_@C[?[A[?GZAb@?h@?^Ab@Af@?j@?f@Ab@A\\?b@C`@?f@Cd@?d@A^?b@Ab@Af@Ab@?`@Ab@Ab@A^Ad@?b@Ad@Ad@A`@?`@AZ@XPVVJZA\\B\\@`@@^?b@?^?^@\\BVDZB\\@\\B\\B^?^A`@AX@X@Z?XAZ@TIF]@c@?e@@e@@c@?a@@a@Ba@Be@Bc@Dc@Ba@?c@?a@Bc@Bc@B]?e@?a@?[?c@?c@?a@Ba@Dg@@c@@c@@a@A_@?a@?c@@a@@a@A_@MMYFYHU?"
+    },
+    {
+      "startTime": 1693530061000,
       "timeOffset": 28800,
       "movingTime": 1565,
       "elapsedTime": 1565,
