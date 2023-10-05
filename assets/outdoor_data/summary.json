@@ -3,6 +3,29 @@
     {
       "startTime": 1696122061000,
       "timeOffset": 28800,
+      "movingTime": 3466,
+      "elapsedTime": 4516,
+      "totalDistance": 10024.3,
+      "accElevation": 61.2,
+      "avgElevation": 41.35638575152061,
+      "maxElevation": 47.2,
+      "avgPace": 345.78146611341634,
+      "maxPace": 153.42129487572876,
+      "avgHeartrate": 168.6,
+      "maxHeartrate": 179.0,
+      "startLatlng": [
+        39.938725316897035,
+        116.4684252999723
+      ],
+      "startPlaceName": null,
+      "type": "run",
+      "source": "strava",
+      "sourceId": "9980752925",
+      "sparsedCoords": "apwrFuvzeUPFNDX?\\AXFZA\\G\\E\\C\\AXCZC\\AZ?\\CZAX?Z@Z@Z?XFXJVNZLTTPTVXRVTVTTRTTTTTTTRRVVTTXVTPRLZHXFZDZ?Z@X?X@TL@^A^?\\@b@@b@?d@?b@?`@Dd@Dd@?f@Ad@?b@?f@?d@?d@?b@?d@?`@?b@Ab@A^@b@@d@@b@?d@?b@Ad@A`@?`@?V?\\@h@?d@?b@?b@?b@?b@?d@@d@?d@?d@?b@Ad@?b@?b@?d@?`@@b@A`@?b@?`@Af@?d@@d@@d@?\\@d@@b@?Z@^PVVH\\A^A^?\\@^A\\?Z?\\@\\@V?XBPL@^?b@@d@@`@?b@Cb@?b@A`@Cb@?b@?b@C`@?b@B`@B\\H\\B^?`@?\\?b@E^C\\LZTNZDXAZ?\\AX?X?RJFV@^?b@Bb@B`@?`@?f@Db@B`@?ZB\\EVMNGTCVE^Cb@?d@?`@?d@?b@@b@?f@Cd@?f@?`@?d@@`@@d@Cb@?^Cb@Ab@MZKVCX?X?X@^Dd@PRXBXBRAP@XAX@XDZCXAV@V@R?X?V@X?V?XAV?TCX@V?X?V@TBV@X?XCX?V?VCXRV^Df@?j@?h@Ad@?f@?b@?b@Af@@d@?b@Ab@Ad@?`@@b@?b@?d@?^Ab@?b@@b@@`@?b@@b@?`@@d@@`@@^?`@A`@A`@?b@?b@Bb@A`@Ab@@b@Db@@ZB^?\\?`@?`@?`@?^?`@?b@?b@A`@A^A`@?b@?`@A`@A^?`@B^?\\A\\@\\?b@?`@?`@?^A^@`@B\\?`@A`@A^A`@?`@?b@?^@^A`@?\\?`@?^?`@A`@?Z?^A`@A^C`@@b@A`@?^A`@AZCXML[E[?Y@[D[@]?]@Y?]@W?[AY@Y@YB[@Y?W?Y?Y?W@W?W@WAOAUHW@Y@YAU?S@YAQ?W?YBWCWEWAWAYAY?Y@W?Y?W?Y?W@SLKP?d@?b@B`@?d@Cb@Q\\SZO^Gd@Ab@Cd@Ab@AXFx@?ZCb@A`@?^?^?`@A`@?b@?`@?b@?^?b@?f@?b@?ZAb@?d@@b@@b@@`@?`@A`@?`@A^A`@?`@C^@^@^?`@@d@?`@B`@Fr@?h@Ab@?ZAb@?b@G`@Ad@?j@@d@Bb@@^@\\A^?`@C^?^?`@@^A^?^AZ?|@?X?L?L?NCVCPEZKX?`@Fn@Dj@@b@@b@@`@@b@B^?^?`@?\\?`@@b@?`@@b@?`@?b@@`@@`@@`@E`@MXUHUMCa@@_@?e@?e@@c@?a@@c@@a@?a@@a@Cc@Cc@?a@@_@?c@@a@?a@?a@Aa@?a@@_@@a@?a@A[A_@?a@?_@?]@]?[?]@_@?_@?_@@a@?_@@_@?_@A_@Aa@Ac@Aa@Ca@Ea@A]A_@?_@?]?e@?c@@a@Bc@Ae@Ec@@e@@g@Bc@Da@A_@A]@a@?a@Aa@?_@Ea@B]B_@@_@@c@A_@?c@?c@?a@?c@Ac@Ac@Ba@?c@Ea@Aa@Ca@Aa@@c@D_@BY?c@E]E[Aa@Ba@@]?_@G]KWMSUm@Mo@@g@Ag@Ca@Q[]Ea@?_@@]@[?]@]?YBWFYBYBYBW@YBY@[@Y?Y?W?U?S?Y@W@YBW?W?W@Y@[@W?Y@Y?W@W?WAUGUGWKWMYIYEYCWAW?Y?[?]?Y?[CUCSSK]Ac@Ac@@c@@c@Dc@Cc@@e@?a@Ac@Aa@Aa@Aa@?c@?c@@a@@_@Aa@@a@Aa@C_@?e@?_@?_@Ac@Ci@Ki@Cm@?g@@e@@]@a@B_@@_@Ac@Ag@Aa@Ac@?a@@e@?a@?c@?a@Bc@?a@Aa@Ea@Aa@A_@?_@Aa@?_@D_@B_@MWQQWKQMAYBg@?g@@e@Ac@A_@?c@@c@Aa@?a@A["
+    },
+    {
+      "startTime": 1696122061000,
+      "timeOffset": 28800,
       "movingTime": 1536,
       "elapsedTime": 1539,
       "totalDistance": 5013.9,
