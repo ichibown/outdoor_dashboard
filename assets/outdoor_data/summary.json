@@ -3,6 +3,29 @@
     {
       "startTime": 1696122061000,
       "timeOffset": 28800,
+      "movingTime": 66,
+      "elapsedTime": 69,
+      "totalDistance": 179.5,
+      "accElevation": 2.6,
+      "avgElevation": 36.93043478260866,
+      "maxElevation": 37.6,
+      "avgPace": 367.6470588235294,
+      "maxPace": 279.56388034665923,
+      "avgHeartrate": 127.8,
+      "maxHeartrate": 138.0,
+      "startLatlng": [
+        39.94172226637602,
+        116.46845287643373
+      ],
+      "startPlaceName": null,
+      "type": "run",
+      "source": "strava",
+      "sourceId": "10025107410",
+      "sparsedCoords": "wbxrFyvzeUE?AAA?A?A?C?CAEAAAGEAAACCG?AAK?C?EAI?E?C?I?CAI?CACAI?ACIAC?AEE?AGCC?A?G?C?G?C@C?GAA?C?G?A?I?C@A?G?C?G@C?C?G?A?I@C?E?C@E?G?A@G?C?C@C?E?C?"
+    },
+    {
+      "startTime": 1696122061000,
+      "timeOffset": 28800,
       "movingTime": 1487,
       "elapsedTime": 1487,
       "totalDistance": 5011.3,
