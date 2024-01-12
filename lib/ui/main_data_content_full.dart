@@ -54,15 +54,15 @@ class UserInfoView extends StatelessWidget {
             .titleMedium
             ?.copyWith(fontWeight: FontWeight.bold),
       ),
-      const SizedBox(height: 4),
+      const SizedBox(height: 8),
       Text(
         config?.subTitle ?? "",
-        maxLines: 2,
+        maxLines: 1,
         textAlign: TextAlign.center,
         overflow: TextOverflow.ellipsis,
         style: Theme.of(context)
             .textTheme
-            .labelLarge
+            .labelMedium
             ?.copyWith(fontStyle: FontStyle.italic),
       ),
       Divider(
