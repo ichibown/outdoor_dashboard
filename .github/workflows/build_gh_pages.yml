@@ -27,7 +27,7 @@ jobs:
           
       - name: Flutter Build
         run: |
-          flutter build web --release --base-href="/outdoor_dashboard/"
+          flutter build web --release --web-renderer html --base-href="/outdoor_dashboard/"
           mkdir docs
           cp -r build/web/* docs/
           
