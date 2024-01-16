@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:outdoor_dashboard/utils/ext.dart';
 import 'package:provider/provider.dart';
 
 import '../../data/local.dart';
@@ -24,6 +25,11 @@ class ActivitiesListCardView extends StatelessWidget {
     }
     if (privacyMode) {
       list.shuffle();
+      list = list
+          .groupBy((e) => e.startDate().yyyyMM())
+          .values
+          .expand((element) => element)
+          .toList();
     }
     return Container(
       padding: const EdgeInsets.all(12),
@@ -51,7 +57,7 @@ class ActivitiesListCardView extends StatelessWidget {
             child: ListView.separated(
               itemCount: list.length,
               itemBuilder: (context, index) =>
-                  _buildListItem(context, list[index], privacyMode),
+                  _buildListItem(context, list![index], privacyMode),
               separatorBuilder: (context, index) => Divider(
                 height: 1,
                 thickness: 0.1,
