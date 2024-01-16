@@ -1,0 +1,11 @@
+{
+  "avatar": "https://brown-1300926339.cos.ap-beijing.myqcloud.com/uPic/2024-01-12-WechatIMG490-yqBXoR.jpg",
+  "title": "BrownTheRunner",
+  "subTitle": "与其感慨路难行，不如马上出发",
+  "mapboxToken": "pk.eyJ1IjoiYm93biIsImEiOiJja2gwNWIwZ2QwNHN4MndtdXl3emp0dWFqIn0.4RGtPo5zLG44diQLF_FpnQ",
+  "mapStyleLight": "mapbox://styles/mapbox/dark-v10",
+  "mapStyleDark": "mapbox://styles/mapbox/dark-v10",
+  "mapLineColorLight": "#24C789",
+  "mapLineColorDark": "#24C789",
+  "privacyMode": true
+}
