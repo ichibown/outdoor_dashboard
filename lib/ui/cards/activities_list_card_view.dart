@@ -22,6 +22,9 @@ class ActivitiesListCardView extends StatelessWidget {
     if (list == null) {
       return const Placeholder();
     }
+    if (privacyMode) {
+      list.shuffle();
+    }
     return Container(
       padding: const EdgeInsets.all(12),
       width: 320,
