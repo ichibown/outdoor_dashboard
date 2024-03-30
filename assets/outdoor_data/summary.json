@@ -3,6 +3,29 @@
     {
       "startTime": 1709254861000,
       "timeOffset": 28800,
+      "movingTime": 520,
+      "elapsedTime": 524,
+      "totalDistance": 1390.2,
+      "accElevation": 15.2,
+      "avgElevation": 39.00651340996169,
+      "maxElevation": 44.8,
+      "avgPace": 374.11148522259634,
+      "maxPace": 178.57142857142858,
+      "avgHeartrate": 149.9,
+      "maxHeartrate": 157.0,
+      "startLatlng": [
+        39.952524695545435,
+        116.48707293905318
+      ],
+      "startPlaceName": null,
+      "type": "run",
+      "source": "strava",
+      "sourceId": "11065911228",
+      "sparsedCoords": "ifzrFek~eU?@?B?@?BAFAH?FAJ?D?J?J?JAH?J@P@P@R?H@N?P@N?H?L?N@L?L?F@JBJBHFFBBHFFDJ@D@HDHJDJBN@H@P?L@N@F@JBLDHFFBBFBH?J?DAF?JAHAJ?D?FAHCJCHCDCJAH?HAD?H?H?H?H?D?J?J?JAD?HAJ?HAJ?D?HAJ?J?D?F@JDFBH@D?H?HAJ?DAJ?H?H?J?D?HAJ?H?H?D?J@F@H@B?F?FAHAD?D?F?H@H?D?HAH?HAHAD?HAJAHCDAHEDCHALAHAJAFAHALCJAD?H?H?H?H?D?FAH?D?HADAJAHCHAB?JAF?HAJ?FAJCLAJADAJAJ?H?H?F?FAHCDGBE@K?KAMAKAGCKCKEIEICEIIGEKCEAIAKAK?K?E@K?K@K@K?K?E?I@K?I@I?E@I@IBI@E@IAKAIAI@G?G@K@K@E?I@I?K@K?E@G@IBE@G@GBGDE@EBE@G@GBG@GBCBEHCJAJ?F?JAL?JCFCBGBI?IAEAIAIAKCICEEIEGGIGIEGCE?IAI@G?G@"
+    },
+    {
+      "startTime": 1709254861000,
+      "timeOffset": 28800,
       "movingTime": 3935,
       "elapsedTime": 4028,
       "totalDistance": 10021.5,
