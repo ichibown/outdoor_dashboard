@@ -3,6 +3,29 @@
     {
       "startTime": 1711933261000,
       "timeOffset": 28800,
+      "movingTime": 3884,
+      "elapsedTime": 3959,
+      "totalDistance": 10418.1,
+      "accElevation": 43.4,
+      "avgElevation": 39.20990615224179,
+      "maxElevation": 44.8,
+      "avgPace": 372.85607755406414,
+      "maxPace": 195.92476489028212,
+      "avgHeartrate": 150.8,
+      "maxHeartrate": 156.0,
+      "startLatlng": [
+        39.952531987801194,
+        116.48805756121874
+      ],
+      "startPlaceName": null,
+      "type": "run",
+      "source": "strava",
+      "sourceId": "11171564211",
+      "sparsedCoords": "ifzrFkq~eU?J?P?RAXAZAZ@^?^?\\?\\?\\?\\?X@Z?Z?X?Z@\\?ZFXNNRLTHPNF\\?\\B\\DZNRTFXAZEXCXGTETCVATATAT?V?VAR?VDTHV@V?X?ZCXCZ?XBVEVETCXAX?V?VCVIVCXAVATCTCTAVATAXAVCVCX?XAXCXCXCXAX@VBRRRPTHX@VGTGVGVEXCXCVCTCNQB_@@c@Fa@H_@H_@D_@C]I]I_@K]I]I_@C_@@a@@Y@_@?_@@_@C]OUUKWIWKY?WLWNUPUPWRUPWPWHYBm@P@X@^@f@?b@?d@@`@@^D`@D\\F\\?VQLU@WBWGYG[EWAY@U@QBU?U@WBW@WBW?Y@W@YBWBYDUHSTI\\A\\EXQLYCWGUMSMSIY?Y?UBWGUKWGY?YBY@W@WBWBY@W@WBWCSMUIW?WDQJEX?\\B\\FZNRTHX?ZAVAXGVGVCV?TAXAVAZAV?V@VDRBV?VAV?XAVAV@XBTGXEXCV?XAVCXETIVCVAV?VCVAVARCVAXAV?VAV?VCV?XAXCXAVATGNSH]L[JYNWPMXAVBRBTFVDXBV@V?TETQNWF]E]I]I]K]I]I[C]?a@D_@H]H[NUNKFY?_@Cg@C_@A_@Ca@C_@?[C_@E_@A]C_@A]AKDVB`@@^B\\FTV?XCRG?i@Eu@Cc@A]Ac@Ca@Ca@Ca@Ca@Aa@Ca@?e@@YA_@C_@C_@Ce@Ca@C_@C_@Ca@C_@Aa@A_@C_@Ac@A_@Aa@Aa@@]F]PQT?RLPRNNF^@\\@^B\\@^B`@B^A\\C^?\\@\\AVONIN@\\B^@^@^?^AZLXNXTNVCVIR?NPF\\D\\B`@@b@B^?`@C^@`@@ZB^?^@^?^A^DZF\\FZB\\?\\C\\C\\IZMXIVA\\D\\L^J\\F\\H\\H\\@^?`@C\\C\\E\\EZ?\\FXPVJZRRTHVD^JVBTATIVGT?V?V@\\?V@V@T@V@V@V@V?V@V?T?T?HFMFWDW?WCWCYAWBYBU?YAYA[A]AYCW?[BW?YEWEQIYMUISOMWK[OYQUQQGUC_@E]G]Ka@E]MWSSQSC_@@c@F]Ha@?_@A_@A_@CYK[G]C]B]H]H[B_@@]Ca@I[IYG[C_@C[?_@B_@D_@F_@Aq@EOOc@O_@K[?_@@_@A_@C_@A_@E]A[G[C[B]@a@C]C_@Ca@C]C_@G]IYI]@]@c@?]@]DURITEVETCXEXEXGVCXEXEVGVETEVETEVCVCVAVEXCV?Z@V@VBX@V@VDTBX@VDXBVDTBVDVDVBTDRHJTF\\?d@?Z@^B^@^?^A^A^@b@?`@?^?^A\\A`@?^@^A^@`@@^A^?\\@^?Z?^?^?`@?`@A^A^A\\?Z@`@?^?b@?\\?`@C^A`@A^@^?^?\\?^?^?`@@^?\\?^?\\?Z?^?^?^?`@?\\A^?\\?`@?b@A\\?XA\\@\\?ZA\\IV_@FY?SDYDW@WEWEUCY@YBW@UCYAWAY?WCYAW@]DYAUGUIWIWCWBYDW@W?WAW?W?UBMHUJUDUBUASGG[@_@?]?[?_@?c@?_@?]?[?_@?y@?]?_@A_@A_@A[A_@Aa@A_@Ac@A_@A]A[CYA_@A]C_@C]A_@C]Cc@A_@C]A]C]A[A]C]C]MUWEWBYBW@W@Y@W@W@Y@W@W@W?W@U@Y?]@YBYB[@YDYBY@U@U?WBW@W@UBY@W@W@U?W@Y@Y@W@W@W@Y@W?YBYBU@W@YAW?W@W@WBW@YBS@W@Y@[@WBYBW@U?S@WAU@WBU?Q?"
+    },
+    {
+      "startTime": 1711933261000,
+      "timeOffset": 28800,
       "movingTime": 3783,
       "elapsedTime": 3916,
       "totalDistance": 10124.1,
