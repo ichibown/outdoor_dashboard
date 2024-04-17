@@ -3,6 +3,29 @@
     {
       "startTime": 1711933261000,
       "timeOffset": 28800,
+      "movingTime": 3759,
+      "elapsedTime": 3862,
+      "totalDistance": 10041.8,
+      "accElevation": 59.8,
+      "avgElevation": 39.06490708322098,
+      "maxElevation": 46.2,
+      "avgPace": 374.3916136278548,
+      "maxPace": 209.46795140343528,
+      "avgHeartrate": 151.3,
+      "maxHeartrate": 159.0,
+      "startLatlng": [
+        39.95387929491699,
+        116.48841924034059
+      ],
+      "startPlaceName": null,
+      "type": "run",
+      "source": "strava",
+      "sourceId": "11199100176",
+      "sparsedCoords": "wnzrFss~eUT?VAZ?XAVAXCX?V@PLFZ?`@?`@A`@?^AXB`A?^@ZDj@L^Jb@?b@?`@@^?^FZNPRNTJRPF^@\\@ZFVNNX@X?XCVCTCTAVCXCXC\\EXAXAT?TDTHVDVAT?VAVAVCT?VAVGVAVAXAVAZARETGVATATCVCTA\\@VAXAV?VAVCXCXEXEXAXCVAVBRLPRPJVDZ?VEXGVEXCZAVCVCRKF]B_@D]Ha@J_@H]?_@E_@I]I]G]G_@G]A_@@c@@_@A]?_@C_@KYSM[KWKYAWHWNUPQNUPURUPWJUDW@UAQFCZB\\B\\@^?^?\\?`@@^Fb@F^DZGPUBSBUBWGYCY@W@Y@Y@U?[@[?[?[BYDWBSDU@WBWDUBQNGZC^EXWH[?YEUKUKSEU?WBW@YKWI[?WBY@S@W?U?W@W@e@?YCWMUEY?WDKRA^?\\BZLXRLZ?ZCXCVCXGVAX?VAVAVAP@V@T?P?TDVBTATAV?X?V?Z@V@VETCX?VAVAVETIRMRGRORMRITCVATCPKH[C]M]AWTGV@V@V?VAV@TDTFPTHXFZBZFTNHVBVBRJPPTJ^FXCVGTEVCVCVAVCVATCVBLLJVFVJC@]A_@@_@?_@?a@?_@?_@A]?_@A_@?[A_@?_@?a@?_@?]A_@?_@A_@@]A_@Aa@C_@A_@E_@A[C_@C[C]GYCY?MDPHRX?ZATCFQAe@C_@C]A_@AYC]C_@A_@C]C_@C]E]A]A_@C]C]C_@C_@C]A_@C]A_@A_@A_@Aa@Aa@A]C_@C]Ca@A]?]FYJSTGTFNRLNHTBZ@XGXOJQRCZB`@D^Bh@B`@TTPJDXIROHKR@XD\\B\\D\\HXRLT@V@XHRHLR?\\AZBZHZB\\?^?\\?h@?\\?^BZ@\\@\\@\\A^A\\@\\FXDZBZ?^?^?\\CZKVKVEX?VHXLVLPD\\F\\D\\Df@A\\A^CZIVG\\@^FZLVJXNVTFXDVHXDT?TERET?V?V?T@X@XBX@\\BV@V@V?V@V@RAT?R@?HSDY?WAWCYAY?WBUDU?WEWAUAUAWGWCW@YBY?WEUGUKUIUCUGWAUBS@S@U?S@GQHS@SIS?]H[D[F]Bi@@_@A]IWSOSSMW?[D]F]F]B_@A_@Ca@A]K[I[C]?_@H[H[?[EUSIWASGG[C_@A_@C]Ag@C]A_@C]C]A[C]C_@A]C_@C_@C]C]Aa@C]C]A_@Ca@A[A_@C_@C_@Ac@C_@C_@Cc@Cc@C_@A]C]A[C[MISGWFQNA\\B^B^@^B^B^B^Bd@B`@D^B`@B^@`@B\\@^B^B`@?XB^@^B\\B\\@\\@\\KZQHU@W@W?W@W@YB]BW?Y@WBW@W@Y?U@YBW@Y@WBW@WBWBS@UAY@W@W?W?WBW@UBW@W@]@W@UBY?W@YBW@WBWBW@YDU@W?W?YAW@U?W@W@W@WBW@W@W@U@WBW@S@U@W@W@W@WBSHMTC^?^EZG\\?`@@`@A\\?\\KZQNUBSBU@W@WFYH]@SAQFAXB`@D^BZB^BZB^D\\D\\D^@\\E^C\\?^D^D^D\\B^D^B\\@`@D\\Fd@D^D^D\\JRRJTGTMHY@a@?_@?]A_@EYI[Ca@C_@?c@@a@F[FY?a@?a@?c@?c@Ea@G]Q_@m@Uc@EK?U@GVB\\F^D`@@^A\\EV@\\@\\DZJZRNTFVCVGNKFYH[@a@A]I]"
+    },
+    {
+      "startTime": 1711933261000,
+      "timeOffset": 28800,
       "movingTime": 4886,
       "elapsedTime": 5134,
       "totalDistance": 13027.3,
