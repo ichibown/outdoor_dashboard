@@ -3,6 +3,29 @@
     {
       "startTime": 1714525261000,
       "timeOffset": 28800,
+      "movingTime": 3362,
+      "elapsedTime": 3369,
+      "totalDistance": 10011.5,
+      "accElevation": 34.8,
+      "avgElevation": 38.73450431676104,
+      "maxElevation": 45.8,
+      "avgPace": 335.795836131632,
+      "maxPace": 231.69601482854495,
+      "avgHeartrate": 160.7,
+      "maxHeartrate": 171.0,
+      "startLatlng": [
+        39.95213460177183,
+        116.48519857786596
+      ],
+      "startPlaceName": null,
+      "type": "run",
+      "source": "strava",
+      "sourceId": "11345296111",
+      "sparsedCoords": "{czrFo_~eUDBDR@VEVAVDTZR`@L`@B\\CXGXAT?V?X?VAVC^CZ?XBXDZ?XCXAXAVAX@V@XEZEXAXCXAXAXKVEXAX?VCXAZ@XAT?ZCZ@ZA`@CZA\\?\\A^CZ?RNTLZFZ?XGXEXCZCVAXAXGNUDa@Fc@N]XMRU?g@?e@Ag@?e@Ac@?c@Ag@Ac@Ac@Ac@?a@A_@Cc@Aa@Ce@Ae@Cc@Cc@Ae@Ec@Cc@Ca@Ca@Ca@Ce@Ei@Cc@Ca@OYUCY@W@Y@[@]?]@[@[@Y?]B[BW@[B]BYB]B[@a@B[B]@[@W@Y@Y@]B]@Y?Y@]@[BY@[@]B]@]B[@Y@Y@W?Y@W@[@WBY@Y?[B]@]@[@_@B]@[@Y?Y?[@[?WCI]Aa@?c@?c@Aa@?c@?e@?c@Ac@?c@?c@@k@?e@@_@@c@Bc@@c@Ac@?a@@g@B_@NSVEZC\\AZAZCZ?ZC\\A^C\\AZE\\C`@A\\A\\AZCZC\\AZCZC\\AVC\\AZAZC\\AXAZCX?XCV?VAXAXAXAXCX?X?`@@Z?ZAZAXEXEZEZC\\CVCXEZEXCXEZCX@PRDb@@^@`@Bb@B\\Bd@Dl@Bd@Df@@f@@b@Bb@@`@Bd@Bb@Bb@@`@B^Bb@@^?`@IZUHYBYB[@[BY?[@[B[@_@@Y@Y@W@[B[@YB[B]?[D[BYBU?[BY@_@D[@Y?Y?WB[BY@Y@YBY@]?YBY@[@[@Y@Y?[@U?W@YB[@YBW@Y@[@]@[@Y@[BY@[@[@YBY@UJMXCb@?b@@\\@b@B`@@^?`@?`@A^A`@?b@@f@?`@?b@?b@?b@@b@?`@Ab@?b@?d@?b@@`@?`@@\\A`@?b@?`@?`@?b@?`@?`@?b@@`@HRPIN[P[VQZGZCXAZCXAXCVCZEZEXCZAZ?X@Z@ZDZBXAXAZ?\\C\\@Z?VEXCV?XAX?VERGTEXCXCZCXCXAVAXAXCVAXAXAXAVENQ?]C]K[OUUMWCY?[?[@Y@YBY?YBY@YBW@U@Y@Y?WBWBWFOTE^A`@KTQ@YCYGUMWKWEY@WDYAWIYEW?Y@Y@YBY@W@[?YBY?UGSQQGY@UFKTA^B`@F\\NVZFX?Z?X?VE\\GZCXCXAXAX@XAV@TFX@ZAX?VAXAX@Z@ZE\\GXCZCXAXCXKXIXAX?VCVAX?V?T@ZA\\CX?Z?XCRELY?g@Gc@M[SMWE[?]?[B[?]B[@]@[BW?[@]B[@[BYDWFSRG\\Ab@ORW@YEYMWMYEY@YBWCWM[C[@W@[B[@[?Y@[BY@Y?WMUKWCU@QPC`@?d@Bb@?^OVUPMVOVQFKS?a@?c@?c@?c@?c@Aa@G]QYIYG[MOUMKWH[F[?c@?e@Ai@Ci@Ec@KYOYUO[AYBSNOVEXF`@D^@`@A^C^@`@B`@D^F`@Bb@D`@Db@D^D\\D`@Db@D^H\\PPV?TMJ]?e@Ai@Ei@Ig@Eg@Cg@@e@?c@F_@J[?_@?a@?]?c@C]E]I[OWUOYCW@WLOTC\\D`@D^@`@C^A^A`@@b@Fb@Fb@Fb@D\\B`@D^D`@D`@D`@F`@J\\RNVETQH]?a@Ac@Aa@G]I_@Ga@?c@?c@@c@DYJ[@_@A_@A_@GWUEMUC]B_@"
+    },
+    {
+      "startTime": 1714525261000,
+      "timeOffset": 28800,
       "movingTime": 3638,
       "elapsedTime": 3649,
       "totalDistance": 10008.6,
