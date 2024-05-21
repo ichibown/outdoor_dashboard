@@ -3,6 +3,29 @@
     {
       "startTime": 1714525261000,
       "timeOffset": 28800,
+      "movingTime": 1826,
+      "elapsedTime": 1826,
+      "totalDistance": 5021.5,
+      "accElevation": 25.4,
+      "avgElevation": 41.686641011544666,
+      "maxElevation": 46.4,
+      "avgPace": 363.6363636363636,
+      "maxPace": 202.18358269308533,
+      "avgHeartrate": 146.9,
+      "maxHeartrate": 156.0,
+      "startLatlng": [
+        39.95214574970305,
+        116.48518843576312
+      ],
+      "startPlaceName": null,
+      "type": "run",
+      "source": "strava",
+      "sourceId": "11459475234",
+      "sparsedCoords": "}czrFm_~eUFFDPBZ@ZD`@NXTL\\BVCXCXEVGTCV?T?X@VAVATAV@TDXFX@XAVAXAVAXAT@VETCXCVAVAVAXCXKXGTERCT?V?V?X?X?VAXAVCVAXAR?RGH[Ca@G_@MYOQSGYCU?U@W@Y?Y@U@U@W@WBU@U@Q@QBWDU?YBYNMZG^KXQFW?UEWKYKUEWAY@]?YKYGW@W@W@U@YDW@YDY?Y@WCSOSKQAUDQPG\\A`@@b@LVPLX@XAVAVEVGTAVAZAXAXAZAXCX@THXBX?XAXAX?\\?V@XEVEXCXCVCVATETCRETAT?TAV?XAZCZA\\AXCXCVAT?XELU@a@Ec@K[OWWIWC]@[@[@W@U@U@U@UBUBU@U@W@W@[@U@WHOZE\\E\\QR[BYEWIWKWKSAS?WBUEWKUCW@W@Y@YBWBW@W@U@[BWAQOSM[AWBSRC^@`@B^JXRLX?V?T?VCVEVCV?VAXAVAZ?XAXAXDVBXAZAZ@VAX?V@XCVEXCVCXCVBTAVKTCRCVCXAXAZAXCXATCV?R@NAPAPEPIL_@Ba@Ca@M[SOUGU?O@U@W@W@W@W@YAY?WBUBW@UBSBSBUDUFOVG`@G\\QPY@[CUIUOUKWAW@YB[EWKWCU@Y@YBY@[BWBW@Y@W?WESQWIUAY@SBQEQGUQQWEa@Ac@Cc@?a@@a@A_@?a@@_@?a@?_@?a@?_@?]?a@?_@?i@?_@?_@?a@A_@?_@Aa@A]C[A_@@_@?a@A_@?_@A_@?_@I[GYMUUEU@]?W@YAU?U@SCW@W@WDWCSOI]Ec@E_@C]"
+    },
+    {
+      "startTime": 1714525261000,
+      "timeOffset": 28800,
       "movingTime": 7417,
       "elapsedTime": 7483,
       "totalDistance": 20012.3,
