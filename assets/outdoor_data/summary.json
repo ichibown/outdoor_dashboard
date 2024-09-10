@@ -3,6 +3,29 @@
     {
       "startTime": 1725152461000,
       "timeOffset": 28800,
+      "movingTime": 2860,
+      "elapsedTime": 2863,
+      "totalDistance": 8015.9,
+      "accElevation": 36.8,
+      "avgElevation": 40.33316970547025,
+      "maxElevation": 47.0,
+      "avgPace": 356.76061362825544,
+      "maxPace": 206.8680182043856,
+      "avgHeartrate": 157.1,
+      "maxHeartrate": 163.0,
+      "startLatlng": [
+        39.952723514288664,
+        116.48804297670722
+      ],
+      "startPlaceName": null,
+      "type": "run",
+      "source": "strava",
+      "sourceId": "12370912879",
+      "sparsedCoords": "ogzrFgq~eU?ABCBL@b@Bt@FbADdAF|@Dp@@f@@\\@`@@\\DZLTRLRHNPLZBZBXBVJPLHRBT?TARARCVCVAR?TAR?V?Z?V@VFZ@^AZAVAVAV?b@?b@CZE^A`@A\\CZEXGTEVCXEVCXCV?VAT?R@TAT?TAVAXAXCVCTCTBNFLDRBV@VA^C`@Eb@Ab@B`@H^BPEDWD_@F]FYJ_@Jc@Fe@Ci@Gg@Gc@I_@K_@Ea@?_@B_@D]@c@A_@G_@SU[MYM[GYFURWRUPUNWRWPWNWHY?UAMP@^Db@Bb@@b@?b@@b@B`@F`@FZL^PXTLX@T@?TOVOZKZOTUHW@WGOUG]I]K]OWUQYEW?YBY@Y@[B]@[B[?]@[@[@[B[@YDUPI\\A`@G\\SF[?YESMWMWI_@?WDYCWIYEY?[@]BWBY@Y@[@YBYAWMWKWAWDMNM`@?`@H`@RZZJ\\?ZGZEZGXEXCXAZATAX?Z?TB`@FX@XAXCXAXAR?^BZCXAVCXCVCXCXIVIXEXCVCXCX?T?X?X?XAXCXAX?X?ZEXCXCX@XJVNXNVFX?ZAVEXGXCTEXCXAPKF[B_@Dc@F_@H]J_@?_@G_@K_@M_@K]I]G_@?a@Ba@?_@Aa@?_@C[MWWOWKWGY?ULURUTSRUPUNUNYHWBY?UBEV@`@B`@Bb@?Z?b@?`@@`@D\\H\\JZLZPRV@V?NHCPOZQXO^QPWBW?UEQOOKQIQEQMOSOSQOSIWGYC[?W?Y?W@W@WAQ@Y@W?W@[BYHKTE`@Ab@ITS@]AYGWMWQUGW?WBUAYEWAW@[?Y@WAUAW?YAY?Y?]?WKYEWCY?WAWAUIOSI[?a@Da@?_@?_@?[@_@@_@?_@?_@?a@?c@@_@?[Aa@?_@A_@?c@?_@?i@?_@A_@?[A_@A]Aa@?_@B_@J[TMZAX?XCXAVAX?TAXAX?VAVAZEVAV?V?VAVCVAX?VAVERCVCVAVAVCVAVAVCX?Z?R@X?VAV?T?VAVGVGVEZ?Z?ZDT?XGVEVETETMRIVCVBVFVBVBXAZAZAXAX@XATIVGTCPEJQ?_@Cc@Ec@Ga@Ea@Ca@C_@A_@C]C_@E]C_@C_@C]E_@C]A_@C]A_@?]?YC]C_@E[OQWAYBWBYDWFYHYFWDY@Y@YBYBYBW?W?WAW@W?WBWD[@WBYBWBY@Y@W@W@YBWBYBW@Y@U?W@W?W@WBWBYBWBYBW?U@W@W@W?UAY?W@W@W@U@W@S?U?WBWDUBUBSBSHQLITKLKRC^@`@?^?^A^?^?\\A\\?^A^?Z?`@?`@?`@A^E\\"
+    },
+    {
+      "startTime": 1725152461000,
+      "timeOffset": 28800,
       "movingTime": 5917,
       "elapsedTime": 6227,
       "totalDistance": 16048.6,
