@@ -3,6 +3,29 @@
     {
       "startTime": 1727744461000,
       "timeOffset": 28800,
+      "movingTime": 2921,
+      "elapsedTime": 2924,
+      "totalDistance": 8021.8,
+      "accElevation": 34.0,
+      "avgElevation": 38.53058984910858,
+      "maxElevation": 47.0,
+      "avgPace": 364.1660597232338,
+      "maxPace": 230.62730627306271,
+      "avgHeartrate": 154.8,
+      "maxHeartrate": 180.0,
+      "startLatlng": [
+        39.95254640467465,
+        116.48744517937303
+      ],
+      "startPlaceName": null,
+      "type": "run",
+      "source": "strava",
+      "sourceId": "12570623102",
+      "sparsedCoords": "mfzrFqm~eU?@@J@VA\\?^A`@@b@@^?`@@^?^@`@@\\?^LTRPTLRHJTBX@ZD\\JXRLTFZAXEZEVIXEZCVATAX@X?X?VAXFVHTBXAVAVCVAX?X@VEXEXAXEVAXCVKXIXEV?R?T?V?T?TAVAV?VAXAXAVCXAXAV?VAV@TFPRTJVDVAVEVGTEVCTCVCVCTGLQB]B_@Da@Ja@J_@F]C_@G_@G_@K_@K[G]E_@?_@@]@[?]A[C]M]WIWIUGWCWJWPUPUPUPSPUPULUDU?SCQF@VD^@Z@`@@b@?`@?`@B^F\\H^HZLVRNT@T?JLKVMVOVOXQHW@SCOOG[G[KWOWSKUEWA[?[@[@Y@]@]B[@YB[@U@YBYBW@UBSFOVE\\A\\KRUBYCWGWISKUCU?Y@W@[KYGW@W@U?UAUDUDWDUBW@U?WKUOUGU?SDIR?\\?^BVJXRPTBXCXEXGZG^EZEXCV?R?TAT?R?TDTHVDV?V?XAVCV?XDPAXIVEVCVAT@TATETITE\\GVGVGVCXCVCVCV?XBVBV?VAXATBV@P?T@TBRNRNPHTDTAZETGVEVCVCXATCTCT@NNLXHVPDRATHTCRGLKNSHUHUHUJYLUTKTGRSJSF[?WAY?]?_@A]G[KYG]GYIYE[A_@D[LSLUHY?_@A_@A_@CYE]E_@C_@@_@?]A]A]Ac@Aa@?]@]?_@A]C]C_@G_@E_@@]@YAYAYCY?[@[D]?YOOW?UDUAMQEa@?_@C]C]C[C]C_@C]E_@C]E]CWISSDMRG\\?^?^D\\BXB^B\\@XIRMLAZG^?\\B`@B\\@^B\\B^@\\B^?^B\\@^BZB\\@^B\\@^B^B\\@^?ZCZGXOJ_@CQUC]A]C_@A]C]C]C_@C]E]GWSCU@U?YBY?W@W@WBY?WAW?W@Y@W?W@YBY@UBW@W@WBW@WBW@U@Y@Q@W@W@W@W@W?W@W@W?W@W@Y@S@YDWD]BWBW?U?W?Y@Y@W@WDWDS@U@U@W?Y@Y@W@W@UBU@W@W?YBW@W@WBSRC\\@^?^@^B\\@^?^A^AXCZONYBUES?W?W?UBWBW@U@S?ML@`@D`@D^H\\B\\D\\B^B\\B\\@^?^CTAZB\\B\\B\\DZB\\B\\@^B^D^B\\D^D\\D\\HXNRXATMLWBa@?a@Ae@Ca@Mc@Cg@?q@?k@Fi@Fg@?i@Ag@Ai@Eg@Ie@Qa@WWQ]Ce@Ge@Qa@YOYAUFC`@Fd@Ff@Fd@Hd@Dd@B`@Dh@?d@Eh@@h@Bf@Dh@Df@Ff@Fd@Df@D^Bf@Fd@Fb@RX^?XSHc@?k@Ai@Ee@Ke@Eg@Ag@?c@Bc@Ha@Be@@a@?["
+    },
+    {
+      "startTime": 1727744461000,
+      "timeOffset": 28800,
       "movingTime": 3777,
       "elapsedTime": 3781,
       "totalDistance": 10013.4,
