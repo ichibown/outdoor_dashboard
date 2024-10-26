@@ -3,6 +3,29 @@
     {
       "startTime": 1727744461000,
       "timeOffset": 28800,
+      "movingTime": 1512,
+      "elapsedTime": 1515,
+      "totalDistance": 4005.9,
+      "accElevation": 16.8,
+      "avgElevation": 39.83631544068927,
+      "maxElevation": 46.4,
+      "avgPace": 377.5009437523594,
+      "maxPace": 306.7484662576687,
+      "avgHeartrate": 151.7,
+      "maxHeartrate": 161.0,
+      "startLatlng": [
+        39.951161,
+        116.484518
+      ],
+      "startPlaceName": null,
+      "type": "run",
+      "source": "strava",
+      "sourceId": "12748528232",
+      "sparsedCoords": "w}yrFg{}eULARAXCV?VCXATAX?RDTHX?V?TARAVAX?XDXEVEVCRAVAV?XCTITGVCVCVCV?V?TAVAV?RCTAX?VCVCVARID]Ec@I[KYSOWCWAW@W@SBY@W@W@W@W@YBU@Y?U@WBU@Q?UBWDMTC^Ab@MPWBYCWIUMUMWAW@UFUAWKWGS?W@W?U@[@WAWBWBS?W@WCWSUEW?UFKT?`@?^D\\LXPLX@VAVCVCVEVCVATAPAV?XAV?XAV@ZHX?VAZCVAX?V@VBTCVEVCXCXAVAVCTGTETCV?ZAVCVAVCXAVAVCVAVCVCVATGLO@[E_@K[MWSMYCW?W@W@W@W@W?S?W@S@YB[DW@U@WBW@UBYBSJGXAZAZKNYBWCWIUMWIUAWBQBU?WOUIY?Y@Y@Y@WBS?W@W@Y?W@UGUOUEYAW?WAWCSGSQIWAa@?a@A_@?Y?_@@_@?[?c@?_@?]?]A]?]?]?_@?_@?]?]@[?_@A]?]?]E[?]?_@?a@?_@@U?_@?a@?_@?_@?c@A]C]MWA[?_@?]?_@?_@?]?_@A]?_@@]AYEYCY?]A]A[A]Aa@EUQ?WHSF[FQFUFWHYFWDWHWJWDUDUFWJUREV@XD\\D^B\\?Z?XD`@B^B\\BTBZB^Dd@B\\B^BZB^@\\B\\BZB\\@V"
+    },
+    {
+      "startTime": 1727744461000,
+      "timeOffset": 28800,
       "movingTime": 2278,
       "elapsedTime": 2363,
       "totalDistance": 6669.4,
